@@ -1,0 +1,47 @@
+"use client";
+
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+
+type SearchFormProps = {
+  initialQuery: string;
+};
+
+export default function SearchForm({ initialQuery }: SearchFormProps) {
+  const router = useRouter();
+  const [value, setValue] = useState(initialQuery);
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const q = value.trim();
+
+    if (!q) {
+      // If they clear the box, just go to /search with no query
+      router.push("/search");
+    } else {
+      router.push(`/search?q=${encodeURIComponent(q)}`);
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="mb-8 flex flex-col gap-3 sm:flex-row"
+    >
+      <input
+        type="text"
+        name="q"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="Search by name, phone, or email..."
+        className="flex-1 rounded bg-gray-800 px-3 py-2 text-sm text-gray-100 outline-none"
+      />
+      <button
+        type="submit"
+        className="rounded bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-white"
+      >
+        Search
+      </button>
+    </form>
+  );
+}
