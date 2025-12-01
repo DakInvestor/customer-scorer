@@ -16,7 +16,6 @@ export default function SearchForm({ initialQuery }: SearchFormProps) {
     const q = value.trim();
 
     if (!q) {
-      // If they clear the box, just go to /search with no query
       router.push("/search");
     } else {
       router.push(`/search?q=${encodeURIComponent(q)}`);

@@ -1,12 +1,10 @@
 // app/customers/[id]/page.tsx
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { notFound, redirect } from "next/navigation";
+import { createSupabaseServerClient, getCurrentBusinessId } from "@/lib/supabase/server";
 import AddNoteForm from "./AddNoteForm";
 import { calculateCustomerScore, getScoreLabel } from "@/lib/scoring";
 import type { NoteForScoring } from "@/lib/scoring";
-
-const BUSINESS_ID = process.env.DEFAULT_BUSINESS_ID as string;
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -39,15 +37,20 @@ function getScoreBadgeClasses(score: number) {
 
 export default async function CustomerDetailPage({ params }: PageProps) {
   const { id } = await params;
+  const businessId = await getCurrentBusinessId();
 
-  console.log("Loading customer with id:", id);
+  if (!businessId) {
+    redirect("/login");
+  }
+
+  const supabase = await createSupabaseServerClient();
 
   // Load the customer (scoped to this business)
   const { data: customer, error: customerError } = await supabase
     .from("customers")
     .select("*")
     .eq("id", id)
-    .eq("business_id", BUSINESS_ID)
+    .eq("business_id", businessId)
     .single<Customer>();
 
   if (customerError || !customer) {
@@ -60,7 +63,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
     .from("customer_notes")
     .select("*")
     .eq("customer_id", id)
-    .eq("business_id", BUSINESS_ID)
+    .eq("business_id", businessId)
     .order("created_at", { ascending: false });
 
   if (notesError) {
@@ -73,7 +76,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
     ? new Date(customer.created_at).toLocaleString()
     : "";
 
-  // Global reliability score (for now, just this business)
+  // Global reliability score
   const score = calculateCustomerScore(typedNotes);
   const scoreLabel = getScoreLabel(score);
   const scoreClasses = getScoreBadgeClasses(score);
@@ -135,7 +138,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
 
           <div className="text-right">
             <p className="text-xs uppercase tracking-wide text-gray-300">
-              Global Reliability Score
+              Reliability Score
             </p>
             <div className="mt-1 inline-flex items-center justify-end gap-2">
               <span
@@ -145,25 +148,13 @@ export default async function CustomerDetailPage({ params }: PageProps) {
               </span>
               <span className="text-xs text-gray-300">{scoreLabel}</span>
             </div>
-            <p className="mt-1 text-[11px] text-gray-400">
-              Score is based on events logged for this customer. In the full
-              network version, this will also reflect events from other
-              businesses (anonymized).
-            </p>
           </div>
         </div>
       </div>
 
-      {/* Network-style behavior summary */}
+      {/* Behavior summary */}
       <div className="mb-8 rounded-lg bg-gray-700 p-6 text-sm text-gray-100">
-        <h2 className="mb-3 text-lg font-semibold">
-          Network behavior summary
-        </h2>
-        <p className="mb-4 text-xs text-gray-300">
-          This section summarizes events tied to this customer. Right now it is
-          based only on your business&apos;s data. In the full product, this
-          will aggregate anonymized events from multiple businesses.
-        </p>
+        <h2 className="mb-3 text-lg font-semibold">Behavior summary</h2>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div>
@@ -176,7 +167,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
           </div>
           <div>
             <p className="text-xs uppercase tracking-wide text-gray-300">
-              Negative events (penalties, severity ≥ 3)
+              Negative events (severity ≥ 3)
             </p>
             <p className="mt-1 text-2xl font-semibold text-gray-100">
               {negativeEvents}
@@ -184,7 +175,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
           </div>
           <div>
             <p className="text-xs uppercase tracking-wide text-gray-300">
-              Severe events (penalties, severity ≥ 4)
+              Severe events (severity ≥ 4)
             </p>
             <p className="mt-1 text-2xl font-semibold text-gray-100">
               {severeEvents}
@@ -192,7 +183,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
           </div>
           <div>
             <p className="text-xs uppercase tracking-wide text-gray-300">
-              Positive events (good behavior)
+              Positive events
             </p>
             <p className="mt-1 text-2xl font-semibold text-gray-100">
               {positiveEvents}
@@ -208,20 +199,16 @@ export default async function CustomerDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Your history with this customer */}
+      {/* Event history */}
       <div className="mb-8">
-        <h2 className="mb-1 text-2xl font-semibold">
-          Your history with this customer
-        </h2>
+        <h2 className="mb-1 text-2xl font-semibold">Event history</h2>
         <p className="mb-4 text-sm text-gray-300">
-          Events and notes logged by your business. In the multi-business
-          version, other companies will only see anonymized aggregates, not this
-          detailed view.
+          Events and notes logged for this customer.
         </p>
 
         {typedNotes.length === 0 ? (
           <p className="mb-4 text-sm text-gray-300">
-            You haven&apos;t logged any events or notes for this customer yet.
+            No events logged for this customer yet.
           </p>
         ) : (
           <div className="mb-4 space-y-3">
@@ -250,26 +237,17 @@ export default async function CustomerDetailPage({ params }: PageProps) {
                   </span>
                 </div>
                 {note.note_text && (
-                  <p className="mt-1 text-sm text-gray-100">
-                    {note.note_text}
-                  </p>
+                  <p className="mt-1 text-sm text-gray-100">{note.note_text}</p>
                 )}
               </div>
             ))}
           </div>
         )}
 
-        {/* Add event / note form */}
+        {/* Add event form */}
         <div className="mt-6 rounded-lg bg-gray-700 p-6">
-          <h3 className="mb-3 text-lg font-semibold">
-            Log a new event / note
-          </h3>
-          <p className="mb-3 text-xs text-gray-300">
-            Use this form to log behavior for this customer. In the future,
-            structured events here will feed into their global reliability
-            score across the network.
-          </p>
-          <AddNoteForm customerId={customer.id} />
+          <h3 className="mb-3 text-lg font-semibold">Log a new event</h3>
+          <AddNoteForm customerId={customer.id} businessId={businessId} />
         </div>
       </div>
     </div>

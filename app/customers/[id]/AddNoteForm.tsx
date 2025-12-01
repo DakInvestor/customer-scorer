@@ -1,15 +1,14 @@
+// app/customers/[id]/AddNoteForm.tsx
 "use client";
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 type AddNoteFormProps = {
   customerId: string;
+  businessId: string;
 };
-
-// 🔥 Your static business for now:
-const BUSINESS_ID = process.env.NEXT_PUBLIC_DEFAULT_BUSINESS_ID as string;
 
 // Predefined event types
 const EVENT_OPTIONS = [
@@ -20,7 +19,7 @@ const EVENT_OPTIONS = [
   { value: "REFUSED_TO_PAY", label: "Refused to pay / chargeback", severity: 5 },
 ];
 
-export default function AddNoteForm({ customerId }: AddNoteFormProps) {
+export default function AddNoteForm({ customerId, businessId }: AddNoteFormProps) {
   const router = useRouter();
 
   const [eventCode, setEventCode] = useState("");
@@ -47,9 +46,11 @@ export default function AddNoteForm({ customerId }: AddNoteFormProps) {
     try {
       setLoading(true);
 
+      const supabase = createSupabaseBrowserClient();
+
       const { error } = await supabase.from("customer_notes").insert({
         customer_id: customerId,
-        business_id: BUSINESS_ID,  // ✅ FIXED
+        business_id: businessId,
         note_type: selectedEvent?.label ?? eventCode,
         note_text: noteText.trim() || null,
         severity,
@@ -105,12 +106,13 @@ export default function AddNoteForm({ customerId }: AddNoteFormProps) {
         </select>
 
         <label className="mb-1 block text-sm font-semibold text-gray-100">
-          Internal note (private to your business)
+          Note (optional)
         </label>
         <textarea
-          rows={4}
+          rows={3}
           value={noteText}
           onChange={(e) => setNoteText(e.target.value)}
+          placeholder="Additional details..."
           className="w-full rounded bg-gray-900 px-3 py-2 text-sm text-gray-100"
         />
       </div>
@@ -120,9 +122,9 @@ export default function AddNoteForm({ customerId }: AddNoteFormProps) {
       <button
         type="submit"
         disabled={loading}
-        className="rounded bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-white"
+        className="rounded bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-white disabled:opacity-50"
       >
-        {loading ? "Saving..." : "Add note"}
+        {loading ? "Saving..." : "Log event"}
       </button>
     </form>
   );
