@@ -1,4 +1,3 @@
-// app/login/page.tsx
 "use client";
 
 import { useState, useEffect, FormEvent } from "react";
@@ -11,21 +10,18 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [checking, setChecking] = useState(true);
+  const [checkingSession, setCheckingSession] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Check if already logged in
   useEffect(() => {
     async function checkSession() {
       const supabase = createSupabaseBrowserClient();
       const { data: { session } } = await supabase.auth.getSession();
-      
       if (session) {
-        router.push("/");
-        router.refresh();
-      } else {
-        setChecking(false);
+        router.push("/app");
+        return;
       }
+      setCheckingSession(false);
     }
     checkSession();
   }, [router]);
@@ -54,9 +50,8 @@ export default function LoginPage() {
         return;
       }
 
-      router.push("/");
+      router.push("/app");
       router.refresh();
-
     } catch (err) {
       console.error("Login error:", err);
       setError("Something went wrong. Please try again.");
@@ -65,28 +60,27 @@ export default function LoginPage() {
     }
   };
 
-  // Show nothing while checking session
-  if (checking) {
+  if (checkingSession) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-900">
-        <p className="text-slate-400">Loading...</p>
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-slate-gray">Loading...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-900 px-4">
+    <div className="flex min-h-screen items-center justify-center px-4 py-20">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-white">Welcome back</h1>
-          <p className="mt-2 text-sm text-slate-400">
-            Sign in to your Customer Scorer account
+          <p className="mt-2 text-sm text-slate-gray">
+            Sign in to your account
           </p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-200">
+            <label className="mb-1 block text-sm font-medium text-slate-300">
               Email
             </label>
             <input
@@ -94,12 +88,12 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@company.com"
-              className="w-full rounded-md bg-slate-800 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:ring-2 focus:ring-slate-600"
+              className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue focus:ring-1 focus:ring-forsure-blue"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-200">
+            <label className="mb-1 block text-sm font-medium text-slate-300">
               Password
             </label>
             <input
@@ -107,12 +101,12 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full rounded-md bg-slate-800 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:ring-2 focus:ring-slate-600"
+              className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue focus:ring-1 focus:ring-forsure-blue"
             />
           </div>
 
           {error && (
-            <div className="rounded-md bg-red-900/50 px-4 py-2 text-sm text-red-200">
+            <div className="rounded-lg bg-critical/10 border border-critical/20 px-4 py-2 text-sm text-critical">
               {error}
             </div>
           )}
@@ -120,15 +114,15 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-md bg-white py-2.5 font-semibold text-slate-900 hover:bg-slate-100 disabled:opacity-50"
+            className="w-full rounded-lg bg-forsure-blue py-2.5 font-semibold text-white hover:bg-forsure-blue/90 disabled:opacity-50"
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-slate-400">
-          Don't have an account?{" "}
-          <Link href="/signup" className="text-white underline hover:no-underline">
+        <p className="mt-6 text-center text-sm text-slate-gray">
+          Don&apos;t have an account?{" "}
+          <Link href="/signup" className="text-forsure-blue hover:text-forsure-blue/80">
             Create one
           </Link>
         </p>
