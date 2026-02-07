@@ -828,4 +828,4 @@ export default function ReportEventPage() {
       </div>
     </div>
   );
-}
+}CSS
