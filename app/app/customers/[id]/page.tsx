@@ -128,7 +128,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
     <div className="p-4 sm:p-8">
       {/* Back link */}
       <div className="mb-4">
-        <Link href="/customers" className="text-sm text-gray-400 hover:text-white">
+        <Link href="/customers" className="text-sm text-text-muted hover:text-charcoal">
           ← Back to customers
         </Link>
       </div>
@@ -136,11 +136,11 @@ export default async function CustomerDetailPage({ params }: PageProps) {
       {/* Header */}
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold sm:text-3xl">
+          <h1 className="text-2xl font-bold text-charcoal sm:text-3xl">
             {customer.full_name || "Customer profile"}
           </h1>
           {location && (
-            <p className="mt-1 text-gray-400">{location}{customer.county ? ` (${customer.county} County)` : ""}</p>
+            <p className="mt-1 text-text-muted">{location}{customer.county ? ` (${customer.county} County)` : ""}</p>
           )}
         </div>
         <div className="flex gap-2">
@@ -150,25 +150,25 @@ export default async function CustomerDetailPage({ params }: PageProps) {
       </div>
 
       {/* Score Card */}
-      <div className="mb-6 rounded-lg bg-gray-800 p-4 sm:p-6">
+      <div className="mb-6 rounded-lg bg-surface p-4 sm:p-6">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {/* Score */}
           <div>
-            <p className="text-xs uppercase tracking-wide text-gray-400">Reliability Score</p>
+            <p className="text-xs uppercase tracking-wide text-text-muted">Reliability Score</p>
             <div className="mt-2 flex items-center gap-3">
               <span className={`rounded-full px-4 py-2 text-2xl font-bold ${getScoreBadgeClasses(analytics.score)}`}>
                 {analytics.score}
               </span>
               <div>
                 <p className="font-medium">{analytics.scoreLabel}</p>
-                <p className="text-xs text-gray-400">Top {100 - percentile}% of customers</p>
+                <p className="text-xs text-text-muted">Top {100 - percentile}% of customers</p>
               </div>
             </div>
           </div>
 
           {/* Risk Level */}
           <div>
-            <p className="text-xs uppercase tracking-wide text-gray-400">Risk Level</p>
+            <p className="text-xs uppercase tracking-wide text-text-muted">Risk Level</p>
             <div className="mt-2">
               <span className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${getRiskBadgeClasses(analytics.riskLevel)}`}>
                 {analytics.riskLevel} Risk
@@ -178,7 +178,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
 
           {/* Trend */}
           <div>
-            <p className="text-xs uppercase tracking-wide text-gray-400">Trend</p>
+            <p className="text-xs uppercase tracking-wide text-text-muted">Trend</p>
             <div className="mt-2 flex items-center gap-2">
               <span className={`text-2xl ${getTrendClasses(analytics.trend)}`}>
                 {getTrendIcon(analytics.trend)}
@@ -191,31 +191,31 @@ export default async function CustomerDetailPage({ params }: PageProps) {
 
           {/* First Seen */}
           <div>
-            <p className="text-xs uppercase tracking-wide text-gray-400">First Seen</p>
+            <p className="text-xs uppercase tracking-wide text-text-muted">First Seen</p>
             <p className="mt-2 font-medium">{analytics.firstSeenLabel}</p>
           </div>
         </div>
       </div>
 
       {/* Contact Info */}
-      <div className="mb-6 rounded-lg bg-gray-800 p-4 sm:p-6">
-        <h2 className="mb-4 text-lg font-semibold">Contact Information</h2>
+      <div className="mb-6 rounded-lg bg-surface p-4 sm:p-6">
+        <h2 className="mb-4 text-lg font-semibold text-charcoal">Contact Information</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <p className="text-xs uppercase tracking-wide text-gray-400">Phone</p>
+            <p className="text-xs uppercase tracking-wide text-text-muted">Phone</p>
             <p className="mt-1">{customer.phone || "—"}</p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-wide text-gray-400">Email</p>
+            <p className="text-xs uppercase tracking-wide text-text-muted">Email</p>
             <p className="mt-1">{customer.email || "—"}</p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-wide text-gray-400">Location</p>
+            <p className="text-xs uppercase tracking-wide text-text-muted">Location</p>
             <p className="mt-1">{location || "—"}</p>
           </div>
           {customer.county && (
             <div>
-              <p className="text-xs uppercase tracking-wide text-gray-400">County</p>
+              <p className="text-xs uppercase tracking-wide text-text-muted">County</p>
               <p className="mt-1">{customer.county}</p>
             </div>
           )}
@@ -223,20 +223,20 @@ export default async function CustomerDetailPage({ params }: PageProps) {
       </div>
 
       {/* Behavior Summary */}
-      <div className="mb-6 rounded-lg bg-gray-800 p-4 sm:p-6">
-        <h2 className="mb-4 text-lg font-semibold">Behavior Summary</h2>
+      <div className="mb-6 rounded-lg bg-surface p-4 sm:p-6">
+        <h2 className="mb-4 text-lg font-semibold text-charcoal">Behavior Summary</h2>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          <div className="rounded-md bg-gray-700/50 p-3">
-            <p className="text-xs uppercase tracking-wide text-gray-400">Total Events</p>
+          <div className="rounded-md bg-cream p-3">
+            <p className="text-xs uppercase tracking-wide text-text-muted">Total Events</p>
             <p className="mt-1 text-2xl font-semibold">{analytics.totalEvents}</p>
           </div>
           <div className="rounded-md bg-green-900/30 p-3">
             <p className="text-xs uppercase tracking-wide text-green-400">Positive</p>
             <p className="mt-1 text-2xl font-semibold text-green-300">{analytics.positiveEvents}</p>
           </div>
-          <div className="rounded-md bg-gray-700/50 p-3">
-            <p className="text-xs uppercase tracking-wide text-gray-400">Neutral</p>
+          <div className="rounded-md bg-cream p-3">
+            <p className="text-xs uppercase tracking-wide text-text-muted">Neutral</p>
             <p className="mt-1 text-2xl font-semibold">{analytics.neutralEvents}</p>
           </div>
           <div className="rounded-md bg-orange-900/30 p-3">
@@ -253,7 +253,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
         {analytics.mostRecentNegativeTimeframe && (
           <div className="mt-4 rounded-md bg-yellow-900/20 p-3">
             <p className="text-sm text-yellow-200">
-              ⚠️ Most recent negative event: <strong>{analytics.mostRecentNegativeTimeframe}</strong>
+              Most recent negative event: <strong>{analytics.mostRecentNegativeTimeframe}</strong>
             </p>
           </div>
         )}
@@ -261,7 +261,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
         {/* Behavior categories */}
         {analytics.behaviorCategories.length > 0 && (
           <div className="mt-4">
-            <p className="mb-2 text-xs uppercase tracking-wide text-gray-400">Behavior Patterns</p>
+            <p className="mb-2 text-xs uppercase tracking-wide text-text-muted">Behavior Patterns</p>
             <div className="flex flex-wrap gap-2">
               {analytics.behaviorCategories.map((cat) => (
                 <span
@@ -271,7 +271,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
                       ? "bg-green-900/50 text-green-200"
                       : cat === "Payment issues" || cat === "No-shows"
                       ? "bg-red-900/50 text-red-200"
-                      : "bg-gray-700 text-gray-300"
+                      : "bg-surface text-text-secondary"
                   }`}
                 >
                   {cat}
@@ -284,18 +284,18 @@ export default async function CustomerDetailPage({ params }: PageProps) {
 
       {/* Event History */}
       <div className="mb-6">
-        <h2 className="mb-4 text-lg font-semibold">Event History</h2>
+        <h2 className="mb-4 text-lg font-semibold text-charcoal">Event History</h2>
 
         {typedNotes.length === 0 ? (
-          <p className="text-gray-400">No events logged yet.</p>
+          <p className="text-text-muted">No events logged yet.</p>
         ) : (
           <div className="space-y-3">
             {typedNotes.map((note) => (
-              <div key={note.id} className="rounded-md bg-gray-800 p-4">
+              <div key={note.id} className="rounded-md bg-surface p-4">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex flex-wrap items-center gap-2">
                     {note.note_type && (
-                      <span className="rounded bg-gray-700 px-2 py-1 text-xs font-medium">
+                      <span className="rounded bg-cream px-2 py-1 text-xs font-medium">
                         {note.note_type}
                       </span>
                     )}
@@ -309,12 +309,12 @@ export default async function CustomerDetailPage({ params }: PageProps) {
                       Severity {note.severity}
                     </span>
                   </div>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-text-muted">
                     {new Date(note.created_at).toLocaleDateString()}
                   </span>
                 </div>
                 {note.note_text && (
-                  <p className="mt-2 text-sm text-gray-300">{note.note_text}</p>
+                  <p className="mt-2 text-sm text-text-secondary">{note.note_text}</p>
                 )}
               </div>
             ))}
@@ -323,8 +323,8 @@ export default async function CustomerDetailPage({ params }: PageProps) {
       </div>
 
       {/* Add Event Form */}
-      <div className="rounded-lg bg-gray-800 p-4 sm:p-6">
-        <h2 className="mb-4 text-lg font-semibold">Log New Event</h2>
+      <div className="rounded-lg bg-surface p-4 sm:p-6">
+        <h2 className="mb-4 text-lg font-semibold text-charcoal">Log New Event</h2>
         <AddNoteForm customerId={customer.id} businessId={businessId} />
       </div>
     </div>

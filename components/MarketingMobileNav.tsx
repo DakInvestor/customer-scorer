@@ -19,7 +19,7 @@ export default function MarketingMobileNav() {
       {/* Hamburger Button */}
       <button
         onClick={toggleMenu}
-        className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-gray hover:text-white"
+        className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary hover:text-charcoal"
         aria-label="Toggle menu"
       >
         {isOpen ? (
@@ -35,16 +35,21 @@ export default function MarketingMobileNav() {
 
       {/* Mobile Menu Overlay */}
       {isOpen ? (
-        <div className="fixed inset-0 z-50 bg-deep-blue/95 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 bg-white">
           <div className="flex h-full flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-slate-800 px-4 py-4">
-              <Link href="/" onClick={closeMenu} className="text-xl font-bold text-white">
-                Customer Scorer
+            <div className="flex items-center justify-between border-b border-border px-4 py-4">
+              <Link href="/" onClick={closeMenu} className="flex items-center gap-2">
+                <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+                  <rect x="4" y="4" width="40" height="9" rx="3" fill="#1c1c1c"/>
+                  <rect x="4" y="19.5" width="28" height="9" rx="3" fill="#c47d4e"/>
+                  <rect x="4" y="35" width="16" height="9" rx="3" fill="#1c1c1c"/>
+                </svg>
+                <span className="text-xl font-bold text-charcoal tracking-tight">For<span className="text-copper">Sure</span></span>
               </Link>
               <button
                 onClick={closeMenu}
-                className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-gray hover:text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary hover:text-charcoal"
               >
                 <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -58,42 +63,42 @@ export default function MarketingMobileNav() {
                 <Link
                   href="/"
                   onClick={closeMenu}
-                  className="block rounded-lg px-4 py-3 text-lg text-white hover:bg-slate-800"
+                  className="block rounded-lg px-4 py-3 text-lg text-charcoal hover:bg-surface"
                 >
                   Home
                 </Link>
                 <Link
                   href="/how-it-works"
                   onClick={closeMenu}
-                  className="block rounded-lg px-4 py-3 text-lg text-white hover:bg-slate-800"
+                  className="block rounded-lg px-4 py-3 text-lg text-charcoal hover:bg-surface"
                 >
                   How It Works
                 </Link>
                 <Link
                   href="/features"
                   onClick={closeMenu}
-                  className="block rounded-lg px-4 py-3 text-lg text-white hover:bg-slate-800"
+                  className="block rounded-lg px-4 py-3 text-lg text-charcoal hover:bg-surface"
                 >
                   Features
                 </Link>
                 <Link
                   href="/pricing"
                   onClick={closeMenu}
-                  className="block rounded-lg px-4 py-3 text-lg text-white hover:bg-slate-800"
+                  className="block rounded-lg px-4 py-3 text-lg text-charcoal hover:bg-surface"
                 >
                   Pricing
                 </Link>
                 <Link
                   href="/faq"
                   onClick={closeMenu}
-                  className="block rounded-lg px-4 py-3 text-lg text-white hover:bg-slate-800"
+                  className="block rounded-lg px-4 py-3 text-lg text-charcoal hover:bg-surface"
                 >
                   FAQ
                 </Link>
                 <Link
                   href="/blog"
                   onClick={closeMenu}
-                  className="block rounded-lg px-4 py-3 text-lg text-white hover:bg-slate-800"
+                  className="block rounded-lg px-4 py-3 text-lg text-charcoal hover:bg-surface"
                 >
                   Blog
                 </Link>
@@ -101,19 +106,19 @@ export default function MarketingMobileNav() {
             </nav>
 
             {/* Auth Buttons */}
-            <div className="border-t border-slate-800 px-4 py-6">
+            <div className="border-t border-border px-4 py-6">
               <div className="space-y-3">
                 <Link
                   href="/login"
                   onClick={closeMenu}
-                  className="block rounded-lg border border-slate-700 px-4 py-3 text-center text-white hover:bg-slate-800"
+                  className="block rounded-lg border border-border px-4 py-3 text-center text-charcoal hover:bg-surface"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/signup"
                   onClick={closeMenu}
-                  className="block rounded-lg bg-forsure-blue px-4 py-3 text-center font-semibold text-white hover:bg-forsure-blue/90"
+                  className="block rounded-lg bg-copper px-4 py-3 text-center font-semibold text-white hover:bg-copper-dark"
                 >
                   Get Started Free
                 </Link>

@@ -141,7 +141,7 @@ export default function SignupPage() {
 
   function handleNext() {
     setError("");
-    
+
     if (step === 1 && validateStep1()) {
       setStep(2);
     } else if (step === 2 && validateStep2()) {
@@ -171,7 +171,7 @@ export default function SignupPage() {
 
   async function handleSubmit() {
     setError("");
-    
+
     if (!validateStep4()) return;
 
     setLoading(true);
@@ -209,8 +209,8 @@ export default function SignupPage() {
         business_city: businessCity,
         business_state: businessState,
         business_zip: businessZip,
-        subscription_tier: "starter",
-        customer_count_limit: 50,
+        subscription_tier: "professional",
+        customer_count_limit: -1,
         verification_level: "none",
         network_write_access: false,
       });
@@ -249,10 +249,10 @@ export default function SignupPage() {
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <Link href="/" className="text-2xl font-bold text-white">
-            Customer Scorer
+          <Link href="/" className="text-2xl font-bold text-charcoal">
+            ForSure
           </Link>
-          <p className="mt-2 text-slate-gray">Create your account</p>
+          <p className="mt-2 text-text-secondary">Create your account</p>
         </div>
 
         {/* Progress Steps */}
@@ -268,8 +268,8 @@ export default function SignupPage() {
                       isComplete
                         ? "flex h-8 w-8 items-center justify-center rounded-full bg-emerald text-sm font-medium text-white"
                         : isActive
-                        ? "flex h-8 w-8 items-center justify-center rounded-full bg-forsure-blue text-sm font-medium text-white"
-                        : "flex h-8 w-8 items-center justify-center rounded-full bg-slate-700 text-sm font-medium text-slate-400"
+                        ? "flex h-8 w-8 items-center justify-center rounded-full bg-copper text-sm font-medium text-white"
+                        : "flex h-8 w-8 items-center justify-center rounded-full bg-surface text-sm font-medium text-text-muted"
                     }
                   >
                     {isComplete ? "✓" : num}
@@ -279,7 +279,7 @@ export default function SignupPage() {
                       className={
                         step > num
                           ? "h-1 w-12 bg-emerald sm:w-16"
-                          : "h-1 w-12 bg-slate-700 sm:w-16"
+                          : "h-1 w-12 bg-surface sm:w-16"
                       }
                     />
                   )}
@@ -287,7 +287,7 @@ export default function SignupPage() {
               );
             })}
           </div>
-          <div className="mt-2 flex justify-between text-xs text-slate-500">
+          <div className="mt-2 flex justify-between text-xs text-text-muted">
             <span>Account</span>
             <span>Business</span>
             <span>Contact</span>
@@ -295,15 +295,15 @@ export default function SignupPage() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+        <div className="rounded-xl border border-border bg-white p-6">
           {/* Step 1: Account */}
           {step === 1 && (
             <div>
-              <h2 className="mb-6 text-xl font-semibold text-white">Create Your Account</h2>
-              
+              <h2 className="mb-6 text-xl font-semibold text-charcoal">Create Your Account</h2>
+
               <div className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                  <label className="mb-1 block text-sm font-medium text-text-secondary">
                     Email Address
                   </label>
                   <input
@@ -311,12 +311,12 @@ export default function SignupPage() {
                     value={email}
                     onChange={function(e) { setEmail(e.target.value); }}
                     placeholder="you@example.com"
-                    className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                    className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                  <label className="mb-1 block text-sm font-medium text-text-secondary">
                     Password
                   </label>
                   <input
@@ -324,12 +324,12 @@ export default function SignupPage() {
                     value={password}
                     onChange={function(e) { setPassword(e.target.value); }}
                     placeholder="At least 8 characters"
-                    className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                    className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                  <label className="mb-1 block text-sm font-medium text-text-secondary">
                     Confirm Password
                   </label>
                   <input
@@ -337,7 +337,7 @@ export default function SignupPage() {
                     value={confirmPassword}
                     onChange={function(e) { setConfirmPassword(e.target.value); }}
                     placeholder="Confirm your password"
-                    className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                    className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                   />
                 </div>
               </div>
@@ -347,11 +347,11 @@ export default function SignupPage() {
           {/* Step 2: Business Identity */}
           {step === 2 && (
             <div>
-              <h2 className="mb-6 text-xl font-semibold text-white">Business Identity</h2>
-              
+              <h2 className="mb-6 text-xl font-semibold text-charcoal">Business Identity</h2>
+
               <div className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                  <label className="mb-1 block text-sm font-medium text-text-secondary">
                     Business Name (DBA)
                   </label>
                   <input
@@ -359,17 +359,17 @@ export default function SignupPage() {
                     value={businessName}
                     onChange={function(e) { setBusinessName(e.target.value); }}
                     placeholder="e.g., Joe's HVAC Services"
-                    className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                    className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                   />
                 </div>
 
                 <div>
-                  <label className="flex items-center gap-2 text-sm text-slate-300">
+                  <label className="flex items-center gap-2 text-sm text-text-secondary">
                     <input
                       type="checkbox"
                       checked={legalNameSame}
                       onChange={function(e) { setLegalNameSame(e.target.checked); }}
-                      className="h-4 w-4 rounded border-slate-600 bg-slate-800"
+                      className="h-4 w-4 rounded border-border bg-white"
                     />
                     Legal name is the same as business name
                   </label>
@@ -377,7 +377,7 @@ export default function SignupPage() {
 
                 {!legalNameSame && (
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-slate-300">
+                    <label className="mb-1 block text-sm font-medium text-text-secondary">
                       Legal Business Name
                     </label>
                     <input
@@ -385,19 +385,19 @@ export default function SignupPage() {
                       value={legalName}
                       onChange={function(e) { setLegalName(e.target.value); }}
                       placeholder="e.g., Joseph Smith LLC"
-                      className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                      className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                     />
                   </div>
                 )}
 
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                  <label className="mb-1 block text-sm font-medium text-text-secondary">
                     Industry
                   </label>
                   <select
                     value={industry}
                     onChange={function(e) { setIndustry(e.target.value); }}
-                    className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white outline-none focus:border-forsure-blue"
+                    className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal outline-none focus:border-copper"
                   >
                     <option value="">Select your industry</option>
                     {INDUSTRIES.map(function(ind) {
@@ -411,12 +411,12 @@ export default function SignupPage() {
                 </div>
 
                 <div>
-                  <label className="flex items-center gap-2 text-sm text-slate-300">
+                  <label className="flex items-center gap-2 text-sm text-text-secondary">
                     <input
                       type="checkbox"
                       checked={isSoleProp}
                       onChange={function(e) { setIsSoleProp(e.target.checked); }}
-                      className="h-4 w-4 rounded border-slate-600 bg-slate-800"
+                      className="h-4 w-4 rounded border-border bg-white"
                     />
                     I'm a sole proprietor without an EIN
                   </label>
@@ -424,7 +424,7 @@ export default function SignupPage() {
 
                 {!isSoleProp && (
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-slate-300">
+                    <label className="mb-1 block text-sm font-medium text-text-secondary">
                       EIN (Employer Identification Number)
                     </label>
                     <input
@@ -432,9 +432,9 @@ export default function SignupPage() {
                       value={einNumber}
                       onChange={function(e) { setEinNumber(formatEin(e.target.value)); }}
                       placeholder="XX-XXXXXXX"
-                      className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                      className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                     />
-                    <p className="mt-1 text-xs text-slate-500">
+                    <p className="mt-1 text-xs text-text-muted">
                       Your EIN is kept secure and used only for verification.
                     </p>
                   </div>
@@ -446,11 +446,11 @@ export default function SignupPage() {
           {/* Step 3: Business Contact */}
           {step === 3 && (
             <div>
-              <h2 className="mb-6 text-xl font-semibold text-white">Business Contact</h2>
-              
+              <h2 className="mb-6 text-xl font-semibold text-charcoal">Business Contact</h2>
+
               <div className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                  <label className="mb-1 block text-sm font-medium text-text-secondary">
                     Business Email
                   </label>
                   <input
@@ -458,15 +458,15 @@ export default function SignupPage() {
                     value={businessEmail}
                     onChange={function(e) { setBusinessEmail(e.target.value); }}
                     placeholder="contact@yourbusiness.com"
-                    className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                    className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                   />
-                  <p className="mt-1 text-xs text-slate-500">
+                  <p className="mt-1 text-xs text-text-muted">
                     Must be a business email, not Gmail/Yahoo/etc.
                   </p>
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                  <label className="mb-1 block text-sm font-medium text-text-secondary">
                     Business Phone
                   </label>
                   <input
@@ -474,20 +474,20 @@ export default function SignupPage() {
                     value={businessPhone}
                     onChange={function(e) { setBusinessPhone(formatPhone(e.target.value)); }}
                     placeholder="(555) 123-4567"
-                    className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                    className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-300">
-                    Website <span className="text-slate-500">(optional)</span>
+                  <label className="mb-1 block text-sm font-medium text-text-secondary">
+                    Website <span className="text-text-muted">(optional)</span>
                   </label>
                   <input
                     type="url"
                     value={businessWebsite}
                     onChange={function(e) { setBusinessWebsite(e.target.value); }}
                     placeholder="https://yourbusiness.com"
-                    className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                    className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                   />
                 </div>
               </div>
@@ -497,11 +497,11 @@ export default function SignupPage() {
           {/* Step 4: Business Address */}
           {step === 4 && (
             <div>
-              <h2 className="mb-6 text-xl font-semibold text-white">Business Address</h2>
-              
+              <h2 className="mb-6 text-xl font-semibold text-charcoal">Business Address</h2>
+
               <div className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                  <label className="mb-1 block text-sm font-medium text-text-secondary">
                     Street Address
                   </label>
                   <input
@@ -509,13 +509,13 @@ export default function SignupPage() {
                     value={businessAddress}
                     onChange={function(e) { setBusinessAddress(e.target.value); }}
                     placeholder="123 Main St, Suite 100"
-                    className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                    className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-slate-300">
+                    <label className="mb-1 block text-sm font-medium text-text-secondary">
                       City
                     </label>
                     <input
@@ -523,18 +523,18 @@ export default function SignupPage() {
                       value={businessCity}
                       onChange={function(e) { setBusinessCity(e.target.value); }}
                       placeholder="City"
-                      className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                      className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-slate-300">
+                    <label className="mb-1 block text-sm font-medium text-text-secondary">
                       State
                     </label>
                     <select
                       value={businessState}
                       onChange={function(e) { setBusinessState(e.target.value); }}
-                      className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white outline-none focus:border-forsure-blue"
+                      className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal outline-none focus:border-copper"
                     >
                       <option value="">State</option>
                       {STATES.map(function(st) {
@@ -549,7 +549,7 @@ export default function SignupPage() {
                 </div>
 
                 <div className="w-1/2">
-                  <label className="mb-1 block text-sm font-medium text-slate-300">
+                  <label className="mb-1 block text-sm font-medium text-text-secondary">
                     ZIP Code
                   </label>
                   <input
@@ -557,7 +557,7 @@ export default function SignupPage() {
                     value={businessZip}
                     onChange={function(e) { setBusinessZip(e.target.value.slice(0, 10)); }}
                     placeholder="12345"
-                    className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                    className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                   />
                 </div>
               </div>
@@ -577,7 +577,7 @@ export default function SignupPage() {
               <button
                 type="button"
                 onClick={handleBack}
-                className="flex-1 rounded-lg border border-slate-700 px-4 py-2.5 font-medium text-white hover:bg-slate-800"
+                className="flex-1 rounded-lg border border-border px-4 py-2.5 font-medium text-charcoal hover:bg-cream"
               >
                 Back
               </button>
@@ -587,7 +587,7 @@ export default function SignupPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="flex-1 rounded-lg bg-forsure-blue px-4 py-2.5 font-medium text-white hover:bg-forsure-blue/90"
+                className="flex-1 rounded-lg bg-copper px-4 py-2.5 font-medium text-white hover:bg-copper-dark"
               >
                 Continue
               </button>
@@ -596,7 +596,7 @@ export default function SignupPage() {
                 type="button"
                 onClick={handleSubmit}
                 disabled={loading}
-                className="flex-1 rounded-lg bg-forsure-blue px-4 py-2.5 font-medium text-white hover:bg-forsure-blue/90 disabled:opacity-50"
+                className="flex-1 rounded-lg bg-copper px-4 py-2.5 font-medium text-white hover:bg-copper-dark disabled:opacity-50"
               >
                 {loading ? "Creating Account..." : "Create Account"}
               </button>
@@ -605,24 +605,24 @@ export default function SignupPage() {
         </div>
 
         {/* Login Link */}
-        <p className="mt-6 text-center text-sm text-slate-gray">
+        <p className="mt-6 text-center text-sm text-text-secondary">
           Already have an account?{" "}
-          <Link href="/login" className="text-forsure-blue hover:underline">
+          <Link href="/login" className="text-copper hover:underline">
             Sign in
           </Link>
         </p>
 
         {/* Terms */}
-        <p className="mt-4 text-center text-xs text-slate-500">
+        <p className="mt-4 text-center text-xs text-text-muted">
           By creating an account, you agree to our{" "}
-          <Link href="/terms" className="text-slate-400 hover:underline">
+          <Link href="/terms" className="text-text-secondary hover:underline">
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link href="/privacy" className="text-slate-400 hover:underline">
+          <Link href="/privacy" className="text-text-secondary hover:underline">
             Privacy Policy
           </Link>
-          . Your business data may be used to verify your identity and shared with other verified businesses as part of the Customer Scorer network.
+          . Your business data may be used to verify your identity and shared with other verified businesses as part of the ForSure network.
         </p>
       </div>
     </div>

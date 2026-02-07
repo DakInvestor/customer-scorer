@@ -179,7 +179,7 @@ export default function ReportEventPage() {
 
   async function handleSubmit() {
     setError("");
-    
+
     if (!validateStep2()) return;
     if (!business) {
       setError("Business not found.");
@@ -220,7 +220,7 @@ export default function ReportEventPage() {
 
       if (existing) {
         customerIdentifierId = existing.id;
-        
+
         // Update seen count
         await supabase
           .from("customer_identifiers")
@@ -430,25 +430,25 @@ export default function ReportEventPage() {
   }
 
   function getSeverityColor(severity: string): string {
-    if (severity === "low") return "text-slate-400";
+    if (severity === "low") return "text-text-muted";
     if (severity === "medium") return "text-amber";
     if (severity === "high") return "text-orange-500";
     if (severity === "severe") return "text-critical";
-    return "text-slate-400";
+    return "text-text-muted";
   }
 
   function getSeverityBg(severity: string): string {
-    if (severity === "low") return "bg-slate-800 border-slate-700";
+    if (severity === "low") return "bg-surface border-border";
     if (severity === "medium") return "bg-amber/10 border-amber/20";
     if (severity === "high") return "bg-orange-500/10 border-orange-500/20";
     if (severity === "severe") return "bg-critical/10 border-critical/20";
-    return "bg-slate-800 border-slate-700";
+    return "bg-surface border-border";
   }
 
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-forsure-blue border-t-transparent"></div>
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-copper border-t-transparent"></div>
       </div>
     );
   }
@@ -458,18 +458,18 @@ export default function ReportEventPage() {
     return (
       <div className="p-6 md:p-8">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-white md:text-3xl">Report Event</h1>
-          <p className="mt-1 text-slate-gray">
+          <h1 className="text-2xl font-bold text-charcoal md:text-3xl">Report Event</h1>
+          <p className="mt-1 text-text-secondary">
             Submit customer events to the network.
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-8 text-center">
+        <div className="rounded-xl border border-border bg-white p-8 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-amber/20">
             <span className="text-2xl">🔒</span>
           </div>
-          <h3 className="text-lg font-semibold text-white">Network Access Required</h3>
-          <p className="mt-2 text-slate-gray">
+          <h3 className="text-lg font-semibold text-charcoal">Network Access Required</h3>
+          <p className="mt-2 text-text-secondary">
             To report events to the network, you need:
           </p>
           <ul className="mt-4 space-y-2 text-left max-w-sm mx-auto">
@@ -477,9 +477,9 @@ export default function ReportEventPage() {
               {profile?.verification_status === "verified" ? (
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald/20 text-emerald text-sm">✓</span>
               ) : (
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-slate-400 text-sm">1</span>
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-surface text-text-muted text-sm">1</span>
               )}
-              <span className={profile?.verification_status === "verified" ? "text-emerald" : "text-slate-300"}>
+              <span className={profile?.verification_status === "verified" ? "text-emerald" : "text-text-secondary"}>
                 Verified business status
               </span>
             </li>
@@ -487,9 +487,9 @@ export default function ReportEventPage() {
               {business?.network_write_access ? (
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald/20 text-emerald text-sm">✓</span>
               ) : (
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-slate-400 text-sm">2</span>
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-surface text-text-muted text-sm">2</span>
               )}
-              <span className={business?.network_write_access ? "text-emerald" : "text-slate-300"}>
+              <span className={business?.network_write_access ? "text-emerald" : "text-text-secondary"}>
                 Pro or Business subscription
               </span>
             </li>
@@ -498,7 +498,7 @@ export default function ReportEventPage() {
             {profile?.verification_status !== "verified" && (
               <Link
                 href="/app/verify"
-                className="rounded-lg bg-forsure-blue px-4 py-2 font-medium text-white hover:bg-forsure-blue/90"
+                className="rounded-lg bg-copper px-4 py-2 font-medium text-white hover:bg-copper-dark"
               >
                 Get Verified
               </Link>
@@ -506,7 +506,7 @@ export default function ReportEventPage() {
             {!business?.network_write_access && (
               <Link
                 href="/app/settings"
-                className="rounded-lg border border-slate-700 px-4 py-2 font-medium text-white hover:bg-slate-800"
+                className="rounded-lg border border-border px-4 py-2 font-medium text-charcoal hover:bg-surface"
               >
                 Upgrade Plan
               </Link>
@@ -522,7 +522,7 @@ export default function ReportEventPage() {
     return (
       <div className="p-6 md:p-8">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-white md:text-3xl">Report Event</h1>
+          <h1 className="text-2xl font-bold text-charcoal md:text-3xl">Report Event</h1>
         </div>
 
         <div className="rounded-xl border border-emerald/20 bg-emerald/10 p-8 text-center">
@@ -530,7 +530,7 @@ export default function ReportEventPage() {
             <span className="text-2xl">✓</span>
           </div>
           <h3 className="text-lg font-semibold text-emerald">Event Submitted</h3>
-          <p className="mt-2 text-slate-gray">
+          <p className="mt-2 text-text-secondary">
             Your report has been added to the network. Thank you for helping keep the community safe.
           </p>
           <div className="mt-6 flex justify-center gap-3">
@@ -543,13 +543,13 @@ export default function ReportEventPage() {
                 setPrivateNotes("");
                 setEvidenceFile(null);
               }}
-              className="rounded-lg bg-forsure-blue px-4 py-2 font-medium text-white hover:bg-forsure-blue/90"
+              className="rounded-lg bg-copper px-4 py-2 font-medium text-white hover:bg-copper-dark"
             >
               Report Another
             </button>
             <Link
               href="/app/network"
-              className="rounded-lg border border-slate-700 px-4 py-2 font-medium text-white hover:bg-slate-800"
+              className="rounded-lg border border-border px-4 py-2 font-medium text-charcoal hover:bg-surface"
             >
               Search Network
             </Link>
@@ -562,8 +562,8 @@ export default function ReportEventPage() {
   return (
     <div className="p-6 md:p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white md:text-3xl">Report Event</h1>
-        <p className="mt-1 text-slate-gray">
+        <h1 className="text-2xl font-bold text-charcoal md:text-3xl">Report Event</h1>
+        <p className="mt-1 text-text-secondary">
           Submit customer events to help other businesses make informed decisions.
         </p>
       </div>
@@ -574,40 +574,40 @@ export default function ReportEventPage() {
           <div className="flex items-center gap-2">
             <div className={
               step >= 1
-                ? "flex h-8 w-8 items-center justify-center rounded-full bg-forsure-blue text-sm font-medium text-white"
-                : "flex h-8 w-8 items-center justify-center rounded-full bg-slate-700 text-sm font-medium text-slate-400"
+                ? "flex h-8 w-8 items-center justify-center rounded-full bg-copper text-sm font-medium text-white"
+                : "flex h-8 w-8 items-center justify-center rounded-full bg-surface text-sm font-medium text-text-muted"
             }>
               1
             </div>
-            <span className={step >= 1 ? "text-white" : "text-slate-500"}>Customer</span>
+            <span className={step >= 1 ? "text-charcoal" : "text-text-muted"}>Customer</span>
           </div>
-          <div className={step >= 2 ? "h-px flex-1 bg-forsure-blue" : "h-px flex-1 bg-slate-700"} />
+          <div className={step >= 2 ? "h-px flex-1 bg-copper" : "h-px flex-1 bg-border"} />
           <div className="flex items-center gap-2">
             <div className={
               step >= 2
-                ? "flex h-8 w-8 items-center justify-center rounded-full bg-forsure-blue text-sm font-medium text-white"
-                : "flex h-8 w-8 items-center justify-center rounded-full bg-slate-700 text-sm font-medium text-slate-400"
+                ? "flex h-8 w-8 items-center justify-center rounded-full bg-copper text-sm font-medium text-white"
+                : "flex h-8 w-8 items-center justify-center rounded-full bg-surface text-sm font-medium text-text-muted"
             }>
               2
             </div>
-            <span className={step >= 2 ? "text-white" : "text-slate-500"}>Event Details</span>
+            <span className={step >= 2 ? "text-charcoal" : "text-text-muted"}>Event Details</span>
           </div>
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+      <div className="rounded-xl border border-border bg-white p-6">
         {/* Step 1: Customer */}
         {step === 1 && (
           <div>
-            <h2 className="mb-6 text-xl font-semibold text-white">Identify Customer</h2>
+            <h2 className="mb-6 text-xl font-semibold text-charcoal">Identify Customer</h2>
 
             <div className="mb-4 flex gap-2">
               <button
                 onClick={function() { setSearchType("phone"); setSearchValue(""); }}
                 className={
                   searchType === "phone"
-                    ? "rounded-lg bg-forsure-blue px-4 py-2 text-sm font-medium text-white"
-                    : "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-400 hover:text-white"
+                    ? "rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white"
+                    : "rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-muted hover:text-charcoal"
                 }
               >
                 Phone Number
@@ -616,8 +616,8 @@ export default function ReportEventPage() {
                 onClick={function() { setSearchType("email"); setSearchValue(""); }}
                 className={
                   searchType === "email"
-                    ? "rounded-lg bg-forsure-blue px-4 py-2 text-sm font-medium text-white"
-                    : "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-400 hover:text-white"
+                    ? "rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white"
+                    : "rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-muted hover:text-charcoal"
                 }
               >
                 Email Address
@@ -631,7 +631,7 @@ export default function ReportEventPage() {
                   value={searchValue}
                   onChange={function(e) { setSearchValue(formatPhone(e.target.value)); }}
                   placeholder="(555) 123-4567"
-                  className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-3 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                  className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                 />
               ) : (
                 <input
@@ -639,12 +639,12 @@ export default function ReportEventPage() {
                   value={searchValue}
                   onChange={function(e) { setSearchValue(e.target.value); }}
                   placeholder="customer@example.com"
-                  className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-3 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                  className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                 />
               )}
             </div>
 
-            <p className="mt-3 text-sm text-slate-500">
+            <p className="mt-3 text-sm text-text-muted">
               Enter the customer's {searchType === "phone" ? "phone number" : "email address"} to identify them in the network.
               This information is hashed for privacy — we never store the raw data.
             </p>
@@ -654,18 +654,18 @@ export default function ReportEventPage() {
         {/* Step 2: Event Details */}
         {step === 2 && (
           <div>
-            <h2 className="mb-6 text-xl font-semibold text-white">Event Details</h2>
+            <h2 className="mb-6 text-xl font-semibold text-charcoal">Event Details</h2>
 
             {/* Customer identifier display */}
-            <div className="mb-6 rounded-lg bg-slate-800/50 px-4 py-3">
-              <p className="text-sm text-slate-400">
-                Reporting for: <span className="text-white">{searchValue}</span>
+            <div className="mb-6 rounded-lg bg-cream px-4 py-3">
+              <p className="text-sm text-text-muted">
+                Reporting for: <span className="text-charcoal">{searchValue}</span>
               </p>
             </div>
 
             {/* Event Type */}
             <div className="mb-6">
-              <label className="mb-3 block text-sm font-medium text-slate-300">
+              <label className="mb-3 block text-sm font-medium text-text-secondary">
                 Event Type
               </label>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -678,8 +678,8 @@ export default function ReportEventPage() {
                       onClick={function() { setSelectedCategory(cat.id); }}
                       className={
                         isSelected
-                          ? "rounded-lg border-2 border-forsure-blue bg-forsure-blue/10 p-4 text-left"
-                          : "rounded-lg border border-slate-700 bg-slate-800/30 p-4 text-left hover:border-slate-600"
+                          ? "rounded-lg border-2 border-copper bg-copper/10 p-4 text-left"
+                          : "rounded-lg border border-border bg-cream p-4 text-left hover:border-text-muted"
                       }
                     >
                       <div className="flex items-start justify-between">
@@ -687,11 +687,11 @@ export default function ReportEventPage() {
                           <p className={
                             cat.is_positive
                               ? "font-medium text-emerald"
-                              : "font-medium text-white"
+                              : "font-medium text-charcoal"
                           }>
                             {cat.name}
                           </p>
-                          <p className="mt-1 text-xs text-slate-500">{cat.description}</p>
+                          <p className="mt-1 text-xs text-text-muted">{cat.description}</p>
                         </div>
                         <span className={"rounded px-2 py-0.5 text-xs " + getSeverityBg(cat.severity) + " " + getSeverityColor(cat.severity)}>
                           {cat.severity}
@@ -708,7 +708,7 @@ export default function ReportEventPage() {
 
             {/* Date */}
             <div className="mb-6">
-              <label className="mb-2 block text-sm font-medium text-slate-300">
+              <label className="mb-2 block text-sm font-medium text-text-secondary">
                 When did this occur?
               </label>
               <input
@@ -716,21 +716,21 @@ export default function ReportEventPage() {
                 value={occurredAt}
                 onChange={function(e) { setOccurredAt(e.target.value); }}
                 max={new Date().toISOString().split("T")[0]}
-                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-3 text-white outline-none focus:border-forsure-blue sm:w-auto"
+                className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal outline-none focus:border-copper sm:w-auto"
               />
             </div>
 
             {/* Evidence Upload */}
             {getSelectedCategory()?.evidence_required && (
               <div className="mb-6">
-                <label className="mb-2 block text-sm font-medium text-slate-300">
+                <label className="mb-2 block text-sm font-medium text-text-secondary">
                   Evidence <span className="text-critical">*</span>
                 </label>
-                <p className="mb-3 text-sm text-slate-500">
+                <p className="mb-3 text-sm text-text-muted">
                   {getSelectedCategory()?.evidence_description}
                 </p>
                 <div className="flex items-center gap-4">
-                  <label className="cursor-pointer rounded-lg border border-dashed border-slate-600 bg-slate-800/30 px-6 py-4 hover:border-slate-500">
+                  <label className="cursor-pointer rounded-lg border border-dashed border-text-muted bg-cream px-6 py-4 hover:border-text-secondary">
                     <input
                       type="file"
                       accept="image/*,.pdf"
@@ -740,7 +740,7 @@ export default function ReportEventPage() {
                       }}
                       className="hidden"
                     />
-                    <span className="text-sm text-slate-400">
+                    <span className="text-sm text-text-muted">
                       {evidenceFile ? evidenceFile.name : "Click to upload file"}
                     </span>
                   </label>
@@ -759,17 +759,17 @@ export default function ReportEventPage() {
 
             {/* Private Notes */}
             <div className="mb-6">
-              <label className="mb-2 block text-sm font-medium text-slate-300">
-                Private Notes <span className="text-slate-500">(optional)</span>
+              <label className="mb-2 block text-sm font-medium text-text-secondary">
+                Private Notes <span className="text-text-muted">(optional)</span>
               </label>
               <textarea
                 value={privateNotes}
                 onChange={function(e) { setPrivateNotes(e.target.value); }}
                 placeholder="Add any private notes for your records..."
                 rows={3}
-                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-3 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal placeholder-text-muted outline-none focus:border-copper"
               />
-              <p className="mt-2 text-xs text-slate-500">
+              <p className="mt-2 text-xs text-text-muted">
                 🔒 Private notes are never shared with other businesses. Only the event type is visible on the network.
               </p>
             </div>
@@ -789,7 +789,7 @@ export default function ReportEventPage() {
             <button
               type="button"
               onClick={handleBack}
-              className="flex-1 rounded-lg border border-slate-700 px-4 py-2.5 font-medium text-white hover:bg-slate-800 sm:flex-none"
+              className="flex-1 rounded-lg border border-border px-4 py-2.5 font-medium text-charcoal hover:bg-surface sm:flex-none"
             >
               Back
             </button>
@@ -799,7 +799,7 @@ export default function ReportEventPage() {
             <button
               type="button"
               onClick={handleNext}
-              className="flex-1 rounded-lg bg-forsure-blue px-4 py-2.5 font-medium text-white hover:bg-forsure-blue/90"
+              className="flex-1 rounded-lg bg-copper px-4 py-2.5 font-medium text-white hover:bg-copper-dark"
             >
               Continue
             </button>
@@ -808,7 +808,7 @@ export default function ReportEventPage() {
               type="button"
               onClick={handleSubmit}
               disabled={submitting}
-              className="flex-1 rounded-lg bg-forsure-blue px-4 py-2.5 font-medium text-white hover:bg-forsure-blue/90 disabled:opacity-50"
+              className="flex-1 rounded-lg bg-copper px-4 py-2.5 font-medium text-white hover:bg-copper-dark disabled:opacity-50"
             >
               {submitting ? "Submitting..." : "Submit Report"}
             </button>
@@ -817,8 +817,8 @@ export default function ReportEventPage() {
       </div>
 
       {/* Disclaimer */}
-      <div className="mt-6 rounded-lg border border-slate-800 bg-slate-900/30 p-4 text-xs text-slate-500">
-        <p className="font-medium text-slate-400">Reporting Guidelines</p>
+      <div className="mt-6 rounded-lg border border-border bg-white p-4 text-xs text-text-muted">
+        <p className="font-medium text-text-secondary">Reporting Guidelines</p>
         <ul className="mt-2 list-inside list-disc space-y-1">
           <li>Only report events you personally witnessed or have documentation for.</li>
           <li>False or malicious reports may result in account suspension.</li>
@@ -828,4 +828,4 @@ export default function ReportEventPage() {
       </div>
     </div>
   );
-}CSS
+}

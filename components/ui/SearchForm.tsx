@@ -33,11 +33,11 @@ export default function SearchForm({ initialQuery }: SearchFormProps) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Search by name, phone, or email..."
-        className="flex-1 rounded bg-gray-800 px-3 py-2 text-sm text-gray-100 outline-none"
+        className="flex-1 rounded bg-surface px-3 py-2 text-sm text-charcoal outline-none"
       />
       <button
         type="submit"
-        className="rounded bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-white"
+        className="rounded bg-copper px-4 py-2 text-sm font-semibold text-white hover:bg-copper-dark"
       >
         Search
       </button>

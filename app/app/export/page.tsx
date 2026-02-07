@@ -169,13 +169,13 @@ export default function ExportPage() {
   return (
     <div className="p-4 sm:p-8">
       <div className="mb-6">
-        <Link href="/settings" className="text-sm text-gray-400 hover:text-white">
+        <Link href="/settings" className="text-sm text-text-muted hover:text-charcoal">
           ← Back to settings
         </Link>
       </div>
 
-      <h1 className="mb-2 text-3xl font-bold">Export Data</h1>
-      <p className="mb-8 text-gray-400">
+      <h1 className="mb-2 text-3xl font-bold text-charcoal">Export Data</h1>
+      <p className="mb-8 text-text-muted">
         Download your customer and event data as CSV files.
       </p>
 
@@ -187,57 +187,57 @@ export default function ExportPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-3xl">
         {/* Customers Export */}
-        <div className="rounded-lg bg-gray-800 p-6">
-          <h2 className="mb-2 text-lg font-semibold">Customers</h2>
-          <p className="mb-4 text-sm text-gray-400">
+        <div className="rounded-lg bg-surface p-6">
+          <h2 className="mb-2 text-lg font-semibold text-charcoal">Customers</h2>
+          <p className="mb-4 text-sm text-text-muted">
             Export all customer profiles including name, contact info, and location.
           </p>
           <button
             onClick={exportCustomers}
             disabled={exporting !== null || !businessId}
-            className="w-full rounded-md bg-gray-700 px-4 py-2.5 font-medium hover:bg-gray-600 disabled:opacity-50"
+            className="w-full rounded-md bg-cream px-4 py-2.5 font-medium hover:bg-surface disabled:opacity-50"
           >
             {exporting === "customers" ? "Exporting..." : "Download CSV"}
           </button>
         </div>
 
         {/* Events Export */}
-        <div className="rounded-lg bg-gray-800 p-6">
-          <h2 className="mb-2 text-lg font-semibold">Events</h2>
-          <p className="mb-4 text-sm text-gray-400">
+        <div className="rounded-lg bg-surface p-6">
+          <h2 className="mb-2 text-lg font-semibold text-charcoal">Events</h2>
+          <p className="mb-4 text-sm text-text-muted">
             Export all logged events including type, severity, and notes.
           </p>
           <button
             onClick={exportEvents}
             disabled={exporting !== null || !businessId}
-            className="w-full rounded-md bg-gray-700 px-4 py-2.5 font-medium hover:bg-gray-600 disabled:opacity-50"
+            className="w-full rounded-md bg-cream px-4 py-2.5 font-medium hover:bg-surface disabled:opacity-50"
           >
             {exporting === "events" ? "Exporting..." : "Download CSV"}
           </button>
         </div>
 
         {/* Export All */}
-        <div className="rounded-lg bg-gray-800 p-6">
-          <h2 className="mb-2 text-lg font-semibold">Everything</h2>
-          <p className="mb-4 text-sm text-gray-400">
+        <div className="rounded-lg bg-surface p-6">
+          <h2 className="mb-2 text-lg font-semibold text-charcoal">Everything</h2>
+          <p className="mb-4 text-sm text-text-muted">
             Download both customers and events as separate CSV files.
           </p>
           <button
             onClick={exportAll}
             disabled={exporting !== null || !businessId}
-            className="w-full rounded-md bg-white px-4 py-2.5 font-medium text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+            className="w-full rounded-md bg-copper px-4 py-2.5 font-medium text-white hover:bg-copper-dark disabled:opacity-50"
           >
             {exporting ? "Exporting..." : "Download All"}
           </button>
         </div>
       </div>
 
-      <div className="mt-8 max-w-3xl rounded-lg bg-gray-800/50 p-4">
-        <h3 className="mb-2 font-medium">Your Data Rights</h3>
-        <p className="text-sm text-gray-400">
-          You have the right to export all data you have submitted to Customer Scorer at any time. 
-          Exported files are in CSV format and can be opened in Excel, Google Sheets, or any 
-          spreadsheet application. For questions about your data, contact privacy@customerscorer.com.
+      <div className="mt-8 max-w-3xl rounded-lg bg-cream p-4">
+        <h3 className="mb-2 font-medium text-charcoal">Your Data Rights</h3>
+        <p className="text-sm text-text-muted">
+          You have the right to export all data you have submitted to ForSure at any time.
+          Exported files are in CSV format and can be opened in Excel, Google Sheets, or any
+          spreadsheet application. For questions about your data, contact privacy@forsure.com.
         </p>
       </div>
     </div>

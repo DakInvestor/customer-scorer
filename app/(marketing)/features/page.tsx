@@ -6,11 +6,11 @@ export default function FeaturesPage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-4xl font-bold text-white">
+          <h1 className="text-4xl font-bold text-charcoal">
             Everything you need to protect your business
           </h1>
-          <p className="mt-4 text-lg text-slate-gray">
-            Customer Scorer gives you the tools to track reliability, identify patterns, 
+          <p className="mt-4 text-lg text-text-secondary">
+            ForSure gives you the tools to track reliability, identify patterns,
             and make smarter decisions about who you work with.
           </p>
         </div>
@@ -53,12 +53,12 @@ export default function FeaturesPage() {
         <div className="mt-20 text-center">
           <Link
             href="/signup"
-            className="inline-block rounded-lg bg-forsure-blue px-8 py-4 font-semibold text-white hover:bg-forsure-blue/90"
+            className="inline-block rounded-lg bg-copper px-8 py-4 font-semibold text-white hover:bg-copper-dark"
           >
             Start Free Trial
           </Link>
-          <p className="mt-4 text-sm text-slate-gray">
-            Free 14-day trial • No credit card required
+          <p className="mt-4 text-sm text-text-secondary">
+            Free 14-day trial - No credit card required
           </p>
         </div>
       </div>
@@ -68,10 +68,10 @@ export default function FeaturesPage() {
 
 function Feature({ icon, title, description }: { icon: string; title: string; description: string }) {
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+    <div className="rounded-xl border border-border bg-white p-6">
       <div className="mb-4 text-3xl">{icon}</div>
-      <h3 className="text-lg font-semibold text-white">{title}</h3>
-      <p className="mt-2 text-slate-gray">{description}</p>
+      <h3 className="text-lg font-semibold text-charcoal">{title}</h3>
+      <p className="mt-2 text-text-secondary">{description}</p>
     </div>
   );
 }

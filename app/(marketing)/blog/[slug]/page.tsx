@@ -47,7 +47,7 @@ New customers are statistically more likely to no-show. A small deposit (even $2
 
 ### 3. Track Repeat Offenders
 
-This is where Customer Scorer shines. If a customer no-shows once, note it. If they do it again, their reliability score drops. Before scheduling their next appointment, you can see their history and decide whether to require a deposit.
+This is where ForSure shines. If a customer no-shows once, note it. If they do it again, their reliability score drops. Before scheduling their next appointment, you can see their history and decide whether to require a deposit.
 
 ### 4. Implement a Cancellation Policy
 
@@ -64,7 +64,7 @@ When a customer no-shows:
 1. **Call them immediately.** Sometimes they're running late or forgot. Give them 15 minutes.
 2. **Document it.** Log the no-show in their customer record.
 3. **Send a follow-up.** "We missed you today. Would you like to reschedule?"
-4. **Adjust their status.** In Customer Scorer, log a no-show event. Their reliability score will adjust accordingly.
+4. **Adjust their status.** In ForSure, log a no-show event. Their reliability score will adjust accordingly.
 
 ## The Bottom Line
 
@@ -263,7 +263,7 @@ Tell customers upfront: "We're experiencing high demand. As a maintenance contra
 
 This creates urgency to become a VIP customer.
 
-## Using Customer Scorer
+## Using ForSure
 
 This is exactly what reliability scoring is for. Before scheduling, check their score:
 
@@ -362,13 +362,13 @@ export default async function BlogPostPage({ params }: PageProps) {
   const paragraphs = post.content.trim().split("\n\n");
 
   return (
-    <div className="min-h-screen bg-deep-blue">
+    <div className="min-h-screen bg-cream">
       {/* Header */}
       <section className="px-4 py-12">
         <div className="mx-auto max-w-3xl">
           <Link
             href="/blog"
-            className="mb-6 inline-flex items-center gap-2 text-sm text-slate-gray hover:text-white"
+            className="mb-6 inline-flex items-center gap-2 text-sm text-text-secondary hover:text-charcoal"
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -377,23 +377,23 @@ export default async function BlogPostPage({ params }: PageProps) {
           </Link>
 
           <div className="mb-4 flex items-center gap-3">
-            <span className="rounded-full bg-forsure-blue/20 px-3 py-1 text-sm font-medium text-forsure-blue">
+            <span className="rounded-full bg-copper/20 px-3 py-1 text-sm font-medium text-copper">
               {post.category}
             </span>
-            <span className="text-sm text-slate-500">{post.readTime}</span>
+            <span className="text-sm text-text-muted">{post.readTime}</span>
           </div>
 
-          <h1 className="text-3xl font-bold text-white md:text-4xl">{post.title}</h1>
+          <h1 className="text-3xl font-bold text-charcoal md:text-4xl">{post.title}</h1>
 
-          <p className="mt-4 text-lg text-slate-gray">{post.excerpt}</p>
+          <p className="mt-4 text-lg text-text-secondary">{post.excerpt}</p>
 
-          <div className="mt-6 flex items-center gap-4 border-b border-slate-800 pb-6">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-forsure-blue/20">
-              <span className="text-sm font-medium text-forsure-blue">CS</span>
+          <div className="mt-6 flex items-center gap-4 border-b border-border pb-6">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-copper/20">
+              <span className="text-sm font-medium text-copper">FS</span>
             </div>
             <div>
-              <p className="text-sm font-medium text-white">Customer Scorer Team</p>
-              <p className="text-sm text-slate-500">{post.date}</p>
+              <p className="text-sm font-medium text-charcoal">ForSure Team</p>
+              <p className="text-sm text-text-muted">{post.date}</p>
             </div>
           </div>
         </div>
@@ -402,62 +402,62 @@ export default async function BlogPostPage({ params }: PageProps) {
       {/* Content */}
       <section className="px-4 pb-20">
         <div className="mx-auto max-w-3xl">
-          <div className="prose prose-invert max-w-none">
+          <div className="prose max-w-none">
             {paragraphs.map(function(para, index) {
               const trimmed = para.trim();
-              
+
               if (trimmed.startsWith("## ")) {
                 return (
-                  <h2 key={index} className="mb-4 mt-8 text-xl font-bold text-white">
+                  <h2 key={index} className="mb-4 mt-8 text-xl font-bold text-charcoal">
                     {trimmed.replace("## ", "")}
                   </h2>
                 );
               }
-              
+
               if (trimmed.startsWith("### ")) {
                 return (
-                  <h3 key={index} className="mb-3 mt-6 text-lg font-semibold text-white">
+                  <h3 key={index} className="mb-3 mt-6 text-lg font-semibold text-charcoal">
                     {trimmed.replace("### ", "")}
                   </h3>
                 );
               }
-              
+
               if (trimmed.startsWith("**") && trimmed.endsWith("**")) {
                 return (
-                  <p key={index} className="mb-4 font-semibold text-white">
+                  <p key={index} className="mb-4 font-semibold text-charcoal">
                     {trimmed.replace(/\*\*/g, "")}
                   </p>
                 );
               }
-              
+
               if (trimmed.startsWith("- ")) {
                 const items = trimmed.split("\n");
                 return (
-                  <ul key={index} className="mb-4 list-disc pl-6 text-slate-gray">
+                  <ul key={index} className="mb-4 list-disc pl-6 text-text-secondary">
                     {items.map(function(item, i) {
                       return <li key={i} className="mb-1">{item.replace("- ", "")}</li>;
                     })}
                   </ul>
                 );
               }
-              
+
               if (trimmed.match(/^\d+\. /)) {
                 const items = trimmed.split("\n");
                 return (
-                  <ol key={index} className="mb-4 list-decimal pl-6 text-slate-gray">
+                  <ol key={index} className="mb-4 list-decimal pl-6 text-text-secondary">
                     {items.map(function(item, i) {
                       return <li key={i} className="mb-1">{item.replace(/^\d+\. /, "")}</li>;
                     })}
                   </ol>
                 );
               }
-              
+
               if (trimmed === "") {
                 return null;
               }
-              
+
               return (
-                <p key={index} className="mb-4 text-slate-gray">
+                <p key={index} className="mb-4 text-text-secondary">
                   {trimmed}
                 </p>
               );
@@ -467,15 +467,15 @@ export default async function BlogPostPage({ params }: PageProps) {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-slate-800 px-4 py-16">
+      <section className="border-t border-border px-4 py-16">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl font-bold text-white">Ready to start tracking customer reliability?</h2>
-          <p className="mt-4 text-slate-gray">
-            Join hundreds of service businesses protecting their revenue with Customer Scorer.
+          <h2 className="text-2xl font-bold text-charcoal">Ready to start tracking customer reliability?</h2>
+          <p className="mt-4 text-text-secondary">
+            Join hundreds of service businesses protecting their revenue with ForSure.
           </p>
           <Link
             href="/signup"
-            className="mt-6 inline-block rounded-lg bg-forsure-blue px-8 py-3 font-semibold text-white hover:bg-forsure-blue/90"
+            className="mt-6 inline-block rounded-lg bg-copper px-8 py-3 font-semibold text-white hover:bg-copper-dark"
           >
             Get Started Free
           </Link>

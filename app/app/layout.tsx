@@ -33,21 +33,23 @@ export default async function AppLayout({
 
   return (
     <div className="flex min-h-screen">
-      <aside className="hidden w-64 flex-col border-r border-slate-800 bg-[#080d19] md:flex">
-        <div className="border-b border-slate-800 px-5 py-5">
+      <aside className="hidden w-64 flex-col border-r border-charcoal-light bg-charcoal md:flex">
+        <div className="border-b border-charcoal-light px-5 py-5">
           <Link href="/app" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-forsure-blue">
-              <span className="text-sm font-bold text-white">CS</span>
-            </div>
+            <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+              <rect x="4" y="4" width="40" height="9" rx="3" fill="#ffffff"/>
+              <rect x="4" y="19.5" width="28" height="9" rx="3" fill="#c47d4e"/>
+              <rect x="4" y="35" width="16" height="9" rx="3" fill="#ffffff"/>
+            </svg>
             <div>
-              <h1 className="text-sm font-semibold text-white">Customer Scorer</h1>
-              <p className="text-xs text-slate-gray">Reliability tracking</p>
+              <h1 className="text-sm font-semibold text-white">ForSure</h1>
+              <p className="text-xs text-text-muted">Reliability tracking</p>
             </div>
           </Link>
         </div>
 
         <nav className="flex-1 px-3 py-4">
-          <div className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-gray">
+          <div className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
             Network
           </div>
           <div className="space-y-1">
@@ -69,7 +71,7 @@ export default async function AppLayout({
             </NavItem>
           </div>
 
-          <div className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-slate-gray">
+          <div className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
             Overview
           </div>
           <div className="space-y-1">
@@ -77,7 +79,7 @@ export default async function AppLayout({
             <NavItem href="/app/analytics">Analytics</NavItem>
           </div>
 
-          <div className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-slate-gray">
+          <div className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
             Customers
           </div>
           <div className="space-y-1">
@@ -87,7 +89,7 @@ export default async function AppLayout({
             <NavItem href="/app/import">Import CSV</NavItem>
           </div>
 
-          <div className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-slate-gray">
+          <div className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
             Resources
           </div>
           <div className="space-y-1">
@@ -96,7 +98,7 @@ export default async function AppLayout({
 
           {isAdmin && (
             <>
-              <div className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-slate-gray">
+              <div className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
                 Admin
               </div>
               <div className="space-y-1">
@@ -106,7 +108,7 @@ export default async function AppLayout({
           )}
         </nav>
 
-        <div className="border-t border-slate-800 p-3">
+        <div className="border-t border-charcoal-light p-3">
           <NavItem href="/app/verify">
             <span className="flex items-center gap-2">
               Verification
@@ -126,8 +128,8 @@ export default async function AppLayout({
             </span>
           </NavItem>
           <NavItem href="/app/settings">Settings</NavItem>
-          <div className="mt-3 rounded-lg bg-deep-navy p-3">
-            <p className="truncate text-xs text-slate-gray">{user.email}</p>
+          <div className="mt-3 rounded-lg bg-charcoal-light p-3">
+            <p className="truncate text-xs text-text-muted">{user.email}</p>
             <div className="mt-2">
               <LogoutButton />
             </div>
@@ -139,7 +141,7 @@ export default async function AppLayout({
 
       <div className="flex flex-1 flex-col">
         <VerificationBanner status={verificationStatus} />
-        <main className="flex-1 overflow-auto bg-deep-navy pt-16 md:pt-0">{children}</main>
+        <main className="flex-1 overflow-auto bg-cream pt-16 md:pt-0">{children}</main>
       </div>
     </div>
   );
@@ -149,7 +151,7 @@ function NavItem({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className="block rounded-lg px-3 py-2 text-sm text-slate-gray transition-colors hover:bg-forsure-blue/10 hover:text-white"
+      className="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-copper/10 hover:text-white"
     >
       {children}
     </Link>

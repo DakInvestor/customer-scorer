@@ -63,7 +63,7 @@ export default function LoginPage() {
   if (checkingSession) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-slate-gray">Loading...</p>
+        <p className="text-text-secondary">Loading...</p>
       </div>
     );
   }
@@ -72,15 +72,15 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center px-4 py-20">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-white">Welcome back</h1>
-          <p className="mt-2 text-sm text-slate-gray">
+          <h1 className="text-2xl font-bold text-charcoal">Welcome back</h1>
+          <p className="mt-2 text-sm text-text-secondary">
             Sign in to your account
           </p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-300">
+            <label className="mb-1 block text-sm font-medium text-text-secondary">
               Email
             </label>
             <input
@@ -88,12 +88,12 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@company.com"
-              className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue focus:ring-1 focus:ring-forsure-blue"
+              className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper focus:ring-1 focus:ring-copper"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-300">
+            <label className="mb-1 block text-sm font-medium text-text-secondary">
               Password
             </label>
             <input
@@ -101,7 +101,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue focus:ring-1 focus:ring-forsure-blue"
+              className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper focus:ring-1 focus:ring-copper"
             />
           </div>
 
@@ -114,15 +114,15 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-forsure-blue py-2.5 font-semibold text-white hover:bg-forsure-blue/90 disabled:opacity-50"
+            className="w-full rounded-lg bg-copper py-2.5 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-slate-gray">
+        <p className="mt-6 text-center text-sm text-text-secondary">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-forsure-blue hover:text-forsure-blue/80">
+          <Link href="/signup" className="text-copper hover:text-copper/80">
             Create one
           </Link>
         </p>

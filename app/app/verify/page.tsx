@@ -185,7 +185,7 @@ export default function VerifyBusinessPage() {
   if (loading) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
-        <p className="text-slate-gray">Loading...</p>
+        <p className="text-text-secondary">Loading...</p>
       </div>
     );
   }
@@ -220,9 +220,9 @@ export default function VerifyBusinessPage() {
     title = "Verification Rejected";
     subtitle = "Please review and resubmit.";
   } else {
-    bannerClass += "border-slate-700 bg-slate-800/50";
-    iconBgClass += "bg-slate-700";
-    titleClass += "text-white";
+    bannerClass += "border-border bg-cream";
+    iconBgClass += "bg-surface";
+    titleClass += "text-charcoal";
     icon = "🛡️";
     title = "Not Yet Verified";
     subtitle = "Complete verification below.";
@@ -233,8 +233,8 @@ export default function VerifyBusinessPage() {
   return (
     <div className="p-6 md:p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white md:text-3xl">Business Verification</h1>
-        <p className="mt-1 text-slate-gray">Verify your business to access all features.</p>
+        <h1 className="text-2xl font-bold text-charcoal md:text-3xl">Business Verification</h1>
+        <p className="mt-1 text-text-secondary">Verify your business to access all features.</p>
       </div>
 
       <div className={bannerClass}>
@@ -244,18 +244,18 @@ export default function VerifyBusinessPage() {
           </div>
           <div>
             <p className={titleClass}>{title}</p>
-            <p className="text-sm text-slate-gray">{subtitle}</p>
+            <p className="text-sm text-text-secondary">{subtitle}</p>
           </div>
         </div>
       </div>
 
       {showForm ? (
         <div>
-          <div className="mb-8 rounded-xl border border-slate-800 bg-slate-900/50 p-6">
-            <h2 className="mb-4 text-lg font-semibold text-white">Business Details</h2>
+          <div className="mb-8 rounded-xl border border-border bg-white p-6">
+            <h2 className="mb-4 text-lg font-semibold text-charcoal">Business Details</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-300">
+                <label className="mb-1 block text-sm font-medium text-text-secondary">
                   Business License Number
                 </label>
                 <input
@@ -265,11 +265,11 @@ export default function VerifyBusinessPage() {
                     setBusinessLicenseNumber(e.target.value);
                   }}
                   placeholder="e.g., BL-12345678"
-                  className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                  className="w-full rounded-lg border border-border bg-cream px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-300">
+                <label className="mb-1 block text-sm font-medium text-text-secondary">
                   EIN (Last 4 digits)
                 </label>
                 <input
@@ -280,15 +280,15 @@ export default function VerifyBusinessPage() {
                   }}
                   placeholder="1234"
                   maxLength={4}
-                  className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2.5 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                  className="w-full rounded-lg border border-border bg-cream px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:border-copper"
                 />
               </div>
             </div>
           </div>
 
-          <div className="mb-8 rounded-xl border border-slate-800 bg-slate-900/50 p-6">
-            <h2 className="mb-4 text-lg font-semibold text-white">Verification Documents</h2>
-            <p className="mb-4 text-sm text-slate-gray">Upload at least one document.</p>
+          <div className="mb-8 rounded-xl border border-border bg-white p-6">
+            <h2 className="mb-4 text-lg font-semibold text-charcoal">Verification Documents</h2>
+            <p className="mb-4 text-sm text-text-secondary">Upload at least one document.</p>
 
             <div className="mb-4 flex flex-wrap gap-3">
               <select
@@ -296,7 +296,7 @@ export default function VerifyBusinessPage() {
                 onChange={function (e) {
                   setSelectedDocType(e.target.value);
                 }}
-                className="rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-sm text-white outline-none"
+                className="rounded-lg border border-border bg-cream px-4 py-2 text-sm text-charcoal outline-none"
               >
                 <option value="business_license">Business License</option>
                 <option value="ein_letter">EIN Letter</option>
@@ -304,7 +304,7 @@ export default function VerifyBusinessPage() {
                 <option value="other">Other</option>
               </select>
 
-              <label className="cursor-pointer rounded-lg bg-forsure-blue px-4 py-2 text-sm font-medium text-white hover:bg-forsure-blue/90">
+              <label className="cursor-pointer rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white hover:bg-copper-dark">
                 {uploading ? "Uploading..." : "Upload Document"}
                 <input
                   ref={fileInputRef}
@@ -323,17 +323,17 @@ export default function VerifyBusinessPage() {
                   return (
                     <div
                       key={doc.id}
-                      className="flex items-center justify-between rounded-lg border border-slate-700 bg-slate-800/30 px-4 py-3"
+                      className="flex items-center justify-between rounded-lg border border-border bg-surface/30 px-4 py-3"
                     >
                       <div>
-                        <p className="text-sm font-medium text-white">{doc.file_name}</p>
-                        <p className="text-xs text-slate-500">{getDocLabel(doc.document_type)}</p>
+                        <p className="text-sm font-medium text-charcoal">{doc.file_name}</p>
+                        <p className="text-xs text-text-muted">{getDocLabel(doc.document_type)}</p>
                       </div>
                       <a
                         href={doc.file_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-forsure-blue hover:text-forsure-blue/80"
+                        className="text-sm text-copper hover:text-copper/80"
                       >
                         View
                       </a>
@@ -342,7 +342,7 @@ export default function VerifyBusinessPage() {
                 })}
               </div>
             ) : (
-              <p className="text-sm text-slate-500">No documents uploaded yet.</p>
+              <p className="text-sm text-text-muted">No documents uploaded yet.</p>
             )}
           </div>
 
@@ -361,7 +361,7 @@ export default function VerifyBusinessPage() {
           <button
             onClick={handleSubmit}
             disabled={submitting || documents.length === 0}
-            className="rounded-lg bg-forsure-blue px-6 py-3 font-semibold text-white hover:bg-forsure-blue/90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-lg bg-copper px-6 py-3 font-semibold text-white hover:bg-copper-dark disabled:cursor-not-allowed disabled:opacity-50"
           >
             {submitting ? "Submitting..." : "Submit for Verification"}
           </button>
@@ -370,10 +370,10 @@ export default function VerifyBusinessPage() {
 
       {status === "verified" ? (
         <div className="text-center">
-          <p className="text-slate-gray">Your business is verified!</p>
+          <p className="text-text-secondary">Your business is verified!</p>
           <Link
             href="/app"
-            className="mt-4 inline-block rounded-lg bg-forsure-blue px-6 py-3 font-semibold text-white hover:bg-forsure-blue/90"
+            className="mt-4 inline-block rounded-lg bg-copper px-6 py-3 font-semibold text-white hover:bg-copper-dark"
           >
             Go to Dashboard
           </Link>
@@ -381,19 +381,19 @@ export default function VerifyBusinessPage() {
       ) : null}
 
       {status === "pending" ? (
-        <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
-          <h2 className="mb-4 text-lg font-semibold text-white">Submitted Documents</h2>
+        <div className="rounded-xl border border-border bg-white p-6">
+          <h2 className="mb-4 text-lg font-semibold text-charcoal">Submitted Documents</h2>
           {documents.length > 0 ? (
             <div className="space-y-2">
               {documents.map(function (doc) {
                 return (
                   <div
                     key={doc.id}
-                    className="flex items-center justify-between rounded-lg border border-slate-700 bg-slate-800/30 px-4 py-3"
+                    className="flex items-center justify-between rounded-lg border border-border bg-surface/30 px-4 py-3"
                   >
                     <div>
-                      <p className="text-sm font-medium text-white">{doc.file_name}</p>
-                      <p className="text-xs text-slate-500">{getDocLabel(doc.document_type)}</p>
+                      <p className="text-sm font-medium text-charcoal">{doc.file_name}</p>
+                      <p className="text-xs text-text-muted">{getDocLabel(doc.document_type)}</p>
                     </div>
                     <span className="rounded bg-amber/20 px-2 py-1 text-xs text-amber">
                       Under Review
@@ -403,7 +403,7 @@ export default function VerifyBusinessPage() {
               })}
             </div>
           ) : (
-            <p className="text-sm text-slate-500">No documents found.</p>
+            <p className="text-sm text-text-muted">No documents found.</p>
           )}
         </div>
       ) : null}

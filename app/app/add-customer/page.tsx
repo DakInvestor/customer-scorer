@@ -91,7 +91,7 @@ export default function AddCustomerPage() {
         return;
       }
 
-      router.push("/customers");
+      router.push("/app/customers");
     } finally {
       setLoading(false);
     }
@@ -99,14 +99,14 @@ export default function AddCustomerPage() {
 
   return (
     <div className="p-4 sm:p-8">
-      <h1 className="mb-2 text-2xl font-bold">Add customer</h1>
-      <p className="mb-6 text-sm text-gray-400">
+      <h1 className="mb-2 text-2xl font-bold text-charcoal">Add customer</h1>
+      <p className="mb-6 text-sm text-text-muted">
         Create a new customer profile to start tracking their reliability.
       </p>
 
       <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-200">
+          <label className="mb-1 block text-sm font-medium text-charcoal">
             Full name <span className="text-red-400">*</span>
           </label>
           <input
@@ -114,13 +114,13 @@ export default function AddCustomerPage() {
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             placeholder="John Smith"
-            className="w-full rounded-md bg-gray-800 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-600"
+            className="w-full rounded-md bg-surface px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
           />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-200">
+            <label className="mb-1 block text-sm font-medium text-charcoal">
               Phone
             </label>
             <input
@@ -128,12 +128,12 @@ export default function AddCustomerPage() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="(555) 123-4567"
-              className="w-full rounded-md bg-gray-800 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-600"
+              className="w-full rounded-md bg-surface px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-200">
+            <label className="mb-1 block text-sm font-medium text-charcoal">
               Email
             </label>
             <input
@@ -141,19 +141,19 @@ export default function AddCustomerPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="john@example.com"
-              className="w-full rounded-md bg-gray-800 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-600"
+              className="w-full rounded-md bg-surface px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
             />
           </div>
         </div>
 
-        <p className="text-xs text-gray-500">Phone or email is required</p>
+        <p className="text-xs text-text-muted">Phone or email is required</p>
 
-        <div className="border-t border-gray-700 pt-4">
-          <p className="mb-3 text-sm font-medium text-gray-300">Location (optional)</p>
-          
+        <div className="border-t border-border pt-4">
+          <p className="mb-3 text-sm font-medium text-text-secondary">Location (optional)</p>
+
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-200">
+              <label className="mb-1 block text-sm font-medium text-charcoal">
                 City / Town
               </label>
               <input
@@ -161,18 +161,18 @@ export default function AddCustomerPage() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Springfield"
-                className="w-full rounded-md bg-gray-800 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-600"
+                className="w-full rounded-md bg-surface px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-200">
+              <label className="mb-1 block text-sm font-medium text-charcoal">
                 State
               </label>
               <select
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                className="w-full rounded-md bg-gray-800 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-600"
+                className="w-full rounded-md bg-surface px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
               >
                 <option value="">Select state...</option>
                 {US_STATES.map((s) => (
@@ -183,7 +183,7 @@ export default function AddCustomerPage() {
           </div>
 
           <div className="mt-4">
-            <label className="mb-1 block text-sm font-medium text-gray-200">
+            <label className="mb-1 block text-sm font-medium text-charcoal">
               County (optional)
             </label>
             <input
@@ -191,7 +191,7 @@ export default function AddCustomerPage() {
               value={county}
               onChange={(e) => setCounty(e.target.value)}
               placeholder="County name"
-              className="w-full rounded-md bg-gray-800 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-600"
+              className="w-full rounded-md bg-surface px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
             />
           </div>
         </div>
@@ -205,7 +205,7 @@ export default function AddCustomerPage() {
         <button
           type="submit"
           disabled={loading || !businessId}
-          className="w-full rounded-md bg-white py-2.5 font-semibold text-gray-900 hover:bg-gray-100 disabled:opacity-50 sm:w-auto sm:px-6"
+          className="w-full rounded-md bg-copper py-2.5 font-semibold text-white hover:bg-copper-dark disabled:opacity-50 sm:w-auto sm:px-6"
         >
           {loading ? "Adding..." : "Add customer"}
         </button>

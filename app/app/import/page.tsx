@@ -201,14 +201,14 @@ export default function ImportPage() {
       <div className="mb-6">
         <Link
           href="/customers"
-          className="text-sm text-gray-400 hover:text-white"
+          className="text-sm text-text-muted hover:text-charcoal"
         >
           ← Back to customers
         </Link>
       </div>
 
-      <h1 className="mb-2 text-3xl font-bold">Import customers</h1>
-      <p className="mb-8 text-gray-400">
+      <h1 className="mb-2 text-3xl font-bold text-charcoal">Import customers</h1>
+      <p className="mb-8 text-text-muted">
         Upload a CSV file to bulk-import your existing customer list.
       </p>
 
@@ -223,7 +223,7 @@ export default function ImportPage() {
           <div className="mt-4 flex gap-3">
             <Link
               href="/customers"
-              className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-100"
+              className="rounded-md bg-copper px-4 py-2 text-sm font-semibold text-white hover:bg-copper-dark"
             >
               View customers
             </Link>
@@ -234,7 +234,7 @@ export default function ImportPage() {
                 setResult(null);
                 if (fileInputRef.current) fileInputRef.current.value = "";
               }}
-              className="rounded-md bg-gray-700 px-4 py-2 text-sm font-semibold hover:bg-gray-600"
+              className="rounded-md bg-surface px-4 py-2 text-sm font-semibold hover:bg-cream"
             >
               Import more
             </button>
@@ -245,9 +245,9 @@ export default function ImportPage() {
       {/* Upload Section */}
       {!result && (
         <>
-          <div className="mb-6 max-w-xl rounded-lg border-2 border-dashed border-gray-700 bg-gray-800/50 p-8">
+          <div className="mb-6 max-w-xl rounded-lg border-2 border-dashed border-border bg-cream p-8">
             <div className="text-center">
-              <p className="mb-4 text-gray-300">
+              <p className="mb-4 text-text-secondary">
                 Upload a CSV file with columns for name, email, and/or phone.
               </p>
               <input
@@ -260,12 +260,12 @@ export default function ImportPage() {
               />
               <label
                 htmlFor="csv-upload"
-                className="inline-block cursor-pointer rounded-md bg-gray-700 px-6 py-3 font-semibold hover:bg-gray-600"
+                className="inline-block cursor-pointer rounded-md bg-surface px-6 py-3 font-semibold hover:bg-cream"
               >
                 Choose CSV file
               </label>
               {file && (
-                <p className="mt-3 text-sm text-gray-400">
+                <p className="mt-3 text-sm text-text-muted">
                   Selected: {file.name}
                 </p>
               )}
@@ -273,17 +273,17 @@ export default function ImportPage() {
           </div>
 
           {/* Format Help */}
-          <div className="mb-8 max-w-xl rounded-lg bg-gray-800 p-5">
-            <h3 className="mb-2 font-semibold">Expected CSV format</h3>
-            <p className="mb-3 text-sm text-gray-400">
+          <div className="mb-8 max-w-xl rounded-lg bg-surface p-5">
+            <h3 className="mb-2 font-semibold text-charcoal">Expected CSV format</h3>
+            <p className="mb-3 text-sm text-text-muted">
               Your CSV should have a header row with any of these column names:
             </p>
-            <ul className="mb-4 space-y-1 text-sm text-gray-400">
-              <li>• <strong className="text-gray-200">Name:</strong> name, full_name, customer, customer_name</li>
-              <li>• <strong className="text-gray-200">Email:</strong> email, e-mail, email_address</li>
-              <li>• <strong className="text-gray-200">Phone:</strong> phone, phone_number, telephone, mobile, cell</li>
+            <ul className="mb-4 space-y-1 text-sm text-text-muted">
+              <li>• <strong className="text-text-secondary">Name:</strong> name, full_name, customer, customer_name</li>
+              <li>• <strong className="text-text-secondary">Email:</strong> email, e-mail, email_address</li>
+              <li>• <strong className="text-text-secondary">Phone:</strong> phone, phone_number, telephone, mobile, cell</li>
             </ul>
-            <div className="rounded bg-gray-900 p-3 text-xs font-mono text-gray-300">
+            <div className="rounded bg-cream p-3 text-xs font-mono text-text-secondary">
               name,email,phone<br />
               John Smith,john@email.com,555-123-4567<br />
               Jane Doe,jane@email.com,555-987-6543
@@ -300,7 +300,7 @@ export default function ImportPage() {
           {parsedData.length > 0 && (
             <div className="mb-6">
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-semibold">Preview ({parsedData.length} rows)</h2>
+                <h2 className="text-lg font-semibold text-charcoal">Preview ({parsedData.length} rows)</h2>
                 <div className="flex items-center gap-4 text-sm">
                   <span className="text-green-400">{validCount} valid</span>
                   {invalidCount > 0 && (
@@ -309,10 +309,10 @@ export default function ImportPage() {
                 </div>
               </div>
 
-              <div className="overflow-hidden rounded-lg bg-gray-800">
+              <div className="overflow-hidden rounded-lg bg-surface">
                 <div className="max-h-80 overflow-y-auto">
                   <table className="min-w-full text-left text-sm">
-                    <thead className="sticky top-0 bg-gray-900 text-xs uppercase text-gray-400">
+                    <thead className="sticky top-0 bg-cream text-xs uppercase text-text-muted">
                       <tr>
                         <th className="px-4 py-3">Status</th>
                         <th className="px-4 py-3">Name</th>
@@ -324,7 +324,7 @@ export default function ImportPage() {
                       {parsedData.slice(0, 100).map((customer, i) => (
                         <tr
                           key={i}
-                          className={`border-t border-gray-700 ${
+                          className={`border-t border-border ${
                             !customer.valid ? "bg-red-900/20" : ""
                           }`}
                         >
@@ -337,13 +337,13 @@ export default function ImportPage() {
                               </span>
                             )}
                           </td>
-                          <td className="px-4 py-2 text-gray-200">
+                          <td className="px-4 py-2 text-text-secondary">
                             {customer.full_name || "—"}
                           </td>
-                          <td className="px-4 py-2 text-gray-200">
+                          <td className="px-4 py-2 text-text-secondary">
                             {customer.email || "—"}
                           </td>
-                          <td className="px-4 py-2 text-gray-200">
+                          <td className="px-4 py-2 text-text-secondary">
                             {customer.phone || "—"}
                           </td>
                         </tr>
@@ -352,7 +352,7 @@ export default function ImportPage() {
                   </table>
                 </div>
                 {parsedData.length > 100 && (
-                  <p className="border-t border-gray-700 px-4 py-2 text-sm text-gray-500">
+                  <p className="border-t border-border px-4 py-2 text-sm text-text-muted">
                     Showing first 100 of {parsedData.length} rows
                   </p>
                 )}
@@ -362,7 +362,7 @@ export default function ImportPage() {
                 <button
                   onClick={handleImport}
                   disabled={importing || validCount === 0}
-                  className="rounded-md bg-white px-6 py-3 font-semibold text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+                  className="rounded-md bg-copper px-6 py-3 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
                 >
                   {importing
                     ? "Importing..."

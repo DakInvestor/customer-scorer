@@ -13,7 +13,7 @@ const faqs: FAQItem[] = [
   // Getting Started
   {
     category: "Getting Started",
-    question: "How do I get started with Customer Scorer?",
+    question: "How do I get started with ForSure?",
     answer: "Sign up for a free account, verify your business, and you can start adding customers immediately. You can import existing customers via CSV or add them one by one. There's no complex setup required.",
   },
   {
@@ -41,7 +41,7 @@ const faqs: FAQItem[] = [
   {
     category: "Scoring",
     question: "Can customers see their own scores?",
-    answer: "No. Reliability scores are private to your business. Customers cannot see their score or know that you're using Customer Scorer.",
+    answer: "No. Reliability scores are private to your business. Customers cannot see their score or know that you're using ForSure.",
   },
   {
     category: "Scoring",
@@ -53,7 +53,7 @@ const faqs: FAQItem[] = [
   {
     category: "Privacy & Legal",
     question: "Is this legal?",
-    answer: "Yes. Customer Scorer is a private business tool for tracking your own customer interactions. It's similar to keeping notes about customers, just more organized. We don't report to credit bureaus or share data between businesses.",
+    answer: "Yes. ForSure is a private business tool for tracking your own customer interactions. It's similar to keeping notes about customers, just more organized. We don't report to credit bureaus or share data between businesses.",
   },
   {
     category: "Privacy & Legal",
@@ -70,7 +70,7 @@ const faqs: FAQItem[] = [
   {
     category: "Features",
     question: "Can I import my existing customers?",
-    answer: "Yes! You can bulk import customers via CSV file. Just format your spreadsheet with columns for name, phone, email, and address, and upload it to Customer Scorer.",
+    answer: "Yes! You can bulk import customers via CSV file. Just format your spreadsheet with columns for name, phone, email, and address, and upload it to ForSure.",
   },
   {
     category: "Features",
@@ -107,8 +107,8 @@ export default function FAQPage() {
 
   const categories = ["All", "Getting Started", "Scoring", "Privacy & Legal", "Features", "Billing"];
 
-  const filteredFaqs = activeCategory === "All" 
-    ? faqs 
+  const filteredFaqs = activeCategory === "All"
+    ? faqs
     : faqs.filter(function(faq) { return faq.category === activeCategory; });
 
   function toggleQuestion(index: number) {
@@ -120,15 +120,15 @@ export default function FAQPage() {
   }
 
   return (
-    <div className="min-h-screen bg-deep-blue">
+    <div className="min-h-screen bg-cream">
       {/* Hero */}
       <section className="px-4 py-20 text-center">
         <div className="mx-auto max-w-3xl">
-          <h1 className="text-4xl font-bold text-white md:text-5xl">
+          <h1 className="text-4xl font-bold text-charcoal md:text-5xl">
             Frequently Asked Questions
           </h1>
-          <p className="mt-4 text-lg text-slate-gray">
-            Everything you need to know about Customer Scorer.
+          <p className="mt-4 text-lg text-text-secondary">
+            Everything you need to know about ForSure.
           </p>
         </div>
       </section>
@@ -145,8 +145,8 @@ export default function FAQPage() {
                   onClick={function() { setActiveCategory(category); setOpenIndex(null); }}
                   className={
                     isActive
-                      ? "rounded-full bg-forsure-blue px-4 py-2 text-sm font-medium text-white"
-                      : "rounded-full border border-slate-700 px-4 py-2 text-sm font-medium text-slate-gray hover:border-slate-600 hover:text-white"
+                      ? "rounded-full bg-copper px-4 py-2 text-sm font-medium text-white"
+                      : "rounded-full border border-border px-4 py-2 text-sm font-medium text-text-secondary hover:border-text-muted hover:text-charcoal"
                   }
                 >
                   {category}
@@ -166,18 +166,18 @@ export default function FAQPage() {
               return (
                 <div
                   key={index}
-                  className="rounded-xl border border-slate-800 bg-slate-900/50"
+                  className="rounded-xl border border-border bg-white"
                 >
                   <button
                     onClick={function() { toggleQuestion(index); }}
                     className="flex w-full items-center justify-between px-6 py-4 text-left"
                   >
-                    <span className="font-medium text-white">{faq.question}</span>
+                    <span className="font-medium text-charcoal">{faq.question}</span>
                     <svg
                       className={
                         isOpen
-                          ? "h-5 w-5 rotate-180 text-slate-gray transition-transform"
-                          : "h-5 w-5 text-slate-gray transition-transform"
+                          ? "h-5 w-5 rotate-180 text-text-secondary transition-transform"
+                          : "h-5 w-5 text-text-secondary transition-transform"
                       }
                       fill="none"
                       stroke="currentColor"
@@ -187,8 +187,8 @@ export default function FAQPage() {
                     </svg>
                   </button>
                   {isOpen ? (
-                    <div className="border-t border-slate-800 px-6 py-4">
-                      <p className="text-slate-gray">{faq.answer}</p>
+                    <div className="border-t border-border px-6 py-4">
+                      <p className="text-text-secondary">{faq.answer}</p>
                     </div>
                   ) : null}
                 </div>
@@ -199,22 +199,22 @@ export default function FAQPage() {
       </section>
 
       {/* Still have questions */}
-      <section className="border-t border-slate-800 px-4 py-20">
+      <section className="border-t border-border px-4 py-20">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl font-bold text-white">Still have questions?</h2>
-          <p className="mt-4 text-slate-gray">
+          <h2 className="text-2xl font-bold text-charcoal">Still have questions?</h2>
+          <p className="mt-4 text-text-secondary">
             Can't find the answer you're looking for? Reach out to our support team.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
-              href="mailto:support@customerscorer.com"
-              className="rounded-lg bg-forsure-blue px-8 py-3 font-semibold text-white hover:bg-forsure-blue/90"
+              href="mailto:support@myforsure.com"
+              className="rounded-lg bg-copper px-8 py-3 font-semibold text-white hover:bg-copper-dark"
             >
               Contact Support
             </a>
             <Link
               href="/signup"
-              className="rounded-lg border border-slate-700 px-8 py-3 font-semibold text-white hover:bg-slate-800"
+              className="rounded-lg border border-border px-8 py-3 font-semibold text-charcoal hover:bg-surface"
             >
               Get Started Free
             </Link>

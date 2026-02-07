@@ -1,11 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-  --color-forsure-blue: #2563EB;
-  --color-deep-navy: #0F172A;
-  --color-emerald: #10B981;
-  --color-amber: #F59E0B;
-  --color-critical: #EF4444;
-  --color-slate-gray: #64748B;
-  --color-cool-gray: #F1F5F9;
+  --color-charcoal: #1c1c1c;
+  --color-charcoal-light: #2a2a2a;
+  --color-copper: #c47d4e;
+  --color-copper-light: #d4956a;
+  --color-copper-dark: #a8683f;
+  --color-copper-muted: #faeee6;
+  --color-cream: #fafaf8;
+  --color-white: #ffffff;
+  --color-surface: #f5f5f3;
+  --color-text-primary: #1c1c1c;
+  --color-text-secondary: #6b6b6b;
+  --color-text-muted: #999999;
+  --color-border: #e5e5e5;
+  --color-border-light: #f0f0f0;
+  --color-emerald: #2e7d32;
+  --color-emerald-light: #e8f5e9;
+  --color-amber: #e65100;
+  --color-amber-light: #fff3e0;
+  --color-critical: #c62828;
+  --color-critical-light: #fce4ec;
+  --color-success: #2e7d32;
+  --color-warning: #e65100;
+  --color-danger: #c62828;
+  /* Legacy mapping so existing forsure-blue references still work during transition */
+  --color-forsure-blue: #c47d4e;
+  --color-deep-navy: #1c1c1c;
+  --color-slate-gray: #6b6b6b;
+  --color-cool-gray: #999999;
 }
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-text-primary);
+  font-family: 'Outfit', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+::selection {
+  background-color: #c47d4e30;
+  color: #1c1c1c;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f0f0f0; }
+::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #999; }

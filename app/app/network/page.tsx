@@ -157,7 +157,7 @@ export default function NetworkSearchPage() {
     if (tier === "medium") return "text-amber";
     if (tier === "high") return "text-orange-500";
     if (tier === "critical") return "text-critical";
-    return "text-slate-400";
+    return "text-text-muted";
   }
 
   function getRiskBgColor(tier: string): string {
@@ -165,7 +165,7 @@ export default function NetworkSearchPage() {
     if (tier === "medium") return "bg-amber/20 border-amber/30";
     if (tier === "high") return "bg-orange-500/20 border-orange-500/30";
     if (tier === "critical") return "bg-critical/20 border-critical/30";
-    return "bg-slate-800 border-slate-700";
+    return "bg-surface border-border";
   }
 
   function formatDate(dateString: string | null): string {
@@ -174,7 +174,7 @@ export default function NetworkSearchPage() {
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 0) return "Today";
     if (diffDays === 1) return "Yesterday";
     if (diffDays < 30) return diffDays + " days ago";
@@ -185,21 +185,21 @@ export default function NetworkSearchPage() {
   return (
     <div className="p-6 md:p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white md:text-3xl">Network Search</h1>
-        <p className="mt-1 text-slate-gray">
+        <h1 className="text-2xl font-bold text-charcoal md:text-3xl">Network Search</h1>
+        <p className="mt-1 text-text-secondary">
           Search the network to check a customer's reliability before booking.
         </p>
       </div>
 
       {/* Search Box */}
-      <div className="mb-8 rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+      <div className="mb-8 rounded-xl border border-border bg-white p-6">
         <div className="mb-4 flex gap-2">
           <button
             onClick={function() { setSearchType("phone"); setSearchValue(""); }}
             className={
               searchType === "phone"
-                ? "rounded-lg bg-forsure-blue px-4 py-2 text-sm font-medium text-white"
-                : "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-400 hover:text-white"
+                ? "rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white"
+                : "rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-muted hover:text-charcoal"
             }
           >
             Phone Number
@@ -208,8 +208,8 @@ export default function NetworkSearchPage() {
             onClick={function() { setSearchType("email"); setSearchValue(""); }}
             className={
               searchType === "email"
-                ? "rounded-lg bg-forsure-blue px-4 py-2 text-sm font-medium text-white"
-                : "rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-400 hover:text-white"
+                ? "rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white"
+                : "rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-muted hover:text-charcoal"
             }
           >
             Email Address
@@ -225,7 +225,7 @@ export default function NetworkSearchPage() {
                 onChange={function(e) { setSearchValue(formatPhone(e.target.value)); }}
                 onKeyDown={function(e) { if (e.key === "Enter") handleSearch(); }}
                 placeholder="(555) 123-4567"
-                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-3 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal placeholder-text-muted outline-none focus:border-copper"
               />
             ) : (
               <input
@@ -234,14 +234,14 @@ export default function NetworkSearchPage() {
                 onChange={function(e) { setSearchValue(e.target.value); }}
                 onKeyDown={function(e) { if (e.key === "Enter") handleSearch(); }}
                 placeholder="customer@example.com"
-                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-3 text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal placeholder-text-muted outline-none focus:border-copper"
               />
             )}
           </div>
           <button
             onClick={handleSearch}
             disabled={loading}
-            className="rounded-lg bg-forsure-blue px-6 py-3 font-semibold text-white hover:bg-forsure-blue/90 disabled:opacity-50"
+            className="rounded-lg bg-copper px-6 py-3 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
           >
             {loading ? "Searching..." : "Search"}
           </button>
@@ -256,38 +256,38 @@ export default function NetworkSearchPage() {
       {searched && !loading && (
         <div>
           {profile ? (
-            <div className="rounded-xl border border-slate-800 bg-slate-900/50 overflow-hidden">
+            <div className="rounded-xl border border-border bg-white overflow-hidden">
               {/* Header */}
-              <div className="border-b border-slate-800 px-6 py-4">
+              <div className="border-b border-border px-6 py-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-lg font-semibold text-white">Network Profile</h2>
-                    <p className="text-sm text-slate-500">
+                    <h2 className="text-lg font-semibold text-charcoal">Network Profile</h2>
+                    <p className="text-sm text-text-muted">
                       {profile.phone_last_four && "Phone: ***-***-" + profile.phone_last_four}
                       {profile.phone_last_four && profile.email_domain && " • "}
                       {profile.email_domain && "Email: ***@" + profile.email_domain}
                     </p>
                   </div>
-                  <div className="text-right text-sm text-slate-500">
+                  <div className="text-right text-sm text-text-muted">
                     First seen: {formatDate(profile.first_seen_at)}
                   </div>
                 </div>
               </div>
 
               {/* Risk Tier Banner */}
-              <div className={"border-b border-slate-800 px-6 py-5 " + getRiskBgColor(profile.risk_tier)}>
+              <div className={"border-b border-border px-6 py-5 " + getRiskBgColor(profile.risk_tier)}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div>
-                      <p className="text-xs uppercase tracking-wider text-slate-400">Risk Level</p>
+                      <p className="text-xs uppercase tracking-wider text-text-muted">Risk Level</p>
                       <p className={"text-2xl font-bold capitalize " + getRiskColor(profile.risk_tier)}>
                         {profile.risk_tier}
                       </p>
                     </div>
-                    <div className="h-12 w-px bg-slate-700" />
+                    <div className="h-12 w-px bg-border" />
                     <div>
-                      <p className="text-xs uppercase tracking-wider text-slate-400">Score</p>
-                      <p className="text-2xl font-bold text-white">
+                      <p className="text-xs uppercase tracking-wider text-text-muted">Score</p>
+                      <p className="text-2xl font-bold text-charcoal">
                         {Math.round(profile.weighted_score)}/100
                       </p>
                     </div>
@@ -309,28 +309,28 @@ export default function NetworkSearchPage() {
               </div>
 
               {/* Stats Grid */}
-              <div className="grid grid-cols-2 gap-px bg-slate-800 sm:grid-cols-4">
-                <div className="bg-slate-900 px-4 py-4 text-center">
-                  <p className="text-2xl font-bold text-white">{profile.total_incidents}</p>
-                  <p className="text-xs text-slate-500">Total Incidents</p>
+              <div className="grid grid-cols-2 gap-px bg-border sm:grid-cols-4">
+                <div className="bg-white px-4 py-4 text-center">
+                  <p className="text-2xl font-bold text-charcoal">{profile.total_incidents}</p>
+                  <p className="text-xs text-text-muted">Total Incidents</p>
                 </div>
-                <div className="bg-slate-900 px-4 py-4 text-center">
+                <div className="bg-white px-4 py-4 text-center">
                   <p className="text-2xl font-bold text-emerald">{profile.total_positive_events}</p>
-                  <p className="text-xs text-slate-500">Positive Events</p>
+                  <p className="text-xs text-text-muted">Positive Events</p>
                 </div>
-                <div className="bg-slate-900 px-4 py-4 text-center">
-                  <p className="text-2xl font-bold text-white">{profile.seen_by_business_count}</p>
-                  <p className="text-xs text-slate-500">Businesses</p>
+                <div className="bg-white px-4 py-4 text-center">
+                  <p className="text-2xl font-bold text-charcoal">{profile.seen_by_business_count}</p>
+                  <p className="text-xs text-text-muted">Businesses</p>
                 </div>
-                <div className="bg-slate-900 px-4 py-4 text-center">
-                  <p className="text-2xl font-bold text-white">{formatDate(profile.last_incident_at)}</p>
-                  <p className="text-xs text-slate-500">Last Incident</p>
+                <div className="bg-white px-4 py-4 text-center">
+                  <p className="text-2xl font-bold text-charcoal">{formatDate(profile.last_incident_at)}</p>
+                  <p className="text-xs text-text-muted">Last Incident</p>
                 </div>
               </div>
 
               {/* Incident Breakdown */}
               <div className="px-6 py-5">
-                <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-400">
+                <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text-muted">
                   Incident Breakdown
                 </h3>
                 {Object.keys(profile.incident_breakdown).length > 0 ? (
@@ -340,9 +340,9 @@ export default function NetworkSearchPage() {
                       return (
                         <div
                           key={categoryId}
-                          className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-800/30 px-4 py-3"
+                          className="flex items-center justify-between rounded-lg border border-border bg-cream px-4 py-3"
                         >
-                          <span className="text-sm text-slate-300">{getCategoryName(categoryId)}</span>
+                          <span className="text-sm text-text-secondary">{getCategoryName(categoryId)}</span>
                           <span className={
                             isPositive
                               ? "rounded-full bg-emerald/20 px-3 py-1 text-sm font-medium text-emerald"
@@ -355,13 +355,13 @@ export default function NetworkSearchPage() {
                     })}
                   </div>
                 ) : (
-                  <p className="text-sm text-slate-500">No incidents on record.</p>
+                  <p className="text-sm text-text-muted">No incidents on record.</p>
                 )}
               </div>
 
               {/* Recommendation */}
-              <div className="border-t border-slate-800 px-6 py-5">
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-400">
+              <div className="border-t border-border px-6 py-5">
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
                   Recommendation
                 </h3>
                 {profile.risk_tier === "low" && (
@@ -369,7 +369,7 @@ export default function NetworkSearchPage() {
                     <span className="text-lg">✅</span>
                     <div>
                       <p className="font-medium text-emerald">Good to go</p>
-                      <p className="text-sm text-slate-400">
+                      <p className="text-sm text-text-muted">
                         This customer has a solid track record. Proceed with normal booking.
                       </p>
                     </div>
@@ -380,7 +380,7 @@ export default function NetworkSearchPage() {
                     <span className="text-lg">⚠️</span>
                     <div>
                       <p className="font-medium text-amber">Proceed with caution</p>
-                      <p className="text-sm text-slate-400">
+                      <p className="text-sm text-text-muted">
                         Consider requiring a deposit or confirming appointment 24 hours before.
                       </p>
                     </div>
@@ -391,7 +391,7 @@ export default function NetworkSearchPage() {
                     <span className="text-lg">🚨</span>
                     <div>
                       <p className="font-medium text-orange-500">Require deposit</p>
-                      <p className="text-sm text-slate-400">
+                      <p className="text-sm text-text-muted">
                         This customer has concerning history. Strongly recommend requiring a deposit or prepayment.
                       </p>
                     </div>
@@ -402,18 +402,18 @@ export default function NetworkSearchPage() {
                     <span className="text-lg">🛑</span>
                     <div>
                       <p className="font-medium text-critical">High risk - consider declining</p>
-                      <p className="text-sm text-slate-400">
+                      <p className="text-sm text-text-muted">
                         This customer has serious reliability issues. Require full payment upfront or consider declining the job.
                       </p>
                     </div>
                   </div>
                 )}
                 {profile.risk_tier === "unknown" && (
-                  <div className="flex items-start gap-3 rounded-lg bg-slate-800 border border-slate-700 px-4 py-3">
+                  <div className="flex items-start gap-3 rounded-lg bg-surface border border-border px-4 py-3">
                     <span className="text-lg">❓</span>
                     <div>
-                      <p className="font-medium text-white">No data yet</p>
-                      <p className="text-sm text-slate-400">
+                      <p className="font-medium text-charcoal">No data yet</p>
+                      <p className="text-sm text-text-muted">
                         Not enough information to make a recommendation. Use your judgment.
                       </p>
                     </div>
@@ -422,21 +422,21 @@ export default function NetworkSearchPage() {
               </div>
 
               {/* Disclaimer */}
-              <div className="border-t border-slate-800 px-6 py-4 text-xs text-slate-500">
-                Data based on reports from {profile.seen_by_business_count} verified business{profile.seen_by_business_count !== 1 ? "es" : ""}. 
+              <div className="border-t border-border px-6 py-4 text-xs text-text-muted">
+                Data based on reports from {profile.seen_by_business_count} verified business{profile.seen_by_business_count !== 1 ? "es" : ""}.
                 This information is provided to help you make informed decisions and is not a guarantee of future behavior.
               </div>
             </div>
           ) : (
-            <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-8 text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-800">
+            <div className="rounded-xl border border-border bg-white p-8 text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface">
                 <span className="text-2xl">🔍</span>
               </div>
-              <h3 className="text-lg font-semibold text-white">No Network Profile Found</h3>
-              <p className="mt-2 text-slate-gray">
+              <h3 className="text-lg font-semibold text-charcoal">No Network Profile Found</h3>
+              <p className="mt-2 text-text-secondary">
                 This {searchType === "phone" ? "phone number" : "email"} hasn't been reported to the network yet.
               </p>
-              <p className="mt-4 text-sm text-slate-500">
+              <p className="mt-4 text-sm text-text-muted">
                 This could mean they're a new customer or have a clean record with no reports.
               </p>
             </div>
@@ -446,15 +446,15 @@ export default function NetworkSearchPage() {
 
       {/* Initial State */}
       {!searched && (
-        <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-8 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-800">
+        <div className="rounded-xl border border-border bg-white p-8 text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface">
             <span className="text-2xl">🛡️</span>
           </div>
-          <h3 className="text-lg font-semibold text-white">Check Before You Book</h3>
-          <p className="mt-2 text-slate-gray">
+          <h3 className="text-lg font-semibold text-charcoal">Check Before You Book</h3>
+          <p className="mt-2 text-text-secondary">
             Search a customer's phone or email to see their reliability history across the network.
           </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-slate-500">
+          <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-text-muted">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-emerald"></div>
               <span>Low Risk</span>

@@ -93,7 +93,7 @@ export default function AdminVerificationList({ businesses }: AdminVerificationL
   }
 
   return (
-    <div className="divide-y divide-slate-800">
+    <div className="divide-y divide-border">
       {businesses.map(function (item) {
         const biz = item.business;
         const isLoading = loading === item.id;
@@ -103,8 +103,8 @@ export default function AdminVerificationList({ businesses }: AdminVerificationL
           <div key={item.id} className="p-6">
             <div className="mb-4 flex items-start justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-white">{biz.name}</h3>
-                <p className="text-sm text-slate-gray">
+                <h3 className="text-lg font-semibold text-charcoal">{biz.name}</h3>
+                <p className="text-sm text-text-secondary">
                   Submitted {new Date(item.verification_submitted_at).toLocaleDateString()}
                 </p>
               </div>
@@ -115,29 +115,29 @@ export default function AdminVerificationList({ businesses }: AdminVerificationL
 
             <div className="mb-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <div>
-                <p className="text-xs text-slate-500">Business Type</p>
-                <p className="text-sm text-white">{biz.business_type}</p>
+                <p className="text-xs text-text-muted">Business Type</p>
+                <p className="text-sm text-charcoal">{biz.business_type}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-500">Email</p>
-                <p className="text-sm text-white">{biz.business_email}</p>
+                <p className="text-xs text-text-muted">Email</p>
+                <p className="text-sm text-charcoal">{biz.business_email}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-500">Phone</p>
-                <p className="text-sm text-white">{biz.business_phone}</p>
+                <p className="text-xs text-text-muted">Phone</p>
+                <p className="text-sm text-charcoal">{biz.business_phone}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-500">Address</p>
-                <p className="text-sm text-white">{address}</p>
+                <p className="text-xs text-text-muted">Address</p>
+                <p className="text-sm text-charcoal">{address}</p>
               </div>
               {biz.business_website ? (
                 <div>
-                  <p className="text-xs text-slate-500">Website</p>
+                  <p className="text-xs text-text-muted">Website</p>
                   <a
                     href={biz.business_website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-forsure-blue hover:underline"
+                    className="text-sm text-copper hover:underline"
                   >
                     {biz.business_website}
                   </a>
@@ -145,20 +145,20 @@ export default function AdminVerificationList({ businesses }: AdminVerificationL
               ) : null}
               {biz.business_license_number ? (
                 <div>
-                  <p className="text-xs text-slate-500">License #</p>
-                  <p className="text-sm text-white">{biz.business_license_number}</p>
+                  <p className="text-xs text-text-muted">License #</p>
+                  <p className="text-sm text-charcoal">{biz.business_license_number}</p>
                 </div>
               ) : null}
               {biz.ein_last_four ? (
                 <div>
-                  <p className="text-xs text-slate-500">EIN (last 4)</p>
-                  <p className="text-sm text-white">***-**-{biz.ein_last_four}</p>
+                  <p className="text-xs text-text-muted">EIN (last 4)</p>
+                  <p className="text-sm text-charcoal">***-**-{biz.ein_last_four}</p>
                 </div>
               ) : null}
             </div>
 
             <div className="mb-4">
-              <p className="mb-2 text-xs font-medium text-slate-500">UPLOADED DOCUMENTS</p>
+              <p className="mb-2 text-xs font-medium text-text-muted">UPLOADED DOCUMENTS</p>
               {item.documents.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                   {item.documents.map(function (doc) {
@@ -168,7 +168,7 @@ export default function AdminVerificationList({ businesses }: AdminVerificationL
                         href={doc.file_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/50 px-3 py-2 text-sm text-white hover:bg-slate-800"
+                        className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-3 py-2 text-sm text-charcoal hover:bg-surface"
                       >
                         {getDocLabel(doc.document_type)}
                       </a>
@@ -176,12 +176,12 @@ export default function AdminVerificationList({ businesses }: AdminVerificationL
                   })}
                 </div>
               ) : (
-                <p className="text-sm text-slate-500">No documents uploaded</p>
+                <p className="text-sm text-text-muted">No documents uploaded</p>
               )}
             </div>
 
             <div className="mb-4">
-              <label className="mb-1 block text-xs font-medium text-slate-500">
+              <label className="mb-1 block text-xs font-medium text-text-muted">
                 ADMIN NOTES
               </label>
               <textarea
@@ -191,7 +191,7 @@ export default function AdminVerificationList({ businesses }: AdminVerificationL
                 }}
                 placeholder="Add notes..."
                 rows={2}
-                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-sm text-white placeholder-slate-500 outline-none focus:border-forsure-blue"
+                className="w-full rounded-lg border border-border bg-white px-4 py-2 text-sm text-charcoal placeholder-text-muted outline-none focus:border-copper"
               />
             </div>
 

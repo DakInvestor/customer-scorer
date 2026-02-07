@@ -52,21 +52,21 @@ export default function CustomersTable({ customers }: Props) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by name, email, or phone…"
-            className="w-full rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none"
+            className="w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-charcoal placeholder:text-text-muted focus:border-copper focus:outline-none"
           />
         </div>
         <Link
-          href="/add-customer"
-          className="rounded bg-gray-700 px-4 py-2 text-sm font-semibold text-gray-100 hover:bg-gray-600"
+          href="/app/add-customer"
+          className="rounded bg-surface px-4 py-2 text-sm font-semibold text-charcoal hover:bg-cream"
         >
           Add customer
         </Link>
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-lg bg-gray-700">
+      <div className="overflow-hidden rounded-lg bg-surface">
         <table className="min-w-full text-left text-sm">
-          <thead className="bg-gray-800 text-xs uppercase text-gray-300">
+          <thead className="bg-surface text-xs uppercase text-text-secondary">
             <tr>
               <th className="px-4 py-3">Score</th>
               <th className="px-4 py-3">Name</th>
@@ -79,7 +79,7 @@ export default function CustomersTable({ customers }: Props) {
             {filtered.length === 0 ? (
               <tr>
                 <td
-                  className="px-4 py-4 text-center text-gray-300"
+                  className="px-4 py-4 text-center text-text-secondary"
                   colSpan={5}
                 >
                   {customers.length === 0
@@ -99,7 +99,7 @@ export default function CustomersTable({ customers }: Props) {
                 return (
                   <tr
                     key={customer.id}
-                    className="border-t border-gray-600 hover:bg-gray-600"
+                    className="border-t border-border hover:bg-cream"
                   >
                     <td className="px-4 py-3">
                       <div className="inline-flex items-center gap-2">
@@ -108,26 +108,26 @@ export default function CustomersTable({ customers }: Props) {
                         >
                           {customer.score}
                         </span>
-                        <span className="text-xs text-gray-300">
+                        <span className="text-xs text-text-secondary">
                           {scoreLabel}
                         </span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
                       <Link
-                        href={`/customers/${customer.id}`}
-                        className="text-gray-100 underline-offset-2 hover:underline"
+                        href={`/app/customers/${customer.id}`}
+                        className="text-charcoal underline-offset-2 hover:underline"
                       >
                         {customer.full_name || "Unnamed"}
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-100">
+                    <td className="px-4 py-3 text-charcoal">
                       {customer.email || "—"}
                     </td>
-                    <td className="px-4 py-3 text-gray-100">
+                    <td className="px-4 py-3 text-charcoal">
                       {customer.phone || "—"}
                     </td>
-                    <td className="px-4 py-3 text-gray-300">{createdAt}</td>
+                    <td className="px-4 py-3 text-text-secondary">{createdAt}</td>
                   </tr>
                 );
               })

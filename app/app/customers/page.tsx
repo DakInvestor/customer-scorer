@@ -23,7 +23,7 @@ type CustomerWithScore = Customer & {
 
 export default async function CustomersPage() {
   const businessId = await getCurrentBusinessId();
-  
+
   if (!businessId) {
     redirect("/login");
   }
@@ -41,7 +41,7 @@ export default async function CustomersPage() {
     console.error("Error loading customers", error);
     return (
       <div className="p-8">
-        <h1 className="mb-4 text-3xl font-bold">Customers</h1>
+        <h1 className="mb-4 text-3xl font-bold text-charcoal">Customers</h1>
         <p className="text-sm text-red-400">
           Failed to load customers. Check the console/logs.
         </p>
@@ -87,8 +87,8 @@ export default async function CustomersPage() {
 
   return (
     <div className="p-8">
-      <h1 className="mb-4 text-3xl font-bold">Customers</h1>
-      <p className="mb-4 text-sm text-gray-300">
+      <h1 className="mb-4 text-3xl font-bold text-charcoal">Customers</h1>
+      <p className="mb-4 text-sm text-text-secondary">
         Manage the customers you&apos;ve scored and added to the system.
       </p>
 

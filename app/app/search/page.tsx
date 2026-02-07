@@ -63,7 +63,7 @@ export default function SearchPage() {
 
   const handleSearch = async (e?: FormEvent) => {
     if (e) e.preventDefault();
-    
+
     if (!businessId || !query.trim()) return;
 
     setLoading(true);
@@ -131,8 +131,8 @@ export default function SearchPage() {
 
   return (
     <div className="p-4 sm:p-8">
-      <h1 className="mb-2 text-3xl font-bold">Search customers</h1>
-      <p className="mb-6 text-gray-400">Look up a customer by name, phone, or email.</p>
+      <h1 className="mb-2 text-3xl font-bold text-charcoal">Search customers</h1>
+      <p className="mb-6 text-text-muted">Look up a customer by name, phone, or email.</p>
 
       {/* Search Form */}
       <form onSubmit={handleSearch} className="mb-6 flex gap-2">
@@ -141,12 +141,12 @@ export default function SearchPage() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Enter name, phone, or email..."
-          className="flex-1 rounded-md bg-gray-800 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-600"
+          className="flex-1 rounded-md border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:ring-2 focus:ring-copper"
         />
         <button
           type="submit"
           disabled={loading || !query.trim()}
-          className="rounded-md bg-white px-6 py-2.5 font-semibold text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+          className="rounded-md bg-copper px-6 py-2.5 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
         >
           {loading ? "Searching..." : "Search"}
         </button>
@@ -156,32 +156,32 @@ export default function SearchPage() {
       {hasSearched && (
         <>
           {results.length === 0 ? (
-            <div className="rounded-lg bg-gray-800 p-6">
-              <h2 className="mb-1 font-semibold">No customers found.</h2>
-              <p className="mb-4 text-sm text-gray-400">
+            <div className="rounded-lg bg-surface p-6">
+              <h2 className="mb-1 font-semibold text-charcoal">No customers found.</h2>
+              <p className="mb-4 text-sm text-text-muted">
                 You can create a new profile for this customer.
               </p>
               <Link
                 href={`/add-customer?name=${encodeURIComponent(query)}`}
-                className="inline-block rounded-md bg-gray-700 px-4 py-2 text-sm font-medium hover:bg-gray-600"
+                className="inline-block rounded-md bg-cream px-4 py-2 text-sm font-medium text-charcoal hover:bg-surface"
               >
                 + Add customer
               </Link>
             </div>
           ) : (
             <div className="space-y-3">
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-text-muted">
                 Found {results.length} customer{results.length !== 1 ? "s" : ""}
               </p>
               {results.map((customer) => (
                 <Link
                   key={customer.id}
                   href={`/customers/${customer.id}`}
-                  className="flex items-center justify-between rounded-lg bg-gray-800 p-4 hover:bg-gray-700"
+                  className="flex items-center justify-between rounded-lg bg-surface p-4 hover:bg-cream"
                 >
                   <div>
-                    <h3 className="font-medium">{customer.full_name || "Unnamed"}</h3>
-                    <p className="text-sm text-gray-400">
+                    <h3 className="font-medium text-charcoal">{customer.full_name || "Unnamed"}</h3>
+                    <p className="text-sm text-text-muted">
                       {[customer.phone, customer.email, customer.city && customer.state ? `${customer.city}, ${customer.state}` : null]
                         .filter(Boolean)
                         .join(" • ") || "No contact info"}
@@ -191,7 +191,7 @@ export default function SearchPage() {
                     <span className={`rounded-full px-3 py-1 text-sm font-semibold ${getScoreBadgeClasses(customer.score)}`}>
                       {customer.score}
                     </span>
-                    <span className="text-sm text-gray-400">{customer.scoreLabel}</span>
+                    <span className="text-sm text-text-muted">{customer.scoreLabel}</span>
                   </div>
                 </Link>
               ))}

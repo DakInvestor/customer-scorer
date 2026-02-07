@@ -61,19 +61,19 @@ export default async function AdminPage() {
   return (
     <div className="p-6 md:p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white md:text-3xl">Admin Panel</h1>
-        <p className="mt-1 text-slate-gray">Review business verification requests.</p>
+        <h1 className="text-2xl font-bold text-charcoal md:text-3xl">Admin Panel</h1>
+        <p className="mt-1 text-text-secondary">Review business verification requests.</p>
       </div>
 
-      <div className="rounded-xl border border-slate-800 bg-slate-900/50">
-        <div className="border-b border-slate-800 px-6 py-4">
-          <h2 className="text-lg font-semibold text-white">
+      <div className="rounded-xl border border-border bg-white">
+        <div className="border-b border-border px-6 py-4">
+          <h2 className="text-lg font-semibold text-charcoal">
             Pending Verifications ({pendingBusinesses.length})
           </h2>
         </div>
 
         {pendingBusinesses.length === 0 ? (
-          <div className="p-6 text-center text-slate-gray">
+          <div className="p-6 text-center text-text-secondary">
             No pending verification requests.
           </div>
         ) : (

@@ -46,27 +46,27 @@ type UserData = {
 
 export default function SettingsPage() {
   const router = useRouter();
-  
+
   // Business state
   const [business, setBusiness] = useState<Business | null>(null);
   const [businessName, setBusinessName] = useState("");
   const [businessType, setBusinessType] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-  
+
   // User state
   const [user, setUser] = useState<UserData | null>(null);
-  
+
   // Notifications state
   const [notifyHighRisk, setNotifyHighRisk] = useState(true);
   const [notifyWeeklySummary, setNotifyWeeklySummary] = useState(true);
   const [notifyNewDisputes, setNotifyNewDisputes] = useState(true);
-  
+
   // Password state
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  
+
   // UI state
   const [loading, setLoading] = useState(true);
   const [savingBusiness, setSavingBusiness] = useState(false);
@@ -75,7 +75,7 @@ export default function SettingsPage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
-  
+
   // Messages
   const [businessMessage, setBusinessMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [notificationMessage, setNotificationMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -258,10 +258,10 @@ export default function SettingsPage() {
 
     try {
       const supabase = createSupabaseBrowserClient();
-      
+
       // Sign out first
       await supabase.auth.signOut();
-      
+
       // Note: Full account deletion would require a server-side function
       // For now, we sign out and show a message
       router.push("/login?deleted=true");
@@ -276,44 +276,44 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="p-8">
-        <h1 className="mb-4 text-3xl font-bold">Settings</h1>
-        <p className="text-gray-400">Loading...</p>
+        <h1 className="mb-4 text-3xl font-bold text-charcoal">Settings</h1>
+        <p className="text-text-muted">Loading...</p>
       </div>
     );
   }
 
   return (
     <div className="p-4 sm:p-8">
-      <h1 className="mb-2 text-3xl font-bold">Settings</h1>
-      <p className="mb-8 text-gray-400">Manage your business and account settings.</p>
+      <h1 className="mb-2 text-3xl font-bold text-charcoal">Settings</h1>
+      <p className="mb-8 text-text-muted">Manage your business and account settings.</p>
 
       <div className="max-w-2xl space-y-8">
-        
+
         {/* Business Settings */}
-        <section className="rounded-lg bg-gray-800 p-6">
-          <h2 className="mb-4 text-lg font-semibold">Business Information</h2>
+        <section className="rounded-lg bg-surface p-6">
+          <h2 className="mb-4 text-lg font-semibold text-charcoal">Business Information</h2>
 
           <form onSubmit={handleSaveBusiness} className="space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
+              <label className="mb-1 block text-sm font-medium text-text-secondary">
                 Business name
               </label>
               <input
                 type="text"
                 value={businessName}
                 onChange={(e) => setBusinessName(e.target.value)}
-                className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                className="w-full rounded-md border border-border bg-white px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
+              <label className="mb-1 block text-sm font-medium text-text-secondary">
                 Business type
               </label>
               <select
                 value={businessType}
                 onChange={(e) => setBusinessType(e.target.value)}
-                className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                className="w-full rounded-md border border-border bg-white px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
               >
                 <option value="">Select type...</option>
                 {BUSINESS_TYPES.map((t) => (
@@ -324,24 +324,24 @@ export default function SettingsPage() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-300">
+                <label className="mb-1 block text-sm font-medium text-text-secondary">
                   City
                 </label>
                 <input
                   type="text"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                  className="w-full rounded-md border border-border bg-white px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-300">
+                <label className="mb-1 block text-sm font-medium text-text-secondary">
                   State
                 </label>
                 <select
                   value={state}
                   onChange={(e) => setState(e.target.value)}
-                  className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                  className="w-full rounded-md border border-border bg-white px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
                 >
                   <option value="">Select state...</option>
                   {US_STATES.map((s) => (
@@ -352,21 +352,21 @@ export default function SettingsPage() {
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
+              <label className="mb-1 block text-sm font-medium text-text-secondary">
                 Business ID
               </label>
               <input
                 type="text"
                 value={business?.id || "—"}
                 disabled
-                className="w-full rounded-md bg-gray-900 px-4 py-2.5 text-gray-500"
+                className="w-full rounded-md bg-cream px-4 py-2.5 text-text-muted"
               />
-              <p className="mt-1 text-xs text-gray-500">This cannot be changed.</p>
+              <p className="mt-1 text-xs text-text-muted">This cannot be changed.</p>
             </div>
 
             {businessMessage && (
               <div className={`rounded-md px-4 py-2 text-sm ${
-                businessMessage.type === "success" ? "bg-green-900/50 text-green-200" : "bg-red-900/50 text-red-200"
+                businessMessage.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
               }`}>
                 {businessMessage.text}
               </div>
@@ -375,7 +375,7 @@ export default function SettingsPage() {
             <button
               type="submit"
               disabled={savingBusiness}
-              className="rounded-md bg-white px-4 py-2 font-semibold text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+              className="rounded-md bg-copper px-4 py-2 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
             >
               {savingBusiness ? "Saving..." : "Save changes"}
             </button>
@@ -383,38 +383,38 @@ export default function SettingsPage() {
         </section>
 
         {/* Account Settings */}
-        <section className="rounded-lg bg-gray-800 p-6">
-          <h2 className="mb-4 text-lg font-semibold">Account</h2>
+        <section className="rounded-lg bg-surface p-6">
+          <h2 className="mb-4 text-lg font-semibold text-charcoal">Account</h2>
 
           <div className="space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">Email</label>
+              <label className="mb-1 block text-sm font-medium text-text-secondary">Email</label>
               <input
                 type="text"
                 value={user?.email || "—"}
                 disabled
-                className="w-full rounded-md bg-gray-900 px-4 py-2.5 text-gray-500"
+                className="w-full rounded-md bg-cream px-4 py-2.5 text-text-muted"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">Account created</label>
+              <label className="mb-1 block text-sm font-medium text-text-secondary">Account created</label>
               <input
                 type="text"
                 value={user?.created_at ? new Date(user.created_at).toLocaleDateString() : "—"}
                 disabled
-                className="w-full rounded-md bg-gray-900 px-4 py-2.5 text-gray-500"
+                className="w-full rounded-md bg-cream px-4 py-2.5 text-text-muted"
               />
             </div>
           </div>
         </section>
 
         {/* Change Password */}
-        <section className="rounded-lg bg-gray-800 p-6">
-          <h2 className="mb-4 text-lg font-semibold">Change Password</h2>
+        <section className="rounded-lg bg-surface p-6">
+          <h2 className="mb-4 text-lg font-semibold text-charcoal">Change Password</h2>
 
           <form onSubmit={handleChangePassword} className="space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
+              <label className="mb-1 block text-sm font-medium text-text-secondary">
                 New password
               </label>
               <input
@@ -422,13 +422,13 @@ export default function SettingsPage() {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                className="w-full rounded-md border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:ring-2 focus:ring-copper"
               />
-              <p className="mt-1 text-xs text-gray-500">At least 6 characters</p>
+              <p className="mt-1 text-xs text-text-muted">At least 6 characters</p>
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
+              <label className="mb-1 block text-sm font-medium text-text-secondary">
                 Confirm new password
               </label>
               <input
@@ -436,13 +436,13 @@ export default function SettingsPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                className="w-full rounded-md border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:ring-2 focus:ring-copper"
               />
             </div>
 
             {passwordMessage && (
               <div className={`rounded-md px-4 py-2 text-sm ${
-                passwordMessage.type === "success" ? "bg-green-900/50 text-green-200" : "bg-red-900/50 text-red-200"
+                passwordMessage.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
               }`}>
                 {passwordMessage.text}
               </div>
@@ -451,7 +451,7 @@ export default function SettingsPage() {
             <button
               type="submit"
               disabled={savingPassword || !newPassword || !confirmPassword}
-              className="rounded-md bg-white px-4 py-2 font-semibold text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+              className="rounded-md bg-copper px-4 py-2 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
             >
               {savingPassword ? "Updating..." : "Update password"}
             </button>
@@ -459,9 +459,9 @@ export default function SettingsPage() {
         </section>
 
         {/* Notification Preferences */}
-        <section className="rounded-lg bg-gray-800 p-6">
-          <h2 className="mb-4 text-lg font-semibold">Notification Preferences</h2>
-          <p className="mb-4 text-sm text-gray-400">Choose what email notifications you receive.</p>
+        <section className="rounded-lg bg-surface p-6">
+          <h2 className="mb-4 text-lg font-semibold text-charcoal">Notification Preferences</h2>
+          <p className="mb-4 text-sm text-text-muted">Choose what email notifications you receive.</p>
 
           <div className="space-y-4">
             <label className="flex items-center gap-3">
@@ -469,11 +469,11 @@ export default function SettingsPage() {
                 type="checkbox"
                 checked={notifyHighRisk}
                 onChange={(e) => setNotifyHighRisk(e.target.checked)}
-                className="h-4 w-4 rounded border-gray-600 bg-gray-700"
+                className="h-4 w-4 rounded border-border bg-white"
               />
               <div>
-                <span className="font-medium">High-risk alerts</span>
-                <p className="text-sm text-gray-400">Get notified when a customer score drops below 50</p>
+                <span className="font-medium text-charcoal">High-risk alerts</span>
+                <p className="text-sm text-text-muted">Get notified when a customer score drops below 50</p>
               </div>
             </label>
 
@@ -482,11 +482,11 @@ export default function SettingsPage() {
                 type="checkbox"
                 checked={notifyWeeklySummary}
                 onChange={(e) => setNotifyWeeklySummary(e.target.checked)}
-                className="h-4 w-4 rounded border-gray-600 bg-gray-700"
+                className="h-4 w-4 rounded border-border bg-white"
               />
               <div>
-                <span className="font-medium">Weekly summary</span>
-                <p className="text-sm text-gray-400">Receive a weekly report of customer activity</p>
+                <span className="font-medium text-charcoal">Weekly summary</span>
+                <p className="text-sm text-text-muted">Receive a weekly report of customer activity</p>
               </div>
             </label>
 
@@ -495,17 +495,17 @@ export default function SettingsPage() {
                 type="checkbox"
                 checked={notifyNewDisputes}
                 onChange={(e) => setNotifyNewDisputes(e.target.checked)}
-                className="h-4 w-4 rounded border-gray-600 bg-gray-700"
+                className="h-4 w-4 rounded border-border bg-white"
               />
               <div>
-                <span className="font-medium">Dispute notifications</span>
-                <p className="text-sm text-gray-400">Get notified when someone disputes an event you logged</p>
+                <span className="font-medium text-charcoal">Dispute notifications</span>
+                <p className="text-sm text-text-muted">Get notified when someone disputes an event you logged</p>
               </div>
             </label>
 
             {notificationMessage && (
               <div className={`rounded-md px-4 py-2 text-sm ${
-                notificationMessage.type === "success" ? "bg-green-900/50 text-green-200" : "bg-red-900/50 text-red-200"
+                notificationMessage.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
               }`}>
                 {notificationMessage.text}
               </div>
@@ -514,7 +514,7 @@ export default function SettingsPage() {
             <button
               onClick={handleSaveNotifications}
               disabled={savingNotifications}
-              className="rounded-md bg-white px-4 py-2 font-semibold text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+              className="rounded-md bg-copper px-4 py-2 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
             >
               {savingNotifications ? "Saving..." : "Save preferences"}
             </button>
@@ -522,52 +522,52 @@ export default function SettingsPage() {
         </section>
 
         {/* Data Export */}
-        <section className="rounded-lg bg-gray-800 p-6">
-          <h2 className="mb-2 text-lg font-semibold">Data Export</h2>
-          <p className="mb-4 text-sm text-gray-400">
+        <section className="rounded-lg bg-surface p-6">
+          <h2 className="mb-2 text-lg font-semibold text-charcoal">Data Export</h2>
+          <p className="mb-4 text-sm text-text-muted">
             Download your customer and event data as CSV files.
           </p>
           <Link
             href="/export"
-            className="inline-block rounded-md bg-gray-700 px-4 py-2 text-sm font-medium hover:bg-gray-600"
+            className="inline-block rounded-md bg-cream px-4 py-2 text-sm font-medium text-charcoal hover:bg-surface"
           >
             Export Data
           </Link>
         </section>
 
         {/* Legal */}
-        <section className="rounded-lg bg-gray-800 p-6">
-          <h2 className="mb-4 text-lg font-semibold">Legal</h2>
+        <section className="rounded-lg bg-surface p-6">
+          <h2 className="mb-4 text-lg font-semibold text-charcoal">Legal</h2>
           <div className="flex flex-wrap gap-4">
-            <Link href="/terms" className="text-sm text-gray-400 hover:text-white underline">
+            <Link href="/terms" className="text-sm text-text-muted hover:text-charcoal underline">
               Terms of Service
             </Link>
-            <Link href="/privacy" className="text-sm text-gray-400 hover:text-white underline">
+            <Link href="/privacy" className="text-sm text-text-muted hover:text-charcoal underline">
               Privacy Policy
             </Link>
-            <Link href="/scoring-info" className="text-sm text-gray-400 hover:text-white underline">
+            <Link href="/scoring-info" className="text-sm text-text-muted hover:text-charcoal underline">
               How Scoring Works
             </Link>
           </div>
         </section>
 
         {/* Danger Zone */}
-        <section className="rounded-lg border border-red-900/50 bg-red-900/10 p-6">
-          <h2 className="mb-2 text-lg font-semibold text-red-200">Danger Zone</h2>
-          <p className="mb-4 text-sm text-gray-400">
+        <section className="rounded-lg border border-red-300 bg-red-50 p-6">
+          <h2 className="mb-2 text-lg font-semibold text-red-800">Danger Zone</h2>
+          <p className="mb-4 text-sm text-text-muted">
             Permanently delete your account and all associated data. This action cannot be undone.
           </p>
 
           {!showDeleteConfirm ? (
             <button
               onClick={() => setShowDeleteConfirm(true)}
-              className="rounded-md bg-red-900/50 px-4 py-2 text-sm font-medium text-red-200 hover:bg-red-900"
+              className="rounded-md bg-red-100 px-4 py-2 text-sm font-medium text-red-800 hover:bg-red-200"
             >
               Delete Account
             </button>
           ) : (
             <div className="space-y-4">
-              <p className="text-sm text-red-200">
+              <p className="text-sm text-red-800">
                 Type <strong>DELETE</strong> to confirm:
               </p>
               <input
@@ -575,10 +575,10 @@ export default function SettingsPage() {
                 value={deleteConfirmText}
                 onChange={(e) => setDeleteConfirmText(e.target.value)}
                 placeholder="DELETE"
-                className="w-full rounded-md bg-gray-800 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-red-500"
+                className="w-full rounded-md border border-border bg-white px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-red-500"
               />
               {deleteError && (
-                <p className="text-sm text-red-300">{deleteError}</p>
+                <p className="text-sm text-red-600">{deleteError}</p>
               )}
               <div className="flex gap-3">
                 <button
@@ -594,7 +594,7 @@ export default function SettingsPage() {
                     setDeleteConfirmText("");
                     setDeleteError(null);
                   }}
-                  className="rounded-md bg-gray-700 px-4 py-2 text-sm font-medium hover:bg-gray-600"
+                  className="rounded-md bg-cream px-4 py-2 text-sm font-medium text-charcoal hover:bg-surface"
                 >
                   Cancel
                 </button>
