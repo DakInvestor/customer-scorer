@@ -33,11 +33,17 @@ type CustomerNote = NoteForScoring & {
 };
 
 function getScoreBadgeClasses(score: number) {
-  if (score >= 90) return "bg-green-600 text-white";
-  if (score >= 75) return "bg-lime-600 text-white";
-  if (score >= 60) return "bg-yellow-500 text-gray-900";
-  if (score >= 40) return "bg-orange-500 text-white";
+  if (score >= 80) return "bg-emerald-600 text-white";
+  if (score >= 60) return "bg-amber-500 text-gray-900";
+  if (score >= 40) return "bg-amber-500 text-gray-900";
   return "bg-red-600 text-white";
+}
+
+function getReliabilityIndicator(score: number) {
+  if (score >= 80) return "Good standing";
+  if (score >= 60) return "Fair";
+  if (score >= 40) return "Some concerns";
+  return "Multiple concerns";
 }
 
 function getRiskBadgeClasses(risk: string) {
@@ -152,15 +158,14 @@ export default async function CustomerDetailPage({ params }: PageProps) {
       {/* Score Card */}
       <div className="mb-6 rounded-lg bg-surface p-4 sm:p-6">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Score */}
+          {/* Reliability */}
           <div>
-            <p className="text-xs uppercase tracking-wide text-text-muted">Reliability Score</p>
+            <p className="text-xs uppercase tracking-wide text-text-muted">Reliability History</p>
             <div className="mt-2 flex items-center gap-3">
-              <span className={`rounded-full px-4 py-2 text-2xl font-bold ${getScoreBadgeClasses(analytics.score)}`}>
-                {analytics.score}
+              <span className={`rounded-full px-4 py-2 text-lg font-bold ${getScoreBadgeClasses(analytics.score)}`}>
+                {getReliabilityIndicator(analytics.score)}
               </span>
               <div>
-                <p className="font-medium">{analytics.scoreLabel}</p>
                 <p className="text-xs text-text-muted">Top {100 - percentile}% of customers</p>
               </div>
             </div>

@@ -68,7 +68,7 @@ export default function CustomersTable({ customers }: Props) {
         <table className="min-w-full text-left text-sm">
           <thead className="bg-surface text-xs uppercase text-text-secondary">
             <tr>
-              <th className="px-4 py-3">Score</th>
+              <th className="px-4 py-3">Reliability</th>
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Email</th>
               <th className="px-4 py-3">Phone</th>
@@ -102,16 +102,11 @@ export default function CustomersTable({ customers }: Props) {
                     className="border-t border-border hover:bg-cream"
                   >
                     <td className="px-4 py-3">
-                      <div className="inline-flex items-center gap-2">
-                        <span
-                          className={`rounded-full px-2 py-0.5 text-xs font-semibold ${scoreClasses}`}
-                        >
-                          {customer.score}
-                        </span>
-                        <span className="text-xs text-text-secondary">
-                          {scoreLabel}
-                        </span>
-                      </div>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-xs font-semibold ${scoreClasses}`}
+                      >
+                        {scoreLabel}
+                      </span>
                     </td>
                     <td className="px-4 py-3">
                       <Link

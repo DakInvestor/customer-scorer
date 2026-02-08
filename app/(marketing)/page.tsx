@@ -129,10 +129,9 @@ export default function LandingPage() {
                     <p className="mt-1 text-xl font-bold text-charcoal sm:text-2xl">127</p>
                   </div>
                   <div className="rounded-lg border border-border bg-cream p-3 sm:p-4">
-                    <p className="text-[10px] text-text-secondary sm:text-xs">AVG SCORE</p>
+                    <p className="text-[10px] text-text-secondary sm:text-xs">AVG. RELIABILITY</p>
                     <div className="mt-1 flex items-center gap-2">
-                      <span className="rounded-full bg-emerald px-2 py-0.5 text-base font-bold text-white sm:text-lg">84</span>
-                      <span className="hidden text-sm text-text-secondary sm:inline">Good</span>
+                      <span className="rounded-full bg-emerald px-2 py-0.5 text-base font-bold text-white sm:text-lg">Good</span>
                     </div>
                   </div>
                   <div className="rounded-lg border border-border bg-cream p-3 sm:p-4">
@@ -148,7 +147,7 @@ export default function LandingPage() {
                 {/* Two columns */}
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                   <div className="rounded-lg border border-border bg-cream p-3 sm:p-4">
-                    <h4 className="text-sm font-semibold text-charcoal sm:text-base">Score Distribution</h4>
+                    <h4 className="text-sm font-semibold text-charcoal sm:text-base">Customer Overview</h4>
                     <div className="mt-3 space-y-2 sm:mt-4">
                       <div className="flex justify-between text-xs sm:text-sm">
                         <span className="flex items-center gap-2 text-text-secondary"><span className="h-2 w-2 rounded-full bg-emerald"></span> Excellent</span>
@@ -194,7 +193,7 @@ export default function LandingPage() {
               See high-risk customers at a glance →
             </div>
             <div className="absolute -left-4 top-56 hidden rounded-lg border border-copper bg-copper px-4 py-2 text-sm font-medium text-white shadow-lg xl:block">
-              ← Score distribution of your whole base
+              ← Reliability overview of your customer base
             </div>
             <div className="absolute -right-4 bottom-24 hidden rounded-lg border border-copper bg-copper px-4 py-2 text-sm font-medium text-white shadow-lg xl:block">
               Recent problem events in one place →
@@ -207,7 +206,7 @@ export default function LandingPage() {
               See high-risk customers at a glance
             </div>
             <div className="rounded-lg border border-copper/30 bg-copper-muted px-4 py-3 text-center text-sm text-copper">
-              Score distribution of your whole base
+              Reliability overview of your customer base
             </div>
             <div className="rounded-lg border border-copper/30 bg-copper-muted px-4 py-3 text-center text-sm text-copper">
               Recent events in one place
@@ -283,10 +282,10 @@ export default function LandingPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-charcoal">Reliability Scores</h3>
+                <h3 className="text-lg font-semibold text-charcoal">Reliability Indicators</h3>
                 <p className="mt-1 text-text-secondary">
-                  Every customer gets a 0-100 reliability score based on their history.
-                  See at a glance who's trustworthy and who's a risk.
+                  See reliability status at a glance — Excellent, Good, Fair, or At Risk.
+                  Know who's trustworthy before you book.
                 </p>
               </div>
             </div>
@@ -445,7 +444,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-lg font-semibold text-charcoal">Log events</h3>
               <p className="mt-2 text-text-secondary">
-                Record interactions — good or bad. Each event affects the customer's reliability score.
+                Record interactions — good or bad. Build a history that shows their true reliability.
               </p>
             </div>
 
@@ -455,7 +454,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-lg font-semibold text-charcoal">Make informed decisions</h3>
               <p className="mt-2 text-text-secondary">
-                Check scores before accepting jobs. Protect your time and your bottom line.
+                Check reliability before accepting jobs. Protect your time and your bottom line.
               </p>
             </div>
           </div>

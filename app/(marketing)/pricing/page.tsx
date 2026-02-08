@@ -49,7 +49,7 @@ export default function PricingPage() {
             <FeatureCard
               icon="📊"
               title="Full Analytics Dashboard"
-              description="Score distributions, risk assessments, trend tracking — the works."
+              description="Reliability overview, risk assessments, trend tracking — the works."
             />
             <FeatureCard
               icon="🛡️"
@@ -64,7 +64,7 @@ export default function PricingPage() {
             <FeatureCard
               icon="🔍"
               title="Instant Customer Lookup"
-              description="Search by name, phone, or email. Get a reliability score in seconds."
+              description="Search by name, phone, or email. Check reliability in seconds."
             />
             <FeatureCard
               icon="📝"
@@ -97,7 +97,7 @@ export default function PricingPage() {
 
               <ul className="mt-8 space-y-3">
                 <PricingFeature included>Up to 50 customers</PricingFeature>
-                <PricingFeature included>Basic reliability scores</PricingFeature>
+                <PricingFeature included>Reliability tracking</PricingFeature>
                 <PricingFeature included>Event logging</PricingFeature>
                 <PricingFeature included>CSV export</PricingFeature>
                 <PricingFeature included={false}>Analytics dashboard</PricingFeature>
@@ -126,7 +126,7 @@ export default function PricingPage() {
 
               <ul className="mt-8 space-y-3">
                 <PricingFeature included>Unlimited customers</PricingFeature>
-                <PricingFeature included>Advanced reliability scores</PricingFeature>
+                <PricingFeature included>Full reliability tracking</PricingFeature>
                 <PricingFeature included>Analytics dashboard</PricingFeature>
                 <PricingFeature included>Network search & reporting</PricingFeature>
                 <PricingFeature included>CSV import/export</PricingFeature>
@@ -206,10 +206,11 @@ export default function PricingPage() {
             </div>
 
             <div className="rounded-lg border border-border bg-white p-6">
-              <h3 className="font-semibold text-charcoal">Is this a credit score?</h3>
+              <h3 className="font-semibold text-charcoal">Is this a credit bureau or consumer reporting agency?</h3>
               <p className="mt-2 text-text-secondary">
-                No. ForSure is an internal reliability tool for your business only. It does not
-                pull credit reports or report to any bureaus.
+                No. ForSure is NOT a consumer reporting agency under the FCRA. It is an internal business
+                tool for tracking your own customer interactions. Information should never be used for
+                credit, employment, insurance, or housing decisions.
               </p>
             </div>
 

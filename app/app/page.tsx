@@ -139,12 +139,11 @@ export default async function Dashboard() {
         </div>
 
         <div className="rounded-xl border border-border bg-white p-5">
-          <p className="text-xs font-medium uppercase tracking-wide text-text-secondary">Avg reliability score</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-text-secondary">Avg. Reliability</p>
           <div className="mt-2 flex items-center gap-3">
             <span className={`rounded-full px-3 py-1 text-xl font-bold ${getScoreBadgeClasses(avgScore)}`}>
-              {avgScore}
+              {avgScore >= 80 ? "Good" : avgScore >= 60 ? "Fair" : avgScore >= 40 ? "Some concerns" : "Multiple concerns"}
             </span>
-            <span className="text-sm text-text-secondary">{getScoreLabel(avgScore)}</span>
           </div>
         </div>
 
@@ -157,14 +156,14 @@ export default async function Dashboard() {
         <div className="rounded-xl border border-border bg-white p-5">
           <p className="text-xs font-medium uppercase tracking-wide text-text-secondary">High-risk customers</p>
           <p className="mt-2 text-3xl font-bold text-charcoal">{scoreDistribution.risk}</p>
-          <p className="mt-1 text-sm text-text-secondary">Score below 60</p>
+          <p className="mt-1 text-sm text-text-secondary">Need attention</p>
         </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Score Distribution */}
         <div className="rounded-xl border border-border bg-white p-5">
-          <h2 className="mb-4 text-lg font-semibold text-charcoal">Score distribution</h2>
+          <h2 className="mb-4 text-lg font-semibold text-charcoal">Reliability overview</h2>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -251,7 +250,7 @@ export default async function Dashboard() {
                     <p className="text-xs text-text-secondary">{customer.phone || "No phone"}</p>
                   </div>
                   <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${getScoreBadgeClasses(customer.score)}`}>
-                    {customer.score}
+                    {customer.score >= 80 ? "Good" : customer.score >= 60 ? "Fair" : customer.score >= 40 ? "Some concerns" : "Multiple concerns"}
                   </span>
                 </Link>
               ))}
@@ -296,7 +295,7 @@ export default async function Dashboard() {
         <div className="mt-8 rounded-xl border border-border bg-white p-8 text-center">
           <h2 className="mb-2 text-xl font-semibold text-charcoal">Get started</h2>
           <p className="mb-6 text-text-secondary">
-            Add your first customer to start tracking reliability scores.
+            Add your first customer to start tracking reliability history.
           </p>
           <Link
             href="/app/add-customer"

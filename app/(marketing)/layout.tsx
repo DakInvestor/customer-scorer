@@ -3,16 +3,16 @@ import MarketingFooter from "@/components/MarketingFooter";
 
 export const metadata = {
   title: "ForSure — Stop Losing Money on Unreliable Customers",
-  description: "Track customer reliability scores, reduce no-shows, and protect your service business revenue. Built for HVAC, plumbing, electrical, and home service contractors.",
+  description: "Track customer reliability history, reduce no-shows, and protect your service business revenue. Built for HVAC, plumbing, electrical, and home service contractors.",
   openGraph: {
     title: "ForSure — Stop Losing Money on Unreliable Customers",
-    description: "Track customer reliability scores, reduce no-shows, and protect your service business revenue.",
+    description: "Track customer reliability history, reduce no-shows, and protect your service business revenue.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "ForSure — Stop Losing Money on Unreliable Customers",
-    description: "Track customer reliability scores, reduce no-shows, and protect your service business revenue.",
+    description: "Track customer reliability history, reduce no-shows, and protect your service business revenue.",
   },
 };
 

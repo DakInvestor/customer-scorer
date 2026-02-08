@@ -40,8 +40,8 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-xl font-semibold text-charcoal">2. How We Use Information</h2>
               <ul className="list-disc pl-6 space-y-2">
-                <li>To calculate and display reliability scores</li>
-                <li>To help businesses track customer behavior patterns</li>
+                <li>To provide qualitative reliability indicators</li>
+                <li>To help businesses track their own customer interactions</li>
                 <li>To provide anonymized, aggregated insights (no personal identification)</li>
                 <li>To maintain and improve the Platform</li>
                 <li>To communicate with businesses about their accounts</li>
@@ -57,10 +57,10 @@ export default function PrivacyPage() {
                 This includes name, contact information, location, and all event history.
               </p>
 
-              <h3 className="text-lg font-medium text-charcoal mt-4">Anonymized Network Data (Future Feature):</h3>
+              <h3 className="text-lg font-medium text-charcoal mt-4">Anonymized Network Data:</h3>
               <p>
-                In the future, businesses may see anonymized reliability indicators for customers
-                who have been logged by other businesses. This will NEVER include:
+                Verified businesses may see anonymized, aggregated reliability indicators for customers
+                who have been reported by other businesses. This NEVER includes:
               </p>
               <ul className="list-disc pl-6 space-y-1">
                 <li>The reporting business's identity</li>
@@ -101,11 +101,11 @@ export default function PrivacyPage() {
               <h3 className="text-lg font-medium text-charcoal mt-4">For Individuals (Customers):</h3>
               <ul className="list-disc pl-6 space-y-1">
                 <li>Request to know if data exists about you</li>
-                <li>Dispute inaccurate entries</li>
+                <li>Dispute inaccurate entries by emailing disputes@myforsure.com</li>
                 <li>Request removal of your data (subject to our removal policy)</li>
               </ul>
               <p className="mt-2">
-                To exercise these rights, contact us at privacy@myforsure.com.
+                To exercise these rights, contact us at privacy@myforsure.com or disputes@myforsure.com.
               </p>
             </section>
 

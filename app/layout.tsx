@@ -6,7 +6,7 @@ const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata = {
   title: "ForSure — Customer Reliability for Service Businesses",
-  description: "Protect your service business from unreliable customers. Track reliability scores, identify patterns, and make informed decisions with ForSure.",
+  description: "Protect your service business from unreliable customers. Track customer history, identify patterns, and make informed decisions with ForSure.",
 };
 
 export default function RootLayout({

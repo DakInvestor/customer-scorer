@@ -16,7 +16,7 @@ export default function MarketingFooter() {
               <span className="text-xl font-bold text-charcoal tracking-tight">For<span className="text-copper">Sure</span></span>
             </Link>
             <p className="mt-4 text-sm text-text-secondary">
-              Stop losing money on unreliable customers. Track reliability scores and make smarter business decisions.
+              Stop losing money on unreliable customers. Track customer history and make smarter business decisions.
             </p>
           </div>
 
@@ -61,8 +61,8 @@ export default function MarketingFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/blog/customer-scoring-101" className="text-sm text-text-secondary hover:text-charcoal">
-                  Customer Scoring 101
+                <Link href="/blog/reliability-tracking-101" className="text-sm text-text-secondary hover:text-charcoal">
+                  Reliability Guide
                 </Link>
               </li>
               <li>
@@ -98,8 +98,18 @@ export default function MarketingFooter() {
           </div>
         </div>
 
+        {/* FCRA Disclaimer */}
+        <div className="mt-12 border-t border-border pt-8">
+          <p className="text-xs text-text-muted max-w-2xl text-center mx-auto">
+            ForSure is a business management tool for tracking your own customer interactions.
+            ForSure is not a consumer reporting agency and does not provide consumer reports
+            as defined by the Fair Credit Reporting Act (FCRA). Information provided through
+            ForSure should not be used for credit, employment, insurance, or housing decisions.
+          </p>
+        </div>
+
         {/* Bottom */}
-        <div className="mt-12 flex flex-col items-center justify-between border-t border-border pt-8 md:flex-row">
+        <div className="mt-6 flex flex-col items-center justify-between border-t border-border pt-8 md:flex-row">
           <p className="text-sm text-text-muted">
             © 2024 ForSure. All rights reserved.
           </p>

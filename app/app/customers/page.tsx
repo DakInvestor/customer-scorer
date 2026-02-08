@@ -89,7 +89,7 @@ export default async function CustomersPage() {
     <div className="p-8">
       <h1 className="mb-4 text-3xl font-bold text-charcoal">Customers</h1>
       <p className="mb-4 text-sm text-text-secondary">
-        Manage the customers you&apos;ve scored and added to the system.
+        Manage the customers you&apos;ve tracked and added to the system.
       </p>
 
       <CustomersTable customers={customersWithScore} />

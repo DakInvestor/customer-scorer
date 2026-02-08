@@ -75,7 +75,7 @@ export default function MobileNav({ email }: Props) {
               <MobileNavItem href="/import" onClick={() => setIsOpen(false)}>Import CSV</MobileNavItem>
 
               <p className="mb-2 mt-4 px-3 text-xs font-semibold uppercase tracking-wider text-gray-300">Resources</p>
-              <MobileNavItem href="/scoring-info" onClick={() => setIsOpen(false)}>How Scoring Works</MobileNavItem>
+              <MobileNavItem href="/reliability-info" onClick={() => setIsOpen(false)}>How It Works</MobileNavItem>
               
               <div className="my-4 border-t border-charcoal-light" />
               <MobileNavItem href="/settings" onClick={() => setIsOpen(false)}>Settings</MobileNavItem>

@@ -21,11 +21,17 @@ type CustomerWithScore = Customer & {
 };
 
 function getScoreBadgeClasses(score: number) {
-  if (score >= 90) return "bg-green-600 text-white";
-  if (score >= 75) return "bg-lime-600 text-white";
-  if (score >= 60) return "bg-yellow-500 text-gray-900";
-  if (score >= 40) return "bg-orange-500 text-white";
+  if (score >= 80) return "bg-emerald-600 text-white";
+  if (score >= 60) return "bg-amber-500 text-gray-900";
+  if (score >= 40) return "bg-amber-500 text-gray-900";
   return "bg-red-600 text-white";
+}
+
+function getReliabilityIndicator(score: number) {
+  if (score >= 80) return "Good standing";
+  if (score >= 60) return "Fair";
+  if (score >= 40) return "Some concerns";
+  return "Multiple concerns";
 }
 
 export default async function AnalyticsPage() {
@@ -150,15 +156,14 @@ export default async function AnalyticsPage() {
 
         <div className="rounded-lg bg-surface p-5">
           <p className="text-xs uppercase tracking-wide text-text-secondary">
-            Avg reliability score
+            Avg. Reliability
           </p>
           <div className="mt-2 flex items-center gap-3">
             <span
               className={`rounded-full px-3 py-1 text-lg font-semibold ${getScoreBadgeClasses(avgScore)}`}
             >
-              {avgScore}
+              {getReliabilityIndicator(avgScore)}
             </span>
-            <span className="text-sm text-text-secondary">{getScoreLabel(avgScore)}</span>
           </div>
         </div>
 
@@ -171,47 +176,47 @@ export default async function AnalyticsPage() {
 
         <div className="rounded-lg bg-surface p-5">
           <p className="text-xs uppercase tracking-wide text-text-secondary">
-            High-risk (score &lt; 60)
+            Needs attention
           </p>
           <p className="mt-2 text-3xl font-semibold text-charcoal">{risky + severe}</p>
         </div>
       </div>
 
-      {/* Score distribution */}
+      {/* Reliability overview */}
       <div className="mb-8 rounded-lg bg-surface p-5">
-        <h2 className="mb-4 text-lg font-semibold text-charcoal">Score distribution</h2>
+        <h2 className="mb-4 text-lg font-semibold text-charcoal">Reliability overview</h2>
         <div className="grid gap-4 text-sm sm:grid-cols-5">
           <div>
-            <p className="text-xs uppercase tracking-wide text-text-secondary">Excellent (90-100)</p>
+            <p className="text-xs uppercase tracking-wide text-text-secondary">Excellent</p>
             <p className="mt-1 text-2xl font-semibold text-charcoal">{excellent}</p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-wide text-text-secondary">Good (75-89)</p>
+            <p className="text-xs uppercase tracking-wide text-text-secondary">Good</p>
             <p className="mt-1 text-2xl font-semibold text-charcoal">{good}</p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-wide text-text-secondary">Monitor (60-74)</p>
+            <p className="text-xs uppercase tracking-wide text-text-secondary">Monitor</p>
             <p className="mt-1 text-2xl font-semibold text-charcoal">{monitor}</p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-wide text-text-secondary">Risky (40-59)</p>
+            <p className="text-xs uppercase tracking-wide text-text-secondary">Needs attention</p>
             <p className="mt-1 text-2xl font-semibold text-charcoal">{risky}</p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-wide text-text-secondary">Severe (&lt; 40)</p>
+            <p className="text-xs uppercase tracking-wide text-text-secondary">High priority</p>
             <p className="mt-1 text-2xl font-semibold text-charcoal">{severe}</p>
           </div>
         </div>
       </div>
 
-      {/* Highest risk customers */}
+      {/* Customers needing attention */}
       <div className="rounded-lg bg-surface p-5">
-        <h2 className="mb-4 text-lg font-semibold text-charcoal">Highest risk customers</h2>
+        <h2 className="mb-4 text-lg font-semibold text-charcoal">Customers needing attention</h2>
         <div className="overflow-hidden rounded-md bg-cream">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-surface text-xs uppercase text-text-secondary">
               <tr>
-                <th className="px-4 py-3">Score</th>
+                <th className="px-4 py-3">Reliability History</th>
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Phone</th>
               </tr>
@@ -223,10 +228,7 @@ export default async function AnalyticsPage() {
                     <span
                       className={`rounded-full px-2 py-0.5 text-xs font-semibold ${getScoreBadgeClasses(customer.score)}`}
                     >
-                      {customer.score}
-                    </span>
-                    <span className="ml-2 text-xs text-text-muted">
-                      {getScoreLabel(customer.score)}
+                      {getReliabilityIndicator(customer.score)}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-charcoal">{customer.full_name || "—"}</td>

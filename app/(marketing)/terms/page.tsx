@@ -20,18 +20,32 @@ export default function TermsPage() {
               <h2 className="text-xl font-semibold text-charcoal">2. Description of Service</h2>
               <p>
                 ForSure is a customer reliability tracking tool that allows businesses to
-                voluntarily log and track customer behavior events. The Platform generates reliability
-                scores based on submitted data.
+                voluntarily log and track their own customer interactions. The Platform provides
+                qualitative reliability indicators based on user-submitted data.
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-charcoal">3. Not a Consumer Reporting Agency</h2>
               <p>
-                ForSure is NOT a consumer reporting agency as defined under the Fair Credit
-                Reporting Act (FCRA). The Platform does not provide consumer reports and should not
-                be used to make decisions about employment, credit, insurance, housing, or any other
-                purpose covered by the FCRA.
+                <strong>IMPORTANT:</strong> ForSure is NOT a consumer reporting agency as defined under the Fair Credit
+                Reporting Act (FCRA), 15 U.S.C. § 1681 et seq. The Platform does not provide "consumer reports"
+                as defined by the FCRA.
+              </p>
+              <p className="mt-3">
+                You expressly agree that you will NOT use information from ForSure to make decisions regarding:
+              </p>
+              <ul className="list-disc pl-6 space-y-2 mt-2">
+                <li>Credit eligibility or credit worthiness</li>
+                <li>Employment, promotion, or termination decisions</li>
+                <li>Insurance underwriting or eligibility</li>
+                <li>Housing or tenant screening</li>
+                <li>Any other purpose covered by the FCRA</li>
+              </ul>
+              <p className="mt-3">
+                ForSure is designed solely for internal business operations — specifically, managing
+                your own customer relationships and scheduling decisions. Misuse of this service for
+                FCRA-covered purposes may result in immediate termination and legal liability.
               </p>
             </section>
 
@@ -52,8 +66,8 @@ export default function TermsPage() {
               <p>
                 The Platform does NOT guarantee the accuracy, completeness, or reliability of any
                 information submitted by users. All data is contributed voluntarily by businesses
-                and reflects their subjective experiences. Users acknowledge that reliability scores
-                are calculated based on user-submitted data and may not reflect a complete picture
+                and reflects their subjective experiences. Users acknowledge that reliability indicators
+                are derived from user-submitted data and may not reflect a complete picture
                 of any individual's behavior.
               </p>
             </section>
@@ -71,9 +85,10 @@ export default function TermsPage() {
               <h2 className="text-xl font-semibold text-charcoal">7. Dispute Resolution</h2>
               <p>
                 Individuals who believe information about them is inaccurate may submit a dispute
-                through the Platform. Businesses are responsible for reviewing and responding to
-                disputes about their submitted data. The Platform is not responsible for resolving
-                disputes between businesses and their customers.
+                by emailing disputes@myforsure.com. Disputes will be forwarded to the reporting
+                business for review. Businesses are responsible for reviewing and responding to
+                disputes about their submitted data within 30 days. The Platform is not responsible
+                for resolving disputes between businesses and their customers.
               </p>
             </section>
 

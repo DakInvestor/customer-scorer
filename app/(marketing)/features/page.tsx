@@ -19,8 +19,8 @@ export default function FeaturesPage() {
         <div className="mt-20 grid gap-12 md:grid-cols-2 lg:grid-cols-3">
           <Feature
             icon="📊"
-            title="Reliability Scores"
-            description="Every customer gets a 0-100 score based on their history. See at a glance who's trustworthy."
+            title="Reliability Indicators"
+            description="Every customer shows a clear status — Excellent, Good, Fair, or At Risk. See at a glance who's trustworthy."
           />
           <Feature
             icon="📝"

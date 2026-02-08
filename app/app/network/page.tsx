@@ -184,6 +184,16 @@ export default function NetworkSearchPage() {
 
   return (
     <div className="p-6 md:p-8">
+      {/* FCRA Disclaimer Banner */}
+      <div className="mb-6 rounded-lg border border-amber/30 bg-amber/10 px-4 py-3">
+        <p className="text-xs text-text-secondary">
+          <strong className="text-charcoal">Important:</strong> ForSure is not a consumer reporting agency.
+          This tool provides aggregated, anonymized data from verified businesses to help you make informed decisions.
+          Information should not be used for credit, employment, insurance, or housing decisions.
+          To dispute information, contact <a href="mailto:disputes@myforsure.com" className="text-copper underline">disputes@myforsure.com</a>.
+        </p>
+      </div>
+
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-charcoal md:text-3xl">Network Search</h1>
         <p className="mt-1 text-text-secondary">
@@ -277,29 +287,23 @@ export default function NetworkSearchPage() {
               {/* Risk Tier Banner */}
               <div className={"border-b border-border px-6 py-5 " + getRiskBgColor(profile.risk_tier)}>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div>
-                      <p className="text-xs uppercase tracking-wider text-text-muted">Risk Level</p>
-                      <p className={"text-2xl font-bold capitalize " + getRiskColor(profile.risk_tier)}>
-                        {profile.risk_tier}
-                      </p>
-                    </div>
-                    <div className="h-12 w-px bg-border" />
-                    <div>
-                      <p className="text-xs uppercase tracking-wider text-text-muted">Score</p>
-                      <p className="text-2xl font-bold text-charcoal">
-                        {Math.round(profile.weighted_score)}/100
-                      </p>
-                    </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-text-muted">Reliability Status</p>
+                    <p className={"text-2xl font-bold capitalize " + getRiskColor(profile.risk_tier)}>
+                      {profile.risk_tier === "low" ? "Good Standing" :
+                       profile.risk_tier === "medium" ? "Some Concerns" :
+                       profile.risk_tier === "high" ? "Multiple Concerns" :
+                       profile.risk_tier === "critical" ? "Significant Issues" : "Unknown"}
+                    </p>
                   </div>
                   {profile.clean_streak_months >= 12 && (
                     <div className="rounded-lg bg-emerald/20 px-4 py-2">
                       <div className="flex items-center gap-2">
                         <span className="text-lg">✨</span>
                         <div>
-                          <p className="text-xs text-emerald">Clean Streak</p>
+                          <p className="text-xs text-emerald">Clean Record</p>
                           <p className="font-semibold text-emerald">
-                            {profile.clean_streak_months} months
+                            12+ months
                           </p>
                         </div>
                       </div>
@@ -309,29 +313,27 @@ export default function NetworkSearchPage() {
               </div>
 
               {/* Stats Grid */}
-              <div className="grid grid-cols-2 gap-px bg-border sm:grid-cols-4">
+              <div className="grid grid-cols-2 gap-px bg-border sm:grid-cols-3">
                 <div className="bg-white px-4 py-4 text-center">
-                  <p className="text-2xl font-bold text-charcoal">{profile.total_incidents}</p>
-                  <p className="text-xs text-text-muted">Total Incidents</p>
-                </div>
-                <div className="bg-white px-4 py-4 text-center">
-                  <p className="text-2xl font-bold text-emerald">{profile.total_positive_events}</p>
-                  <p className="text-xs text-text-muted">Positive Events</p>
+                  <p className="text-2xl font-bold text-charcoal">
+                    {profile.total_incidents > 0 ? (profile.total_incidents > 5 ? "Several" : "Few") : "None"}
+                  </p>
+                  <p className="text-xs text-text-muted">Reported Concerns</p>
                 </div>
                 <div className="bg-white px-4 py-4 text-center">
                   <p className="text-2xl font-bold text-charcoal">{profile.seen_by_business_count}</p>
-                  <p className="text-xs text-text-muted">Businesses</p>
+                  <p className="text-xs text-text-muted">Businesses Reporting</p>
                 </div>
                 <div className="bg-white px-4 py-4 text-center">
                   <p className="text-2xl font-bold text-charcoal">{formatDate(profile.last_incident_at)}</p>
-                  <p className="text-xs text-text-muted">Last Incident</p>
+                  <p className="text-xs text-text-muted">Last Report</p>
                 </div>
               </div>
 
-              {/* Incident Breakdown */}
+              {/* Report Summary */}
               <div className="px-6 py-5">
                 <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text-muted">
-                  Incident Breakdown
+                  Report Summary
                 </h3>
                 {Object.keys(profile.incident_breakdown).length > 0 ? (
                   <div className="grid gap-3 sm:grid-cols-2">
@@ -348,14 +350,14 @@ export default function NetworkSearchPage() {
                               ? "rounded-full bg-emerald/20 px-3 py-1 text-sm font-medium text-emerald"
                               : "rounded-full bg-critical/20 px-3 py-1 text-sm font-medium text-critical"
                           }>
-                            {count}
+                            Reported
                           </span>
                         </div>
                       );
                     })}
                   </div>
                 ) : (
-                  <p className="text-sm text-text-muted">No incidents on record.</p>
+                  <p className="text-sm text-text-muted">No concerns on record.</p>
                 )}
               </div>
 
@@ -423,8 +425,10 @@ export default function NetworkSearchPage() {
 
               {/* Disclaimer */}
               <div className="border-t border-border px-6 py-4 text-xs text-text-muted">
-                Data based on reports from {profile.seen_by_business_count} verified business{profile.seen_by_business_count !== 1 ? "es" : ""}.
-                This information is provided to help you make informed decisions and is not a guarantee of future behavior.
+                Based on aggregated reports from {profile.seen_by_business_count} verified business{profile.seen_by_business_count !== 1 ? "es" : ""}.
+                This information is for business decision-making only and should not be used for credit, employment,
+                insurance, or housing decisions. To dispute this information, contact{" "}
+                <a href="mailto:disputes@myforsure.com" className="text-copper underline">disputes@myforsure.com</a>.
               </div>
             </div>
           ) : (

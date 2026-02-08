@@ -19,7 +19,7 @@ const faqs: FAQItem[] = [
   {
     category: "Getting Started",
     question: "Is there a free plan?",
-    answer: "Yes! Our Starter plan is completely free and includes up to 50 customers, basic reliability scores, event logging, and CSV export. No credit card required to get started.",
+    answer: "Yes! Our Starter plan is completely free and includes up to 50 customers, reliability tracking, event logging, and CSV export. No credit card required to get started.",
   },
   {
     category: "Getting Started",
@@ -27,33 +27,38 @@ const faqs: FAQItem[] = [
     answer: "We typically review and verify businesses within 1-2 business days. You'll need to provide basic business documentation like a business license or EIN letter.",
   },
 
-  // Scoring
+  // Reliability
   {
-    category: "Scoring",
-    question: "How is the reliability score calculated?",
-    answer: "The score (0-100) is calculated based on the customer's history with your business — payment history, no-shows, cancellations, disputes, and positive events like referrals. Recent events are weighted more heavily than older ones.",
+    category: "Reliability",
+    question: "How does reliability tracking work?",
+    answer: "ForSure tracks your customer interactions — payments, appointments, cancellations, and positive events. Based on this history, we show a qualitative indicator (Excellent, Good, Fair, or At Risk) to help you make informed scheduling decisions.",
   },
   {
-    category: "Scoring",
-    question: "What do the different score ranges mean?",
-    answer: "70-100 (green) means a reliable customer you can trust. 40-69 (yellow) means proceed with caution — maybe require a deposit. 0-39 (red) means high risk — strongly consider requiring full payment upfront or declining the job.",
+    category: "Reliability",
+    question: "What do the different reliability levels mean?",
+    answer: "Excellent/Good (green) means a reliable customer you can trust. Fair (yellow) means proceed with caution — maybe require a deposit. At Risk (red) means multiple concerns — strongly consider requiring payment upfront or declining the job.",
   },
   {
-    category: "Scoring",
-    question: "Can customers see their own scores?",
-    answer: "No. Reliability scores are private to your business. Customers cannot see their score or know that you're using ForSure.",
+    category: "Reliability",
+    question: "Can customers see their reliability status?",
+    answer: "No. Reliability information is private to your business. Customers cannot see their status or know that you're using ForSure.",
   },
   {
-    category: "Scoring",
-    question: "Do scores transfer between businesses?",
-    answer: "No. Each business maintains their own customer records and scores. Your data is completely private and not shared with other businesses.",
+    category: "Reliability",
+    question: "Is my customer data shared with other businesses?",
+    answer: "Your detailed customer records are private to your business. The Network feature shows only anonymized, aggregated data (like 'Some concerns reported') without revealing specific details or which businesses reported.",
   },
 
   // Privacy & Legal
   {
     category: "Privacy & Legal",
+    question: "Is ForSure a credit bureau or consumer reporting agency?",
+    answer: "No. ForSure is NOT a consumer reporting agency under the Fair Credit Reporting Act (FCRA). We do not provide 'consumer reports' and information from ForSure should never be used for credit, employment, insurance, or housing decisions. ForSure is strictly an internal business tool for managing your own customer relationships.",
+  },
+  {
+    category: "Privacy & Legal",
     question: "Is this legal?",
-    answer: "Yes. ForSure is a private business tool for tracking your own customer interactions. It's similar to keeping notes about customers, just more organized. We don't report to credit bureaus or share data between businesses.",
+    answer: "Yes. ForSure is a private business tool for tracking your own customer interactions. It's similar to keeping notes about customers, just more organized. We don't report to credit bureaus. The Network feature shows only anonymized, aggregated data.",
   },
   {
     category: "Privacy & Legal",
@@ -65,6 +70,11 @@ const faqs: FAQItem[] = [
     question: "Can I export my data?",
     answer: "Yes. You can export all your customer data and event history as a CSV file at any time. Your data belongs to you.",
   },
+  {
+    category: "Privacy & Legal",
+    question: "Can customers dispute information about them?",
+    answer: "Yes. Customers can submit disputes by emailing disputes@myforsure.com. Disputes are forwarded to the reporting business for review. Businesses are responsible for responding to disputes within 30 days.",
+  },
 
   // Features
   {
@@ -75,7 +85,7 @@ const faqs: FAQItem[] = [
   {
     category: "Features",
     question: "What types of events can I log?",
-    answer: "You can log any interaction — late payments, on-time payments, no-shows, cancellations, disputes, property damage, referrals, tips, and more. Each event type has a different impact on the score.",
+    answer: "You can log any interaction — late payments, on-time payments, no-shows, cancellations, disputes, property damage, referrals, tips, and more. Each event type has a different impact on the customer's reliability indicator.",
   },
   {
     category: "Features",
@@ -105,7 +115,7 @@ export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const categories = ["All", "Getting Started", "Scoring", "Privacy & Legal", "Features", "Billing"];
+  const categories = ["All", "Getting Started", "Reliability", "Privacy & Legal", "Features", "Billing"];
 
   const filteredFaqs = activeCategory === "All"
     ? faqs

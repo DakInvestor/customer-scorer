@@ -93,7 +93,7 @@ export default async function AppLayout({
             Resources
           </div>
           <div className="space-y-1">
-            <NavItem href="/app/scoring-info">How Scoring Works</NavItem>
+            <NavItem href="/app/reliability-info">How It Works</NavItem>
           </div>
 
           {isAdmin && (

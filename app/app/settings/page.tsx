@@ -473,7 +473,7 @@ export default function SettingsPage() {
               />
               <div>
                 <span className="font-medium text-charcoal">High-risk alerts</span>
-                <p className="text-sm text-text-muted">Get notified when a customer score drops below 50</p>
+                <p className="text-sm text-text-muted">Get notified when a customer's reliability drops to At Risk</p>
               </div>
             </label>
 
@@ -545,8 +545,8 @@ export default function SettingsPage() {
             <Link href="/privacy" className="text-sm text-text-muted hover:text-charcoal underline">
               Privacy Policy
             </Link>
-            <Link href="/scoring-info" className="text-sm text-text-muted hover:text-charcoal underline">
-              How Scoring Works
+            <Link href="/reliability-info" className="text-sm text-text-muted hover:text-charcoal underline">
+              How It Works
             </Link>
           </div>
         </section>
