@@ -1,8 +1,20 @@
 import { createSupabaseServerClient, getCurrentBusinessId } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { calculateCustomerScore, getScoreLabel } from "@/lib/scoring";
+import { calculateCustomerScore } from "@/lib/scoring";
 import type { NoteForScoring } from "@/lib/scoring";
+import Onboarding from "@/components/Onboarding";
+import DashboardChecklist from "@/components/DashboardChecklist";
+
+type Business = {
+  id: string;
+  name: string | null;
+  onboarding_completed: boolean | null;
+  onboarding_step: number | null;
+  has_searched_network: boolean | null;
+  has_imported: boolean | null;
+  checklist_dismissed: boolean | null;
+};
 
 type Customer = {
   id: string;
@@ -41,9 +53,15 @@ export default async function Dashboard() {
 
   const { data: business } = await supabase
     .from("businesses")
-    .select("name")
+    .select("id, name, onboarding_completed, onboarding_step, has_searched_network, has_imported, checklist_dismissed")
     .eq("id", businessId)
     .single();
+
+  const typedBusiness = business as Business | null;
+
+  // Check if onboarding is needed
+  const needsOnboarding = !typedBusiness?.onboarding_completed;
+  const showChecklist = typedBusiness?.onboarding_completed && !typedBusiness?.checklist_dismissed;
 
   const { data: customers } = await supabase
     .from("customers")
@@ -119,11 +137,85 @@ export default async function Dashboard() {
     risk: customersWithScore.filter((c) => c.score < 60).length,
   };
 
+  // Show onboarding overlay if not completed
+  if (needsOnboarding) {
+    return (
+      <>
+        <Onboarding
+          businessId={businessId}
+          initialStep={typedBusiness?.onboarding_step || 1}
+        />
+        <div className="p-6 md:p-8 opacity-50 pointer-events-none">
+          <DashboardContent
+            businessName={typedBusiness?.name}
+            totalCustomers={totalCustomers}
+            customersThisWeek={customersThisWeek}
+            avgScore={avgScore}
+            eventsThisWeek={eventsThisWeek}
+            totalEvents={typedNotes.length}
+            scoreDistribution={scoreDistribution}
+            recentActivity={recentActivity}
+            highRiskCustomers={highRiskCustomers}
+          />
+        </div>
+      </>
+    );
+  }
+
   return (
     <div className="p-6 md:p-8">
+      {/* Checklist */}
+      {showChecklist && (
+        <DashboardChecklist
+          businessId={businessId}
+          customerCount={totalCustomers}
+          eventCount={typedNotes.length}
+          hasSearchedNetwork={typedBusiness?.has_searched_network || false}
+          hasImported={typedBusiness?.has_imported || false}
+        />
+      )}
+
+      <DashboardContent
+        businessName={typedBusiness?.name}
+        totalCustomers={totalCustomers}
+        customersThisWeek={customersThisWeek}
+        avgScore={avgScore}
+        eventsThisWeek={eventsThisWeek}
+        totalEvents={typedNotes.length}
+        scoreDistribution={scoreDistribution}
+        recentActivity={recentActivity}
+        highRiskCustomers={highRiskCustomers}
+      />
+    </div>
+  );
+}
+
+function DashboardContent({
+  businessName,
+  totalCustomers,
+  customersThisWeek,
+  avgScore,
+  eventsThisWeek,
+  totalEvents,
+  scoreDistribution,
+  recentActivity,
+  highRiskCustomers,
+}: {
+  businessName: string | null | undefined;
+  totalCustomers: number;
+  customersThisWeek: number;
+  avgScore: number;
+  eventsThisWeek: number;
+  totalEvents: number;
+  scoreDistribution: { excellent: number; good: number; monitor: number; risk: number };
+  recentActivity: Array<{ id: string; customer_name: string; note_type: string | null; severity: number; created_at: string }>;
+  highRiskCustomers: CustomerWithScore[];
+}) {
+  return (
+    <>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-charcoal md:text-3xl">
-          {business?.name || "Dashboard"}
+          {businessName || "Dashboard"}
         </h1>
         <p className="mt-1 text-text-secondary">
           Track customer reliability and protect your business.
@@ -150,7 +242,7 @@ export default async function Dashboard() {
         <div className="rounded-xl border border-border bg-white p-5">
           <p className="text-xs font-medium uppercase tracking-wide text-text-secondary">Events this week</p>
           <p className="mt-2 text-3xl font-bold text-charcoal">{eventsThisWeek}</p>
-          <p className="mt-1 text-sm text-text-secondary">{typedNotes.length} total</p>
+          <p className="mt-1 text-sm text-text-secondary">{totalEvents} total</p>
         </div>
 
         <div className="rounded-xl border border-border bg-white p-5">
@@ -305,6 +397,6 @@ export default async function Dashboard() {
           </Link>
         </div>
       )}
-    </div>
+    </>
   );
 }

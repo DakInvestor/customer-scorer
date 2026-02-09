@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-import Link from "next/link";
 
 interface NetworkProfile {
   id: string;
@@ -34,6 +33,27 @@ export default function NetworkSearchPage() {
   const [profile, setProfile] = useState<NetworkProfile | null>(null);
   const [categories, setCategories] = useState<EventCategory[]>([]);
   const [error, setError] = useState("");
+  const [businessId, setBusinessId] = useState<string | null>(null);
+
+  // Get business ID on mount
+  useEffect(() => {
+    async function getBusinessId() {
+      const supabase = createSupabaseBrowserClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: prof } = await supabase
+        .from("profiles")
+        .select("business_id")
+        .eq("id", user.id)
+        .single();
+
+      if (prof?.business_id) {
+        setBusinessId(prof.business_id);
+      }
+    }
+    getBusinessId();
+  }, []);
 
   function formatPhone(value: string): string {
     const digits = value.replace(/\D/g, "").slice(0, 10);
@@ -138,6 +158,14 @@ export default function NetworkSearchPage() {
         });
       } else {
         setProfile(null);
+      }
+
+      // Mark that user has searched the network (for checklist)
+      if (businessId) {
+        await supabase
+          .from("businesses")
+          .update({ has_searched_network: true })
+          .eq("id", businessId);
       }
     } catch (err) {
       console.error("Search error:", err);

@@ -189,6 +189,14 @@ export default function ImportPage() {
       }
     }
 
+    // Mark that user has imported (for checklist)
+    if (success > 0) {
+      await supabase
+        .from("businesses")
+        .update({ has_imported: true })
+        .eq("id", businessId);
+    }
+
     setResult({ success, failed });
     setImporting(false);
   };
