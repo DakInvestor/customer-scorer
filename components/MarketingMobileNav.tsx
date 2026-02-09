@@ -35,7 +35,7 @@ export default function MarketingMobileNav() {
 
       {/* Mobile Menu Overlay */}
       {isOpen ? (
-        <div className="fixed inset-0 z-50 bg-white">
+        <div className="fixed inset-0 z-[100] bg-white">
           <div className="flex h-full flex-col">
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border px-4 py-4">

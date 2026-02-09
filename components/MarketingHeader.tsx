@@ -3,7 +3,7 @@ import MarketingMobileNav from "./MarketingMobileNav";
 
 export default function MarketingHeader() {
   return (
-    <header className="border-b border-border bg-white/80 backdrop-blur-sm">
+    <header className="relative z-50 border-b border-border bg-white/80 backdrop-blur-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">

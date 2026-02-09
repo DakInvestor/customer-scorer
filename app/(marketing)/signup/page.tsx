@@ -195,40 +195,47 @@ export default function SignupPage() {
 
       const userId = authData.user.id;
 
-      // Create business record
-      const { error: bizError } = await supabase.from("businesses").insert({
-        owner_user_id: userId,
-        name: businessName,
-        legal_name: legalNameSame ? businessName : legalName,
-        industry: industry,
-        ein_number: isSoleProp ? null : einNumber.replace(/\D/g, ""),
-        business_email: businessEmail,
-        business_phone: businessPhone.replace(/\D/g, ""),
-        business_website: businessWebsite || null,
-        business_address: businessAddress,
-        business_city: businessCity,
-        business_state: businessState,
-        business_zip: businessZip,
-        subscription_tier: "professional",
-        customer_count_limit: -1,
-        verification_level: "none",
-        network_write_access: false,
-      });
+      // Create business record and get the new business ID
+      const { data: bizData, error: bizError } = await supabase
+        .from("businesses")
+        .insert({
+          owner_user_id: userId,
+          name: businessName,
+          legal_name: legalNameSame ? businessName : legalName,
+          industry: industry,
+          ein_number: isSoleProp ? null : einNumber.replace(/\D/g, ""),
+          business_email: businessEmail,
+          business_phone: businessPhone.replace(/\D/g, ""),
+          business_website: businessWebsite || null,
+          business_address: businessAddress,
+          business_city: businessCity,
+          business_state: businessState,
+          business_zip: businessZip,
+          subscription_tier: "professional",
+          customer_count_limit: -1,
+          verification_level: "none",
+          network_write_access: false,
+        })
+        .select("id")
+        .single();
 
-      if (bizError) {
-        throw bizError;
+      if (bizError || !bizData) {
+        throw bizError || new Error("Failed to create business.");
       }
 
-      // Update profile with verification status
+      // Update profile with business_id, verification status, and ensure non-admin
       const { error: profileError } = await supabase
         .from("profiles")
         .update({
+          business_id: bizData.id,
           verification_status: "unverified",
+          is_admin: false,
         })
         .eq("id", userId);
 
       if (profileError) {
         console.error("Profile update error:", profileError);
+        throw profileError;
       }
 
       // Redirect to app

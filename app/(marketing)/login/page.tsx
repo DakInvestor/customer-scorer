@@ -15,15 +15,27 @@ export default function LoginPage() {
 
   useEffect(() => {
     async function checkSession() {
-      const supabase = createSupabaseBrowserClient();
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        router.push("/app");
-        return;
+      try {
+        const supabase = createSupabaseBrowserClient();
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          router.push("/app");
+          return;
+        }
+      } catch (err) {
+        console.error("Session check error:", err);
       }
       setCheckingSession(false);
     }
+
+    // Add timeout to prevent infinite loading
+    const timeout = setTimeout(() => {
+      setCheckingSession(false);
+    }, 5000);
+
     checkSession();
+
+    return () => clearTimeout(timeout);
   }, [router]);
 
   const handleLogin = async (e: FormEvent) => {
