@@ -63,8 +63,50 @@ export default function CustomersTable({ customers }: Props) {
         </Link>
       </div>
 
-      {/* Table */}
-      <div className="overflow-hidden rounded-lg bg-surface">
+      {/* Mobile Card View */}
+      <div className="space-y-3 md:hidden">
+        {filtered.length === 0 ? (
+          <div className="rounded-lg bg-surface p-4 text-center text-text-secondary">
+            {customers.length === 0
+              ? "No customers yet. Add your first one to get started."
+              : "No customers match your search."}
+          </div>
+        ) : (
+          filtered.map((customer) => {
+            const createdAt = customer.created_at
+              ? new Date(customer.created_at).toLocaleDateString()
+              : "";
+            const scoreLabel = getScoreLabel(customer.score);
+            const scoreClasses = getScoreBadgeClasses(customer.score);
+
+            return (
+              <Link
+                key={customer.id}
+                href={`/app/customers/${customer.id}`}
+                className="block rounded-lg bg-surface p-4 hover:bg-cream"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-charcoal truncate">
+                      {customer.full_name || "Unnamed"}
+                    </p>
+                    <p className="text-sm text-text-secondary truncate">
+                      {customer.email || customer.phone || "No contact info"}
+                    </p>
+                    <p className="mt-1 text-xs text-text-muted">{createdAt}</p>
+                  </div>
+                  <span className={`ml-3 rounded-full px-2 py-0.5 text-xs font-semibold whitespace-nowrap ${scoreClasses}`}>
+                    {scoreLabel}
+                  </span>
+                </div>
+              </Link>
+            );
+          })
+        )}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden overflow-hidden rounded-lg bg-surface md:block">
         <table className="min-w-full text-left text-sm">
           <thead className="bg-surface text-xs uppercase text-text-secondary">
             <tr>
