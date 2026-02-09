@@ -137,7 +137,7 @@ export default async function AppLayout({
         </div>
       </aside>
 
-      <MobileNav email={user.email || ""} />
+      <MobileNav email={user.email || ""} verificationStatus={verificationStatus} isAdmin={isAdmin} />
 
       <div className="flex flex-1 flex-col">
         <VerificationBanner status={verificationStatus} />
