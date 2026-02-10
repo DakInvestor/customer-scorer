@@ -72,6 +72,7 @@ export default function AddNoteForm({ customerId, businessId, customerPhone, cus
 
     if (!eventCode) return setFormError("Please select an event type.");
     if (severity == null) return setFormError("Severity could not be determined.");
+    if (!noteText.trim()) return setFormError("Please add a note describing the event.");
 
     try {
       setLoading(true);
@@ -174,15 +175,19 @@ export default function AddNoteForm({ customerId, businessId, customerPhone, cus
         </select>
 
         <label className="mb-1 block text-sm font-semibold text-charcoal">
-          Note (optional)
+          Note <span className="text-critical">*</span>
         </label>
         <textarea
           rows={3}
           value={noteText}
           onChange={(e) => setNoteText(e.target.value)}
-          placeholder="Additional details about this event..."
+          placeholder="Describe what happened (required for documentation)..."
           className="w-full rounded-md border border-border bg-cream px-3 py-2.5 text-sm text-charcoal outline-none focus:ring-2 focus:ring-copper"
+          required
         />
+        <p className="mt-1 text-xs text-text-muted">
+          Detailed notes help protect your business and improve network accuracy.
+        </p>
       </div>
 
       {formError && (
