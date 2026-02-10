@@ -1,6 +1,6 @@
 "use server";
 
-import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
+import { createSupabaseServerClient, createSupabaseAdminClient, getCurrentUser } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function approveVerification(profileId: string, notes?: string) {
@@ -22,8 +22,10 @@ export async function approveVerification(profileId: string, notes?: string) {
     return { error: "Not authorized" };
   }
 
-  // Update the target profile
-  const { error } = await supabase
+  // Use admin client to bypass RLS for updating other user's profile
+  const adminClient = createSupabaseAdminClient();
+
+  const { error } = await adminClient
     .from("profiles")
     .update({
       verification_status: "verified",
@@ -60,8 +62,10 @@ export async function rejectVerification(profileId: string, notes?: string) {
     return { error: "Not authorized" };
   }
 
-  // Update the target profile
-  const { error } = await supabase
+  // Use admin client to bypass RLS for updating other user's profile
+  const adminClient = createSupabaseAdminClient();
+
+  const { error } = await adminClient
     .from("profiles")
     .update({
       verification_status: "rejected",

@@ -1,5 +1,6 @@
 // lib/supabase/server.ts
 import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
 export async function createSupabaseServerClient() {
@@ -51,7 +52,7 @@ export async function getCurrentUser() {
 export async function getCurrentBusinessId(): Promise<string | null> {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
-  
+
   if (!user) return null;
 
   const { data: profile } = await supabase
@@ -61,4 +62,23 @@ export async function getCurrentBusinessId(): Promise<string | null> {
     .single();
 
   return profile?.business_id ?? null;
+}
+
+// Admin client that bypasses RLS - use only for admin operations
+export function createSupabaseAdminClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw new Error(
+      "Missing Supabase admin environment variables. Please set SUPABASE_SERVICE_ROLE_KEY."
+    );
+  }
+
+  return createClient(supabaseUrl, supabaseServiceKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
 }
