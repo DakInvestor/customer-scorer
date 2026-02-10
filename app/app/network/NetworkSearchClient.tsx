@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { searchNetwork, addCustomerFromNetworkAction } from "./actions";
+import { formatNameForDisplay } from "@/lib/name-utils";
 
 interface NetworkProfile {
   id: string;
@@ -20,6 +22,24 @@ interface NetworkProfile {
   incident_breakdown: Record<string, number>;
 }
 
+interface PropertyRecord {
+  id: string;
+  address_full: string | null;
+  address_street: string | null;
+  address_city: string | null;
+  address_state: string | null;
+  address_zip: string | null;
+  owner_name: string | null;
+  owner_name_secondary: string | null;
+  county: string | null;
+  municipality: string | null;
+  year_built: number | null;
+  square_footage: number | null;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  property_class: string | null;
+}
+
 interface NetworkSearchClientProps {
   businessId: string | null;
 }
@@ -32,6 +52,7 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
   const [addingCustomer, setAddingCustomer] = useState(false);
   const [searched, setSearched] = useState(false);
   const [profile, setProfile] = useState<NetworkProfile | null>(null);
+  const [propertyRecords, setPropertyRecords] = useState<PropertyRecord[]>([]);
   const [error, setError] = useState("");
 
   async function handleAddCustomer() {
@@ -101,6 +122,7 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
     setError("");
     setSearched(true);
     setProfile(null);
+    setPropertyRecords([]);
 
     try {
       const result = await searchNetwork(searchType, searchValue);
@@ -111,6 +133,9 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
       }
 
       setProfile(result.profile || null);
+      if (result.propertyRecords) {
+        setPropertyRecords(result.propertyRecords);
+      }
     } catch (err) {
       console.error("Search error:", err);
       setError("Search failed. Please try again.");
@@ -256,7 +281,78 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
       {/* Results */}
       {searched && !loading && (
         <div>
-          {profile ? (
+          {/* Property Records Results (for address search) */}
+          {searchType === "address" && propertyRecords.length > 0 && (
+            <div className="space-y-4">
+              <p className="text-sm text-text-muted">
+                Found {propertyRecords.length} propert{propertyRecords.length !== 1 ? "ies" : "y"} matching your search
+              </p>
+              {propertyRecords.map((property) => (
+                <Link
+                  key={property.id}
+                  href={`/app/search?tab=properties&id=${property.id}`}
+                  className="block rounded-xl border border-border bg-white p-5 hover:border-copper transition-colors"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="rounded bg-forsure-blue/10 px-2 py-0.5 text-xs font-medium text-forsure-blue">
+                          Public Record
+                        </span>
+                        <span className="text-xs text-text-muted uppercase">
+                          {property.county} County
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-semibold text-charcoal">
+                        {property.address_street || property.address_full}
+                      </h3>
+                      <p className="text-sm text-text-muted">
+                        {property.address_city}, {property.address_state} {property.address_zip}
+                      </p>
+                      <p className="mt-2 text-sm text-text-secondary">
+                        Owner: {formatNameForDisplay(property.owner_name)}
+                        {property.owner_name_secondary && (
+                          <span> & {formatNameForDisplay(property.owner_name_secondary)}</span>
+                        )}
+                      </p>
+                    </div>
+                    <div className="text-right text-sm">
+                      {property.year_built && (
+                        <p className="text-text-muted">Built {property.year_built}</p>
+                      )}
+                      {property.square_footage && (
+                        <p className="text-text-muted">{property.square_footage.toLocaleString()} sq ft</p>
+                      )}
+                      {property.bedrooms && property.bathrooms && (
+                        <p className="text-text-muted">
+                          {property.bedrooms} bed / {property.bathrooms} bath
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {/* No property records found for address search */}
+          {searchType === "address" && propertyRecords.length === 0 && (
+            <div className="rounded-xl border border-border bg-white p-8 text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface">
+                <span className="text-2xl">🏠</span>
+              </div>
+              <h3 className="text-lg font-semibold text-charcoal">No Properties Found</h3>
+              <p className="mt-2 text-text-secondary">
+                No property records match this address in our database.
+              </p>
+              <p className="mt-4 text-sm text-text-muted">
+                Property records are currently available for Bucks and Montgomery County, PA.
+              </p>
+            </div>
+          )}
+
+          {/* Network Profile Results (for phone/email search) */}
+          {searchType !== "address" && profile ? (
             <div className="rounded-xl border border-border bg-white overflow-hidden">
               {/* Header */}
               <div className="border-b border-border px-6 py-4">
@@ -430,14 +526,14 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                 </button>
               </div>
             </div>
-          ) : (
+          ) : searchType !== "address" ? (
             <div className="rounded-xl border border-border bg-white p-8 text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface">
                 <span className="text-2xl">🔍</span>
               </div>
               <h3 className="text-lg font-semibold text-charcoal">No Network Profile Found</h3>
               <p className="mt-2 text-text-secondary">
-                This {searchType === "phone" ? "phone number" : searchType === "email" ? "email" : "address"} hasn't been reported to the network yet.
+                This {searchType === "phone" ? "phone number" : "email"} hasn't been reported to the network yet.
               </p>
               <p className="mt-4 text-sm text-text-muted">
                 This could mean they're a new customer or have a clean record with no reports.
@@ -450,7 +546,7 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                 {addingCustomer ? "Adding..." : "+ Add to My Customers"}
               </button>
             </div>
-          )}
+          ) : null}
         </div>
       )}
 

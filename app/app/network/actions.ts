@@ -1,6 +1,8 @@
 "use server";
 
 import { createSupabaseServerClient, createSupabaseAdminClient, getCurrentUser } from "@/lib/supabase/server";
+import { normalizeAddress as normalizeAddressUtil } from "@/lib/address-utils";
+import type { PropertyRecord } from "@/lib/property-types";
 
 function normalizePhone(phone: string): string {
   return phone.replace(/\D/g, "");
@@ -76,7 +78,42 @@ export async function searchNetwork(searchType: "phone" | "email" | "address", s
   // Use admin client to bypass RLS
   const adminClient = createSupabaseAdminClient();
 
-  // Create hash
+  // For address searches, search property_records directly
+  if (searchType === "address") {
+    const normalized = normalizeAddressUtil(searchValue);
+    const searchPattern = `%${normalized.street || searchValue.toUpperCase()}%`;
+
+    // Search property records
+    const { data: properties, error: propError } = await adminClient
+      .from("property_records")
+      .select("*")
+      .ilike("address_full", searchPattern)
+      .limit(10);
+
+    if (propError) {
+      console.error("Property search error:", propError);
+      return { error: "Search failed" };
+    }
+
+    if (!properties || properties.length === 0) {
+      return { profile: null, propertyRecords: [] };
+    }
+
+    // Mark that user has searched the network (for checklist)
+    if (profile?.business_id) {
+      await supabase
+        .from("businesses")
+        .update({ has_searched_network: true })
+        .eq("id", profile.business_id);
+    }
+
+    return {
+      profile: null,
+      propertyRecords: properties as PropertyRecord[],
+    };
+  }
+
+  // For phone/email, use the hash-based search
   let hash: string;
   if (searchType === "phone") {
     const normalized = normalizePhone(searchValue);
@@ -84,22 +121,16 @@ export async function searchNetwork(searchType: "phone" | "email" | "address", s
       return { error: "Invalid phone number" };
     }
     hash = await hashValue(normalized);
-  } else if (searchType === "email") {
+  } else {
     const normalized = normalizeEmail(searchValue);
     if (!normalized.includes("@")) {
       return { error: "Invalid email" };
     }
     hash = await hashValue(normalized);
-  } else {
-    const normalized = normalizeAddress(searchValue);
-    if (normalized.length < 5) {
-      return { error: "Invalid address" };
-    }
-    hash = await hashValue(normalized);
   }
 
   // Search for matching customer identifier
-  const column = searchType === "phone" ? "phone_hash" : searchType === "email" ? "email_hash" : "address_hash";
+  const column = searchType === "phone" ? "phone_hash" : "email_hash";
   const { data, error: searchError } = await adminClient
     .from("customer_identifiers")
     .select("*")
