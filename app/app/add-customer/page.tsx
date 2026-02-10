@@ -31,12 +31,23 @@ export default function AddCustomerPage() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [businessId, setBusinessId] = useState<string | null>(null);
 
-  // Pre-fill from URL params (from network search)
+  // Pre-fill from URL params (from network/property search)
   useEffect(() => {
+    const nameParam = searchParams.get("name");
     const phoneParam = searchParams.get("phone");
     const emailParam = searchParams.get("email");
+    const addressParam = searchParams.get("address");
+    const cityParam = searchParams.get("city");
+    const stateParam = searchParams.get("state");
+    const countyParam = searchParams.get("county");
+
+    if (nameParam) setFullName(nameParam);
     if (phoneParam) setPhone(phoneParam);
     if (emailParam) setEmail(emailParam);
+    if (addressParam) setAddress(addressParam);
+    if (cityParam) setCity(cityParam);
+    if (stateParam) setState(stateParam);
+    if (countyParam) setCounty(countyParam);
   }, [searchParams]);
 
   useEffect(() => {

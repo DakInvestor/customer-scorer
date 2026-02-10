@@ -330,37 +330,18 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                     </div>
                   </div>
                   <div className="mt-4 flex gap-3">
-                    <button
-                      onClick={async () => {
-                        setAddingCustomer(true);
-                        try {
-                          const result = await addCustomerFromNetworkAction(
-                            null,
-                            null,
-                            property.address_full,
-                            formatNameForDisplay(property.owner_name),
-                            property.address_city,
-                            property.address_state
-                          );
-                          if (result.error) {
-                            setError(result.error);
-                            return;
-                          }
-                          if (result.customerId) {
-                            router.push(`/app/customers/${result.customerId}`);
-                          }
-                        } catch (err) {
-                          console.error("Error adding customer:", err);
-                          setError("Failed to add customer.");
-                        } finally {
-                          setAddingCustomer(false);
-                        }
-                      }}
-                      disabled={addingCustomer}
-                      className="rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white hover:bg-copper-dark disabled:opacity-50"
+                    <Link
+                      href={`/app/add-customer?${new URLSearchParams({
+                        name: formatNameForDisplay(property.owner_name) || "",
+                        address: property.address_full || "",
+                        city: property.address_city || "",
+                        state: property.address_state || "",
+                        county: property.county || "",
+                      }).toString()}`}
+                      className="rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white hover:bg-copper-dark"
                     >
-                      {addingCustomer ? "Adding..." : "+ Add as Customer"}
-                    </button>
+                      + Add as Customer
+                    </Link>
                     <Link
                       href={`/app/search?tab=properties&id=${property.id}`}
                       className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-secondary hover:border-copper hover:text-copper"
