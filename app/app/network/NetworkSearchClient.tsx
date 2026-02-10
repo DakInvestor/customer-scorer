@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { searchNetwork, addCustomerFromNetworkAction } from "./actions";
-import { formatNameForDisplay } from "@/lib/name-utils";
 
 interface NetworkProfile {
   id: string;
@@ -29,8 +28,6 @@ interface PropertyRecord {
   address_city: string | null;
   address_state: string | null;
   address_zip: string | null;
-  owner_name: string | null;
-  owner_name_secondary: string | null;
   county: string | null;
   municipality: string | null;
   year_built: number | null;
@@ -46,7 +43,7 @@ interface NetworkSearchClientProps {
 
 export default function NetworkSearchClient({ businessId }: NetworkSearchClientProps) {
   const router = useRouter();
-  const [searchType, setSearchType] = useState<"phone" | "email" | "address" | "name">("phone");
+  const [searchType, setSearchType] = useState<"phone" | "email" | "address">("phone");
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [addingCustomer, setAddingCustomer] = useState(false);
@@ -114,13 +111,6 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
     if (searchType === "address") {
       if (searchValue.trim().length < 3) {
         setError("Please enter an address to search.");
-        return;
-      }
-    }
-
-    if (searchType === "name") {
-      if (searchValue.trim().length < 2) {
-        setError("Please enter a name to search.");
         return;
       }
     }
@@ -238,16 +228,6 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
           >
             Address
           </button>
-          <button
-            onClick={function() { setSearchType("name"); setSearchValue(""); }}
-            className={
-              searchType === "name"
-                ? "rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white"
-                : "rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-muted hover:text-charcoal"
-            }
-          >
-            Owner Name
-          </button>
         </div>
 
         <div className="flex gap-3">
@@ -270,22 +250,13 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                 placeholder="customer@example.com"
                 className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal placeholder-text-muted outline-none focus:border-copper"
               />
-            ) : searchType === "address" ? (
-              <input
-                type="text"
-                value={searchValue}
-                onChange={function(e) { setSearchValue(e.target.value); }}
-                onKeyDown={function(e) { if (e.key === "Enter") handleSearch(); }}
-                placeholder="123 Main St, Doylestown PA"
-                className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal placeholder-text-muted outline-none focus:border-copper"
-              />
             ) : (
               <input
                 type="text"
                 value={searchValue}
                 onChange={function(e) { setSearchValue(e.target.value); }}
                 onKeyDown={function(e) { if (e.key === "Enter") handleSearch(); }}
-                placeholder="John Smith"
+                placeholder="123 Main St, Doylestown PA"
                 className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal placeholder-text-muted outline-none focus:border-copper"
               />
             )}
@@ -307,8 +278,8 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
       {/* Results */}
       {searched && !loading && (
         <div>
-          {/* Property Records Results (for address or name search) */}
-          {(searchType === "address" || searchType === "name") && propertyRecords.length > 0 && (
+          {/* Property Records Results (for address search) */}
+          {searchType === "address" && propertyRecords.length > 0 && (
             <div className="space-y-4">
               <p className="text-sm text-text-muted">
                 Found {propertyRecords.length} propert{propertyRecords.length !== 1 ? "ies" : "y"} matching your search
@@ -334,12 +305,6 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                       <p className="text-sm text-text-muted">
                         {property.address_city}, {property.address_state} {property.address_zip}
                       </p>
-                      <p className="mt-2 text-sm text-text-secondary">
-                        Owner: {formatNameForDisplay(property.owner_name)}
-                        {property.owner_name_secondary && (
-                          <span> & {formatNameForDisplay(property.owner_name_secondary)}</span>
-                        )}
-                      </p>
                     </div>
                     <div className="text-right text-sm">
                       {property.year_built && (
@@ -358,7 +323,6 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                   <div className="mt-4 flex gap-3">
                     <Link
                       href={`/app/add-customer?${new URLSearchParams({
-                        name: formatNameForDisplay(property.owner_name) || "",
                         address: property.address_full || "",
                         city: property.address_city || "",
                         state: property.address_state || "",
@@ -380,19 +344,15 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
             </div>
           )}
 
-          {/* No property records found for address or name search */}
-          {(searchType === "address" || searchType === "name") && propertyRecords.length === 0 && (
+          {/* No property records found for address search */}
+          {searchType === "address" && propertyRecords.length === 0 && (
             <div className="rounded-xl border border-border bg-white p-8 text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface">
-                <span className="text-2xl">{searchType === "name" ? "👤" : "🏠"}</span>
+                <span className="text-2xl">🏠</span>
               </div>
-              <h3 className="text-lg font-semibold text-charcoal">
-                {searchType === "name" ? "No Owners Found" : "No Properties Found"}
-              </h3>
+              <h3 className="text-lg font-semibold text-charcoal">No Properties Found</h3>
               <p className="mt-2 text-text-secondary">
-                {searchType === "name"
-                  ? "No property owners match this name in our database."
-                  : "No property records match this address in our database."}
+                No property records match this address in our database.
               </p>
               <p className="mt-4 text-sm text-text-muted">
                 Property records are currently available for Bucks and Montgomery County, PA.
@@ -401,7 +361,7 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
           )}
 
           {/* Network Profile Results (for phone/email search) */}
-          {searchType !== "address" && searchType !== "name" && profile ? (
+          {searchType !== "address" && profile ? (
             <div className="rounded-xl border border-border bg-white overflow-hidden">
               {/* Header */}
               <div className="border-b border-border px-6 py-4">
@@ -575,7 +535,7 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                 </button>
               </div>
             </div>
-          ) : searchType !== "address" && searchType !== "name" ? (
+          ) : searchType !== "address" ? (
             <div className="rounded-xl border border-border bg-white p-8 text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface">
                 <span className="text-2xl">🔍</span>
@@ -607,7 +567,7 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
           </div>
           <h3 className="text-lg font-semibold text-charcoal">Check Before You Book</h3>
           <p className="mt-2 text-text-secondary">
-            Search by phone, email, address, or property owner name to check reliability and find leads.
+            Search by phone, email, or address to check customer reliability before booking.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-text-muted">
             <div className="flex items-center gap-2">
