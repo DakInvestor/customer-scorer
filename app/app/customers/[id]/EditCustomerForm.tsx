@@ -95,59 +95,59 @@ export default function EditCustomerForm({ customer }: Props) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="rounded-md bg-gray-700 px-4 py-2 text-sm font-medium hover:bg-gray-600"
+        className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-medium text-charcoal hover:bg-cream"
       >
         Edit
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-lg bg-gray-800 p-6">
-            <h2 className="mb-4 text-xl font-semibold">Edit customer</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl border border-border bg-white p-6 shadow-xl">
+            <h2 className="mb-4 text-xl font-semibold text-charcoal">Edit Customer</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-300">
-                  Full name <span className="text-red-400">*</span>
+                <label className="mb-1 block text-sm font-medium text-charcoal">
+                  Full name <span className="text-critical">*</span>
                 </label>
                 <input
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                  className="w-full rounded-md border border-border bg-cream px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-300">
+                <label className="mb-1 block text-sm font-medium text-charcoal">
                   Phone
                 </label>
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                  className="w-full rounded-md border border-border bg-cream px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-300">
+                <label className="mb-1 block text-sm font-medium text-charcoal">
                   Email
                 </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                  className="w-full rounded-md border border-border bg-cream px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
                 />
               </div>
 
-              <div className="border-t border-gray-700 pt-4">
-                <p className="mb-3 text-sm font-medium text-gray-400">Location</p>
+              <div className="border-t border-border pt-4">
+                <p className="mb-3 text-sm font-medium text-text-secondary">Location</p>
 
                 <div className="space-y-4">
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-300">
+                    <label className="mb-1 block text-sm font-medium text-charcoal">
                       Street Address
                     </label>
                     <input
@@ -155,33 +155,33 @@ export default function EditCustomerForm({ customer }: Props) {
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       placeholder="123 Main Street"
-                      className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                      className="w-full rounded-md border border-border bg-cream px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
                     />
-                    <p className="mt-1 text-xs text-gray-500">
+                    <p className="mt-1 text-xs text-text-muted">
                       Adding address enables property data lookup
                     </p>
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-300">
+                    <label className="mb-1 block text-sm font-medium text-charcoal">
                       City / Town
                     </label>
                     <input
                       type="text"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                      className="w-full rounded-md border border-border bg-cream px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-300">
+                    <label className="mb-1 block text-sm font-medium text-charcoal">
                       State
                     </label>
                     <select
                       value={state}
                       onChange={(e) => setState(e.target.value)}
-                      className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                      className="w-full rounded-md border border-border bg-cream px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
                     >
                       <option value="">Select state...</option>
                       {US_STATES.map((s) => (
@@ -191,21 +191,21 @@ export default function EditCustomerForm({ customer }: Props) {
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-300">
+                    <label className="mb-1 block text-sm font-medium text-charcoal">
                       County
                     </label>
                     <input
                       type="text"
                       value={county}
                       onChange={(e) => setCounty(e.target.value)}
-                      className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                      className="w-full rounded-md border border-border bg-cream px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
                     />
                   </div>
                 </div>
               </div>
 
               {error && (
-                <div className="rounded-md bg-red-900/50 px-4 py-2 text-sm text-red-200">
+                <div className="rounded-md border border-critical/30 bg-critical/10 px-4 py-2 text-sm text-critical">
                   {error}
                 </div>
               )}
@@ -214,14 +214,14 @@ export default function EditCustomerForm({ customer }: Props) {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex-1 rounded-md bg-white py-2.5 font-semibold text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+                  className="flex-1 rounded-lg bg-copper py-2.5 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
                 >
-                  {saving ? "Saving..." : "Save changes"}
+                  {saving ? "Saving..." : "Save Changes"}
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="flex-1 rounded-md bg-gray-700 py-2.5 font-semibold hover:bg-gray-600"
+                  className="flex-1 rounded-lg border border-border bg-white py-2.5 font-semibold text-charcoal hover:bg-cream"
                 >
                   Cancel
                 </button>

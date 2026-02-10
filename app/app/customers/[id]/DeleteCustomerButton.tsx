@@ -54,24 +54,24 @@ export default function DeleteCustomerButton({ customerId, customerName }: Props
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="rounded-md bg-red-900/50 px-4 py-2 text-sm font-medium text-red-200 hover:bg-red-900"
+        className="rounded-lg border border-critical/30 bg-critical/10 px-4 py-2 text-sm font-medium text-critical hover:bg-critical/20"
       >
         Delete
       </button>
 
       {/* Confirmation Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="w-full max-w-md rounded-lg bg-gray-800 p-6">
-            <h2 className="mb-2 text-xl font-semibold">Delete customer</h2>
-            <p className="mb-4 text-gray-400">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-md rounded-xl border border-border bg-white p-6 shadow-xl">
+            <h2 className="mb-2 text-xl font-semibold text-charcoal">Delete Customer</h2>
+            <p className="mb-4 text-text-secondary">
               Are you sure you want to delete{" "}
-              <strong className="text-white">{customerName || "this customer"}</strong>?
+              <strong className="text-charcoal">{customerName || "this customer"}</strong>?
               This will also delete all their event history. This action cannot be undone.
             </p>
 
             {error && (
-              <div className="mb-4 rounded-md bg-red-900/50 px-4 py-2 text-sm text-red-200">
+              <div className="mb-4 rounded-md border border-critical/30 bg-critical/10 px-4 py-2 text-sm text-critical">
                 {error}
               </div>
             )}
@@ -80,14 +80,14 @@ export default function DeleteCustomerButton({ customerId, customerName }: Props
               <button
                 onClick={handleDelete}
                 disabled={deleting}
-                className="flex-1 rounded-md bg-red-600 py-2.5 font-semibold text-white hover:bg-red-700 disabled:opacity-50"
+                className="flex-1 rounded-lg bg-critical py-2.5 font-semibold text-white hover:bg-red-700 disabled:opacity-50"
               >
-                {deleting ? "Deleting..." : "Yes, delete"}
+                {deleting ? "Deleting..." : "Yes, Delete"}
               </button>
               <button
                 onClick={() => setIsOpen(false)}
                 disabled={deleting}
-                className="flex-1 rounded-md bg-gray-700 py-2.5 font-semibold hover:bg-gray-600"
+                className="flex-1 rounded-lg border border-border bg-white py-2.5 font-semibold text-charcoal hover:bg-cream"
               >
                 Cancel
               </button>
