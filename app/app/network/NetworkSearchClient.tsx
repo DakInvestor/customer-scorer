@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { searchNetwork } from "./actions";
 
 interface NetworkProfile {
@@ -23,12 +24,23 @@ interface NetworkSearchClientProps {
 }
 
 export default function NetworkSearchClient({ businessId }: NetworkSearchClientProps) {
+  const router = useRouter();
   const [searchType, setSearchType] = useState<"phone" | "email">("phone");
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [profile, setProfile] = useState<NetworkProfile | null>(null);
   const [error, setError] = useState("");
+
+  function handleAddCustomer() {
+    const params = new URLSearchParams();
+    if (searchType === "phone") {
+      params.set("phone", searchValue);
+    } else {
+      params.set("email", searchValue);
+    }
+    router.push(`/app/add-customer?${params.toString()}`);
+  }
 
   function formatPhone(value: string): string {
     const digits = value.replace(/\D/g, "").slice(0, 10);
@@ -358,6 +370,16 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                 insurance, or housing decisions. To dispute this information, contact{" "}
                 <a href="mailto:disputes@myforsure.com" className="text-copper underline">disputes@myforsure.com</a>.
               </div>
+
+              {/* Add to Customers */}
+              <div className="border-t border-border px-6 py-4">
+                <button
+                  onClick={handleAddCustomer}
+                  className="w-full rounded-lg bg-copper px-4 py-3 font-medium text-white hover:bg-copper-dark sm:w-auto"
+                >
+                  + Add to My Customers
+                </button>
+              </div>
             </div>
           ) : (
             <div className="rounded-xl border border-border bg-white p-8 text-center">
@@ -371,6 +393,12 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
               <p className="mt-4 text-sm text-text-muted">
                 This could mean they're a new customer or have a clean record with no reports.
               </p>
+              <button
+                onClick={handleAddCustomer}
+                className="mt-6 rounded-lg bg-copper px-6 py-3 font-medium text-white hover:bg-copper-dark"
+              >
+                + Add to My Customers
+              </button>
             </div>
           )}
         </div>

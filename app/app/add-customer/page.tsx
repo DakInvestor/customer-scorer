@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { syncCustomerToNetworkAction } from "@/app/app/network/actions";
 
@@ -19,6 +19,7 @@ const US_STATES = [
 
 export default function AddCustomerPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -28,6 +29,14 @@ export default function AddCustomerPage() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [businessId, setBusinessId] = useState<string | null>(null);
+
+  // Pre-fill from URL params (from network search)
+  useEffect(() => {
+    const phoneParam = searchParams.get("phone");
+    const emailParam = searchParams.get("email");
+    if (phoneParam) setPhone(phoneParam);
+    if (emailParam) setEmail(emailParam);
+  }, [searchParams]);
 
   useEffect(() => {
     async function getBusinessId() {
