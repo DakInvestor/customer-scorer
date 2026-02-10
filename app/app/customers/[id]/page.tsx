@@ -50,9 +50,9 @@ function getReliabilityIndicator(score: number) {
 }
 
 function getRiskBadgeClasses(risk: string) {
-  if (risk === "Low") return "bg-green-900/50 text-green-200";
-  if (risk === "Medium") return "bg-yellow-900/50 text-yellow-200";
-  return "bg-red-900/50 text-red-200";
+  if (risk === "Low") return "border border-emerald/30 bg-emerald/10 text-emerald";
+  if (risk === "Medium") return "border border-amber/30 bg-amber/10 text-amber";
+  return "border border-critical/30 bg-critical/10 text-critical";
 }
 
 function getTrendIcon(trend: string) {
@@ -62,9 +62,9 @@ function getTrendIcon(trend: string) {
 }
 
 function getTrendClasses(trend: string) {
-  if (trend === "Improving") return "text-green-400";
-  if (trend === "Declining") return "text-red-400";
-  return "text-gray-400";
+  if (trend === "Improving") return "text-emerald";
+  if (trend === "Declining") return "text-critical";
+  return "text-text-muted";
 }
 
 export default async function CustomerDetailPage({ params }: PageProps) {
@@ -256,33 +256,33 @@ export default async function CustomerDetailPage({ params }: PageProps) {
         <h2 className="mb-4 text-lg font-semibold text-charcoal">Behavior Summary</h2>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          <div className="rounded-md bg-cream p-3">
-            <p className="text-xs uppercase tracking-wide text-text-muted">Total Events</p>
-            <p className="mt-1 text-2xl font-semibold">{analytics.totalEvents}</p>
+          <div className="rounded-md border border-border bg-white p-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-text-secondary">Total Events</p>
+            <p className="mt-1 text-2xl font-bold text-charcoal">{analytics.totalEvents}</p>
           </div>
-          <div className="rounded-md bg-green-900/30 p-3">
-            <p className="text-xs uppercase tracking-wide text-green-400">Positive</p>
-            <p className="mt-1 text-2xl font-semibold text-green-300">{analytics.positiveEvents}</p>
+          <div className="rounded-md border border-emerald/30 bg-emerald/10 p-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-emerald">Positive</p>
+            <p className="mt-1 text-2xl font-bold text-emerald">{analytics.positiveEvents}</p>
           </div>
-          <div className="rounded-md bg-cream p-3">
-            <p className="text-xs uppercase tracking-wide text-text-muted">Neutral</p>
-            <p className="mt-1 text-2xl font-semibold">{analytics.neutralEvents}</p>
+          <div className="rounded-md border border-border bg-white p-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-text-secondary">Neutral</p>
+            <p className="mt-1 text-2xl font-bold text-charcoal">{analytics.neutralEvents}</p>
           </div>
-          <div className="rounded-md bg-orange-900/30 p-3">
-            <p className="text-xs uppercase tracking-wide text-orange-400">Negative</p>
-            <p className="mt-1 text-2xl font-semibold text-orange-300">{analytics.negativeEvents}</p>
+          <div className="rounded-md border border-amber/30 bg-amber/10 p-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-amber">Negative</p>
+            <p className="mt-1 text-2xl font-bold text-amber">{analytics.negativeEvents}</p>
           </div>
-          <div className="rounded-md bg-red-900/30 p-3">
-            <p className="text-xs uppercase tracking-wide text-red-400">Severe</p>
-            <p className="mt-1 text-2xl font-semibold text-red-300">{analytics.severeEvents}</p>
+          <div className="rounded-md border border-critical/30 bg-critical/10 p-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-critical">Severe</p>
+            <p className="mt-1 text-2xl font-bold text-critical">{analytics.severeEvents}</p>
           </div>
         </div>
 
         {/* Recent negative activity */}
         {analytics.mostRecentNegativeTimeframe && (
-          <div className="mt-4 rounded-md bg-yellow-900/20 p-3">
-            <p className="text-sm text-yellow-200">
-              Most recent negative event: <strong>{analytics.mostRecentNegativeTimeframe}</strong>
+          <div className="mt-4 rounded-md border border-amber/30 bg-amber/10 p-3">
+            <p className="text-sm text-charcoal">
+              Most recent negative event: <strong className="text-amber">{analytics.mostRecentNegativeTimeframe}</strong>
             </p>
           </div>
         )}
@@ -290,17 +290,17 @@ export default async function CustomerDetailPage({ params }: PageProps) {
         {/* Behavior categories */}
         {analytics.behaviorCategories.length > 0 && (
           <div className="mt-4">
-            <p className="mb-2 text-xs uppercase tracking-wide text-text-muted">Behavior Patterns</p>
+            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-text-secondary">Behavior Patterns</p>
             <div className="flex flex-wrap gap-2">
               {analytics.behaviorCategories.map((cat) => (
                 <span
                   key={cat}
                   className={`rounded-full px-3 py-1 text-xs font-medium ${
                     cat === "Positive history"
-                      ? "bg-green-900/50 text-green-200"
+                      ? "border border-emerald/30 bg-emerald/10 text-emerald"
                       : cat === "Payment issues" || cat === "No-shows"
-                      ? "bg-red-900/50 text-red-200"
-                      : "bg-surface text-text-secondary"
+                      ? "border border-critical/30 bg-critical/10 text-critical"
+                      : "border border-border bg-white text-text-secondary"
                   }`}
                 >
                   {cat}
@@ -320,26 +320,37 @@ export default async function CustomerDetailPage({ params }: PageProps) {
         ) : (
           <div className="space-y-3">
             {typedNotes.map((note) => (
-              <div key={note.id} className="rounded-md bg-surface p-4">
+              <div key={note.id} className="rounded-lg border border-border bg-white p-4">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex flex-wrap items-center gap-2">
                     {note.note_type && (
-                      <span className="rounded bg-cream px-2 py-1 text-xs font-medium">
+                      <span className="rounded-md bg-charcoal/5 px-2.5 py-1 text-xs font-medium text-charcoal">
                         {note.note_type}
                       </span>
                     )}
-                    <span className={`rounded px-2 py-1 text-xs font-medium ${
-                      note.severity >= 4
-                        ? "bg-red-900/50 text-red-200"
-                        : note.severity >= 3
-                        ? "bg-orange-900/50 text-orange-200"
-                        : "bg-green-900/50 text-green-200"
+                    <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                      note.severity === 1
+                        ? "bg-emerald/20 text-emerald"
+                        : note.severity === 2
+                        ? "bg-blue-100 text-blue-700"
+                        : note.severity === 3
+                        ? "bg-amber/20 text-amber"
+                        : note.severity === 4
+                        ? "bg-orange-100 text-orange-700"
+                        : "bg-critical/20 text-critical"
                     }`}>
-                      Severity {note.severity}
+                      {note.severity === 1 ? "Positive" :
+                       note.severity === 2 ? "Minor" :
+                       note.severity === 3 ? "Moderate" :
+                       note.severity === 4 ? "Serious" : "Severe"}
                     </span>
                   </div>
                   <span className="text-xs text-text-muted">
-                    {new Date(note.created_at).toLocaleDateString()}
+                    {new Date(note.created_at).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric"
+                    })}
                   </span>
                 </div>
                 {note.note_text && (
