@@ -23,6 +23,14 @@ export async function POST(request: Request) {
     );
   }
 
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!webhookSecret) {
+    return NextResponse.json(
+      { error: "Stripe webhook secret not configured" },
+      { status: 503 }
+    );
+  }
+
   // Create clients inside the function to avoid build-time errors
   const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
   const stripe = new Stripe(stripeSecretKey, {
@@ -45,7 +53,7 @@ export async function POST(request: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      webhookSecret
     );
   } catch (err) {
     console.error("Webhook signature verification failed:", err);

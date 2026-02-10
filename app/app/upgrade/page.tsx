@@ -17,6 +17,7 @@ export default function UpgradePage() {
   const [business, setBusiness] = useState<BusinessInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Check URL params for success/cancel
   const [showSuccess, setShowSuccess] = useState(false);
@@ -66,6 +67,7 @@ export default function UpgradePage() {
 
   async function handleCheckout(tier: string) {
     setCheckoutLoading(tier);
+    setError(null);
 
     try {
       const response = await fetch("/api/stripe/create-checkout", {
@@ -77,7 +79,7 @@ export default function UpgradePage() {
       const data = await response.json();
 
       if (data.error) {
-        alert(data.error);
+        setError(data.error);
         return;
       }
 
@@ -86,13 +88,15 @@ export default function UpgradePage() {
       }
     } catch (err) {
       console.error("Checkout error:", err);
-      alert("Failed to start checkout. Please try again.");
+      setError("Failed to start checkout. Please try again.");
     } finally {
       setCheckoutLoading(null);
     }
   }
 
   async function handleManageBilling() {
+    setError(null);
+
     try {
       const response = await fetch("/api/stripe/create-portal", {
         method: "POST",
@@ -101,7 +105,7 @@ export default function UpgradePage() {
       const data = await response.json();
 
       if (data.error) {
-        alert(data.error);
+        setError(data.error);
         return;
       }
 
@@ -110,7 +114,7 @@ export default function UpgradePage() {
       }
     } catch (err) {
       console.error("Portal error:", err);
-      alert("Failed to open billing portal.");
+      setError("Failed to open billing portal. Please try again.");
     }
   }
 
@@ -156,6 +160,27 @@ export default function UpgradePage() {
               <p className="font-semibold text-amber">Checkout canceled</p>
               <p className="text-sm text-text-secondary">No charges were made. You can upgrade anytime.</p>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Banner */}
+      {error && (
+        <div className="mb-6 rounded-xl border border-critical/20 bg-critical/10 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">⚠️</span>
+              <div>
+                <p className="font-semibold text-critical">Error</p>
+                <p className="text-sm text-text-secondary">{error}</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setError(null)}
+              className="text-text-muted hover:text-charcoal"
+            >
+              ✕
+            </button>
           </div>
         </div>
       )}
