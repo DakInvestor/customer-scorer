@@ -386,6 +386,20 @@ export default function SettingsPage() {
           </Link>
         </section>
 
+        {/* Data Import */}
+        <section className="rounded-lg border-2 border-emerald/30 bg-emerald/5 p-6">
+          <h2 className="mb-2 text-lg font-semibold text-charcoal">Data Import</h2>
+          <p className="mb-4 text-sm text-text-muted">
+            Import property owners from your Supabase tables as customers.
+          </p>
+          <Link
+            href="/app/settings/import"
+            className="rounded-lg bg-emerald px-4 py-2.5 font-medium text-white hover:bg-emerald/80"
+          >
+            Import Property Data
+          </Link>
+        </section>
+
         {/* Business Settings */}
         <section className="rounded-lg bg-surface p-6">
           <h2 className="mb-4 text-lg font-semibold text-charcoal">Business Information</h2>
