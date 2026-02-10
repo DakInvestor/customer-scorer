@@ -21,6 +21,7 @@ type Customer = {
   full_name: string | null;
   email: string | null;
   phone: string | null;
+  address: string | null;
   city: string | null;
   state: string | null;
   county: string | null;
@@ -36,6 +37,7 @@ export default function EditCustomerForm({ customer }: Props) {
   const [fullName, setFullName] = useState(customer.full_name || "");
   const [email, setEmail] = useState(customer.email || "");
   const [phone, setPhone] = useState(customer.phone || "");
+  const [address, setAddress] = useState(customer.address || "");
   const [city, setCity] = useState(customer.city || "");
   const [state, setState] = useState(customer.state || "");
   const [county, setCounty] = useState(customer.county || "");
@@ -67,6 +69,7 @@ export default function EditCustomerForm({ customer }: Props) {
           full_name: fullName.trim() || null,
           email: email.trim() || null,
           phone: phone.trim() || null,
+          address: address.trim() || null,
           city: city.trim() || null,
           state: state || null,
           county: county.trim() || null,
@@ -143,6 +146,22 @@ export default function EditCustomerForm({ customer }: Props) {
                 <p className="mb-3 text-sm font-medium text-gray-400">Location</p>
 
                 <div className="space-y-4">
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-gray-300">
+                      Street Address
+                    </label>
+                    <input
+                      type="text"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="123 Main Street"
+                      className="w-full rounded-md bg-gray-700 px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-gray-500"
+                    />
+                    <p className="mt-1 text-xs text-gray-500">
+                      Adding address enables property data lookup
+                    </p>
+                  </div>
+
                   <div>
                     <label className="mb-1 block text-sm font-medium text-gray-300">
                       City / Town

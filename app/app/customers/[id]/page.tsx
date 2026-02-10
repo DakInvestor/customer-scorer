@@ -5,7 +5,9 @@ import { createSupabaseServerClient, getCurrentBusinessId } from "@/lib/supabase
 import AddNoteForm from "./AddNoteForm";
 import EditCustomerForm from "./EditCustomerForm";
 import DeleteCustomerButton from "./DeleteCustomerButton";
+import CustomerPropertyIntel from "@/components/CustomerPropertyIntel";
 import { calculateFullAnalytics, calculatePercentile } from "@/lib/scoring";
+import { getPropertyProfileForCustomer } from "@/app/app/property/actions";
 import type { NoteForScoring } from "@/lib/scoring";
 
 type PageProps = {
@@ -17,6 +19,7 @@ type Customer = {
   full_name: string | null;
   email: string | null;
   phone: string | null;
+  address: string | null;
   city: string | null;
   state: string | null;
   county: string | null;
@@ -130,6 +133,14 @@ export default async function CustomerDetailPage({ params }: PageProps) {
   const locationParts = [customer.city, customer.state].filter(Boolean);
   const location = locationParts.length > 0 ? locationParts.join(", ") : null;
 
+  // Try to find matching property data
+  const { profile: propertyProfile } = await getPropertyProfileForCustomer({
+    full_name: customer.full_name,
+    address: customer.address,
+    city: customer.city,
+    county: customer.county,
+  });
+
   return (
     <div className="p-4 sm:p-8">
       {/* Back link */}
@@ -214,6 +225,12 @@ export default async function CustomerDetailPage({ params }: PageProps) {
             <p className="text-xs uppercase tracking-wide text-text-muted">Email</p>
             <p className="mt-1">{customer.email || "—"}</p>
           </div>
+          {customer.address && (
+            <div className="sm:col-span-2">
+              <p className="text-xs uppercase tracking-wide text-text-muted">Address</p>
+              <p className="mt-1">{customer.address}</p>
+            </div>
+          )}
           <div>
             <p className="text-xs uppercase tracking-wide text-text-muted">Location</p>
             <p className="mt-1">{location || "—"}</p>
@@ -226,6 +243,13 @@ export default async function CustomerDetailPage({ params }: PageProps) {
           )}
         </div>
       </div>
+
+      {/* Property Intelligence */}
+      {propertyProfile && (
+        <div className="mb-6">
+          <CustomerPropertyIntel profile={propertyProfile} />
+        </div>
+      )}
 
       {/* Behavior Summary */}
       <div className="mb-6 rounded-lg bg-surface p-4 sm:p-6">

@@ -433,3 +433,141 @@ export async function getPermitsForAddress(
     return { permits: [], error: "Failed to load permits" };
   }
 }
+
+/**
+ * Find property matches for an existing customer
+ * Matches by address (if provided) or by name + location
+ */
+export async function findPropertyMatchesForCustomer(customer: {
+  full_name?: string | null;
+  address?: string | null;
+  city?: string | null;
+  county?: string | null;
+}): Promise<{ matches: PropertySearchResult[]; error?: string }> {
+  const user = await getCurrentUser();
+  if (!user) {
+    return { matches: [], error: "Not authenticated" };
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const matches: PropertySearchResult[] = [];
+
+  try {
+    // Priority 1: Match by address if provided
+    if (customer.address) {
+      const normalized = normalizeAddress(customer.address);
+      const searchStreet = normalized.street || customer.address.toUpperCase();
+
+      const { data: addressMatches } = await supabase
+        .from("property_records")
+        .select("*")
+        .ilike("address_full", `%${searchStreet}%`)
+        .limit(5);
+
+      if (addressMatches) {
+        for (const prop of addressMatches as PropertyRecord[]) {
+          // Check if city/county match for higher confidence
+          let confidence = 0.8;
+          if (customer.city && prop.municipality?.toLowerCase().includes(customer.city.toLowerCase())) {
+            confidence = 0.95;
+          }
+          if (customer.county && prop.county?.toLowerCase() === customer.county.toLowerCase()) {
+            confidence = Math.max(confidence, 0.9);
+          }
+
+          matches.push({
+            property: prop,
+            matchType: "address",
+            matchScore: confidence,
+          });
+        }
+      }
+    }
+
+    // Priority 2: Match by name + location if no address matches or address not provided
+    if (matches.length === 0 && customer.full_name) {
+      const parsed = parseName(customer.full_name);
+
+      // Skip if it looks like a business
+      if (!parsed.isBusinessEntity && parsed.lastName) {
+        const namePattern = parsed.firstName
+          ? `%${parsed.lastName}%${parsed.firstName}%`
+          : `%${parsed.lastName}%`;
+
+        let nameQuery = supabase
+          .from("property_records")
+          .select("*")
+          .or(`owner_name.ilike.${namePattern},owner_name_secondary.ilike.${namePattern}`)
+          .limit(10);
+
+        // Filter by county if available
+        if (customer.county) {
+          nameQuery = nameQuery.ilike("county", `%${customer.county}%`);
+        }
+
+        const { data: nameMatches } = await nameQuery;
+
+        if (nameMatches) {
+          for (const prop of nameMatches as PropertyRecord[]) {
+            // Calculate confidence based on name match quality and location
+            let confidence = 0.6;
+
+            // Boost if city matches
+            if (customer.city && prop.municipality?.toLowerCase().includes(customer.city.toLowerCase())) {
+              confidence += 0.2;
+            }
+
+            // Boost if county matches
+            if (customer.county && prop.county?.toLowerCase() === customer.county.toLowerCase()) {
+              confidence += 0.1;
+            }
+
+            matches.push({
+              property: prop,
+              matchType: "name",
+              matchScore: confidence,
+            });
+          }
+        }
+      }
+    }
+
+    // Sort by match score descending
+    matches.sort((a, b) => b.matchScore - a.matchScore);
+
+    return { matches: matches.slice(0, 5) };
+  } catch (err) {
+    console.error("Property match error:", err);
+    return { matches: [], error: "Failed to find property matches" };
+  }
+}
+
+/**
+ * Get property profile for a customer (using best match)
+ */
+export async function getPropertyProfileForCustomer(customer: {
+  full_name?: string | null;
+  address?: string | null;
+  city?: string | null;
+  county?: string | null;
+}): Promise<PropertyProfileResponse> {
+  const { matches, error } = await findPropertyMatchesForCustomer(customer);
+
+  if (error) {
+    return { profile: null, error };
+  }
+
+  if (matches.length === 0) {
+    return { profile: null };
+  }
+
+  // Get full profile for the best match (highest confidence)
+  const bestMatch = matches[0];
+
+  // Only return profile if confidence is >= 0.7
+  if (bestMatch.matchScore < 0.7) {
+    return { profile: null };
+  }
+
+  return getPropertyProfile(bestMatch.property.id);
+}

@@ -23,6 +23,7 @@ export default function AddCustomerPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [county, setCounty] = useState("");
@@ -89,6 +90,7 @@ export default function AddCustomerPage() {
         full_name: fullName.trim(),
         email: email.trim() || null,
         phone: phone.trim() || null,
+        address: address.trim() || null,
         city: city.trim() || null,
         state: state || null,
         county: county.trim() || null,
@@ -167,7 +169,23 @@ export default function AddCustomerPage() {
         <div className="border-t border-border pt-4">
           <p className="mb-3 text-sm font-medium text-text-secondary">Location (optional)</p>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="mb-1 block text-sm font-medium text-charcoal">
+              Street Address
+            </label>
+            <input
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="123 Main Street"
+              className="w-full rounded-md bg-surface px-4 py-2.5 text-charcoal outline-none focus:ring-2 focus:ring-copper"
+            />
+            <p className="mt-1 text-xs text-text-muted">
+              Adding an address enables property data lookup
+            </p>
+          </div>
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1 block text-sm font-medium text-charcoal">
                 City / Town
