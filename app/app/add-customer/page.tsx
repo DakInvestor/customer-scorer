@@ -3,8 +3,9 @@
 
 import { useState, useEffect, FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-import { syncCustomerToNetworkAction } from "@/app/app/network/actions";
+import { addCustomerAction, checkForDuplicateCustomer } from "./actions";
 
 const US_STATES = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
@@ -29,7 +30,14 @@ export default function AddCustomerPage() {
   const [county, setCounty] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [businessId, setBusinessId] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Duplicate detection state
+  const [duplicateWarning, setDuplicateWarning] = useState<{
+    existingCustomerId: string;
+    matchedOn: string;
+    existingCustomerName: string;
+  } | null>(null);
 
   // Pre-fill from URL params (from network/property search)
   useEffect(() => {
@@ -51,7 +59,7 @@ export default function AddCustomerPage() {
   }, [searchParams]);
 
   useEffect(() => {
-    async function getBusinessId() {
+    async function checkAuth() {
       const supabase = createSupabaseBrowserClient();
       const { data: { user } } = await supabase.auth.getUser();
 
@@ -60,22 +68,15 @@ export default function AddCustomerPage() {
         return;
       }
 
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("business_id")
-        .eq("id", user.id)
-        .single();
-
-      if (profile?.business_id) {
-        setBusinessId(profile.business_id);
-      }
+      setIsAuthenticated(true);
     }
-    getBusinessId();
+    checkAuth();
   }, [router]);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent, skipDuplicateCheck: boolean = false) => {
     e.preventDefault();
     setErrorMsg(null);
+    setDuplicateWarning(null);
 
     if (!fullName.trim()) {
       setErrorMsg("Name is required.");
@@ -87,38 +88,53 @@ export default function AddCustomerPage() {
       return;
     }
 
-    if (!businessId) {
-      setErrorMsg("Business not found. Please try logging in again.");
-      return;
-    }
-
     try {
       setLoading(true);
 
-      const supabase = createSupabaseBrowserClient();
+      // Check for duplicates first (unless skipping)
+      if (!skipDuplicateCheck) {
+        const duplicateCheck = await checkForDuplicateCustomer(
+          phone.trim() || null,
+          email.trim() || null,
+          address.trim() || null,
+          fullName.trim()
+        );
 
-      const { error } = await supabase.from("customers").insert({
-        full_name: fullName.trim(),
-        email: email.trim() || null,
-        phone: phone.trim() || null,
-        address: address.trim() || null,
-        city: city.trim() || null,
-        state: state || null,
-        county: county.trim() || null,
-        business_id: businessId,
-      });
-
-      if (error) {
-        console.error("Error inserting customer:", error);
-        setErrorMsg(error.message || "Failed to add customer.");
-        return;
+        if (duplicateCheck.isDuplicate && duplicateCheck.existingCustomerId) {
+          setDuplicateWarning({
+            existingCustomerId: duplicateCheck.existingCustomerId,
+            matchedOn: duplicateCheck.matchedOn || "unknown",
+            existingCustomerName: duplicateCheck.existingCustomerName || "Unknown",
+          });
+          setLoading(false);
+          return;
+        }
       }
 
-      // Sync to network (anonymized - only hashes and last 4 digits)
-      await syncCustomerToNetworkAction(
+      // Add the customer
+      const result = await addCustomerAction(
+        fullName.trim(),
         phone.trim() || null,
-        email.trim() || null
+        email.trim() || null,
+        address.trim() || null,
+        city.trim() || null,
+        state || null,
+        county.trim() || null,
+        skipDuplicateCheck
       );
+
+      if (!result.success) {
+        if (result.isDuplicate && result.existingCustomerId) {
+          setDuplicateWarning({
+            existingCustomerId: result.existingCustomerId,
+            matchedOn: result.matchedOn || "unknown",
+            existingCustomerName: result.error?.split(": ")[1] || "Unknown",
+          });
+        } else {
+          setErrorMsg(result.error || "Failed to add customer.");
+        }
+        return;
+      }
 
       router.push("/app/customers");
     } finally {
@@ -133,7 +149,46 @@ export default function AddCustomerPage() {
         Create a new customer profile to start tracking their reliability.
       </p>
 
-      <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
+      {/* Duplicate Warning */}
+      {duplicateWarning && (
+        <div className="mb-6 rounded-xl border border-amber/30 bg-amber/10 p-5">
+          <div className="flex items-start gap-4">
+            <span className="text-2xl">⚠️</span>
+            <div className="flex-1">
+              <p className="font-semibold text-charcoal">Possible duplicate customer</p>
+              <p className="mt-1 text-sm text-text-secondary">
+                A customer with the same <strong>{duplicateWarning.matchedOn}</strong> already exists:
+              </p>
+              <p className="mt-2 font-medium text-charcoal">
+                {duplicateWarning.existingCustomerName}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <Link
+                  href={`/app/customers/${duplicateWarning.existingCustomerId}`}
+                  className="rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white hover:bg-copper-dark"
+                >
+                  View Existing Customer
+                </Link>
+                <button
+                  onClick={(e) => handleSubmit(e, true)}
+                  disabled={loading}
+                  className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-secondary hover:bg-surface disabled:opacity-50"
+                >
+                  {loading ? "Adding..." : "Add Anyway"}
+                </button>
+                <button
+                  onClick={() => setDuplicateWarning(null)}
+                  className="rounded-lg px-4 py-2 text-sm text-text-muted hover:text-charcoal"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <form onSubmit={(e) => handleSubmit(e, false)} className="max-w-lg space-y-4">
         <div>
           <label className="mb-1 block text-sm font-medium text-charcoal">
             Full name <span className="text-red-400">*</span>
@@ -242,14 +297,14 @@ export default function AddCustomerPage() {
         </div>
 
         {errorMsg && (
-          <div className="rounded-md bg-red-900/50 px-4 py-2 text-sm text-red-200">
+          <div className="rounded-md bg-critical/20 border border-critical/30 px-4 py-2 text-sm text-critical">
             {errorMsg}
           </div>
         )}
 
         <button
           type="submit"
-          disabled={loading || !businessId}
+          disabled={loading || !isAuthenticated}
           className="w-full rounded-md bg-copper py-2.5 font-semibold text-white hover:bg-copper-dark disabled:opacity-50 sm:w-auto sm:px-6"
         >
           {loading ? "Adding..." : "Add customer"}
