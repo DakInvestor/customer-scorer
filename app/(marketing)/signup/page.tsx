@@ -223,15 +223,18 @@ export default function SignupPage() {
         throw bizError || new Error("Failed to create business.");
       }
 
-      // Update profile with business_id, verification status, and ensure non-admin
+      // Wait a moment for the profile trigger to create the profile
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Update or insert profile with business_id
       const { error: profileError } = await supabase
         .from("profiles")
-        .update({
+        .upsert({
+          id: userId,
           business_id: bizData.id,
           verification_status: "unverified",
           is_admin: false,
-        })
-        .eq("id", userId);
+        });
 
       if (profileError) {
         console.error("Profile update error:", profileError);
