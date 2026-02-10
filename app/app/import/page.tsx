@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { syncCustomerToNetwork } from "@/lib/network-sync";
 
 type ParsedCustomer = {
   full_name: string;
@@ -186,6 +187,12 @@ export default function ImportPage() {
         failed++;
       } else {
         success++;
+        // Sync to network (anonymized)
+        await syncCustomerToNetwork(
+          supabase,
+          customer.phone || null,
+          customer.email || null
+        );
       }
     }
 

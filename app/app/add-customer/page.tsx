@@ -4,6 +4,7 @@
 import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { syncCustomerToNetwork } from "@/lib/network-sync";
 
 const US_STATES = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
@@ -90,6 +91,13 @@ export default function AddCustomerPage() {
         setErrorMsg(error.message || "Failed to add customer.");
         return;
       }
+
+      // Sync to network (anonymized - only hashes and last 4 digits)
+      await syncCustomerToNetwork(
+        supabase,
+        phone.trim() || null,
+        email.trim() || null
+      );
 
       router.push("/app/customers");
     } finally {

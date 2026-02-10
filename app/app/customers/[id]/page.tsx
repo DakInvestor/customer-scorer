@@ -330,7 +330,12 @@ export default async function CustomerDetailPage({ params }: PageProps) {
       {/* Add Event Form */}
       <div className="rounded-lg bg-surface p-4 sm:p-6">
         <h2 className="mb-4 text-lg font-semibold text-charcoal">Log New Event</h2>
-        <AddNoteForm customerId={customer.id} businessId={businessId} />
+        <AddNoteForm
+          customerId={customer.id}
+          businessId={businessId}
+          customerPhone={customer.phone}
+          customerEmail={customer.email}
+        />
       </div>
     </div>
   );

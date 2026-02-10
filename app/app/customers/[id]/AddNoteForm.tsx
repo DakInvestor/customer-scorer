@@ -4,10 +4,13 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { updateNetworkFromNote } from "@/lib/network-sync";
 
 type AddNoteFormProps = {
   customerId: string;
   businessId: string;
+  customerPhone: string | null;
+  customerEmail: string | null;
 };
 
 // Predefined event types
@@ -19,7 +22,7 @@ const EVENT_OPTIONS = [
   { value: "REFUSED_TO_PAY", label: "Refused to pay / chargeback", severity: 5 },
 ];
 
-export default function AddNoteForm({ customerId, businessId }: AddNoteFormProps) {
+export default function AddNoteForm({ customerId, businessId, customerPhone, customerEmail }: AddNoteFormProps) {
   const router = useRouter();
 
   const [eventCode, setEventCode] = useState("");
@@ -61,6 +64,9 @@ export default function AddNoteForm({ customerId, businessId }: AddNoteFormProps
         setFormError(error.message || "Failed to save note.");
         return;
       }
+
+      // Update network with this event (anonymized)
+      await updateNetworkFromNote(supabase, customerPhone, customerEmail, severity);
 
       // Reset form
       setEventCode("");
