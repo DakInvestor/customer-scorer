@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { INDUSTRIES, INDUSTRY_CATEGORIES, type BusinessIndustry } from "@/lib/industry-types";
 
 type Props = {
   businessId: string;
@@ -31,18 +32,54 @@ export default function Onboarding({ businessId, initialStep }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Step 2: Add Customer
+  // Step 2: Industry Selection
+  const [selectedIndustry, setSelectedIndustry] = useState<BusinessIndustry | "">("");
+
+  // Step 3: Add Customer
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [createdCustomer, setCreatedCustomer] = useState<Customer | null>(null);
 
-  // Step 4: Network Search
+  // Step 5: Network Search
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<NetworkResult[] | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
 
   const supabase = createSupabaseBrowserClient();
+
+  // Group industries by category
+  const groupedIndustries = INDUSTRIES.reduce((acc, industry) => {
+    const category = industry.category;
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(industry);
+    return acc;
+  }, {} as Record<string, typeof INDUSTRIES[number][]>);
+
+  async function handleIndustrySelect() {
+    if (!selectedIndustry) {
+      setError("Please select your industry");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    const { error: updateError } = await supabase
+      .from("businesses")
+      .update({ industry: selectedIndustry })
+      .eq("id", businessId);
+
+    if (updateError) {
+      setError(updateError.message);
+      setLoading(false);
+      return;
+    }
+
+    await updateOnboardingStep(3);
+    setLoading(false);
+    setStep(3);
+  }
 
   async function updateOnboardingStep(newStep: number) {
     await supabase
@@ -55,7 +92,7 @@ export default function Onboarding({ businessId, initialStep }: Props) {
     setLoading(true);
     await supabase
       .from("businesses")
-      .update({ onboarding_completed: true, onboarding_step: 5 })
+      .update({ onboarding_completed: true, onboarding_step: 6 })
       .eq("id", businessId);
     router.refresh();
   }
@@ -93,8 +130,8 @@ export default function Onboarding({ businessId, initialStep }: Props) {
     }
 
     setCreatedCustomer(data);
-    await updateOnboardingStep(3);
-    setStep(3);
+    await updateOnboardingStep(4);
+    setStep(4);
   }
 
   async function handleLogEvent(noteType: string, severity: number) {
@@ -110,9 +147,9 @@ export default function Onboarding({ businessId, initialStep }: Props) {
       content: `Logged during onboarding: ${noteType}`,
     });
 
-    await updateOnboardingStep(4);
+    await updateOnboardingStep(5);
     setLoading(false);
-    setStep(4);
+    setStep(5);
   }
 
   async function handleNetworkSearch() {
@@ -148,7 +185,7 @@ export default function Onboarding({ businessId, initialStep }: Props) {
       .update({ has_searched_network: true })
       .eq("id", businessId);
 
-    await updateOnboardingStep(5);
+    await updateOnboardingStep(6);
     setLoading(false);
   }
 
@@ -169,10 +206,10 @@ export default function Onboarding({ businessId, initialStep }: Props) {
       <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl">
         {/* Progress Indicator */}
         <div className="flex justify-center gap-2 border-b border-border px-6 py-4">
-          {[1, 2, 3, 4, 5].map((s) => (
+          {[1, 2, 3, 4, 5, 6].map((s) => (
             <div
               key={s}
-              className={`h-2 w-8 rounded-full transition-colors ${
+              className={`h-2 w-6 rounded-full transition-colors ${
                 s <= step ? "bg-copper" : "bg-surface"
               }`}
             />
@@ -191,9 +228,8 @@ export default function Onboarding({ businessId, initialStep }: Props) {
                 Let&apos;s get you set up in under 2 minutes.
               </p>
               <p className="mb-8 text-sm text-text-muted">
-                ForSure helps you track customer reliability and check if
-                customers have been reliable with other businesses in the
-                network.
+                ForSure helps you track customer reliability and find qualified leads
+                based on your industry.
               </p>
               <button
                 onClick={() => {
@@ -207,8 +243,58 @@ export default function Onboarding({ businessId, initialStep }: Props) {
             </div>
           )}
 
-          {/* Step 2: Add First Customer */}
+          {/* Step 2: Industry Selection */}
           {step === 2 && (
+            <div>
+              <h2 className="mb-2 text-xl font-bold text-charcoal">
+                What&apos;s your industry?
+              </h2>
+              <p className="mb-6 text-sm text-text-secondary">
+                This unlocks tools and leads specific to your trade.
+              </p>
+
+              <div className="max-h-64 overflow-y-auto space-y-4">
+                {Object.entries(groupedIndustries).map(([category, industries]) => (
+                  <div key={category}>
+                    <p className="mb-2 text-xs font-medium uppercase tracking-wider text-text-muted">
+                      {INDUSTRY_CATEGORIES[category as keyof typeof INDUSTRY_CATEGORIES]}
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {industries.map((industry) => (
+                        <button
+                          key={industry.value}
+                          onClick={() => setSelectedIndustry(industry.value)}
+                          className={`flex items-center gap-2 rounded-lg border p-3 text-left text-sm transition-colors ${
+                            selectedIndustry === industry.value
+                              ? "border-copper bg-copper/10 text-copper"
+                              : "border-border bg-white hover:border-copper/50"
+                          }`}
+                        >
+                          <span>{industry.icon}</span>
+                          <span className="font-medium">{industry.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {error && (
+                <p className="mt-4 text-sm text-critical">{error}</p>
+              )}
+
+              <button
+                onClick={handleIndustrySelect}
+                disabled={loading || !selectedIndustry}
+                className="mt-6 w-full rounded-xl bg-copper px-6 py-3 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
+              >
+                {loading ? "Saving..." : "Continue"}
+              </button>
+            </div>
+          )}
+
+          {/* Step 3: Add First Customer */}
+          {step === 3 && (
             <div>
               <h2 className="mb-2 text-xl font-bold text-charcoal">
                 Add your first customer
@@ -271,7 +357,7 @@ export default function Onboarding({ businessId, initialStep }: Props) {
               </button>
 
               <button
-                onClick={() => skipToStep(3)}
+                onClick={() => skipToStep(4)}
                 className="mt-3 w-full text-sm text-text-muted hover:text-text-secondary"
               >
                 I&apos;ll do this later
@@ -279,8 +365,8 @@ export default function Onboarding({ businessId, initialStep }: Props) {
             </div>
           )}
 
-          {/* Step 3: Log First Event */}
-          {step === 3 && (
+          {/* Step 4: Log First Event */}
+          {step === 4 && (
             <div>
               <h2 className="mb-2 text-xl font-bold text-charcoal">
                 How has this customer been?
@@ -337,7 +423,7 @@ export default function Onboarding({ businessId, initialStep }: Props) {
               </div>
 
               <button
-                onClick={() => skipToStep(4)}
+                onClick={() => skipToStep(5)}
                 className="mt-6 w-full text-sm text-text-muted hover:text-text-secondary"
               >
                 Skip for now
@@ -345,8 +431,8 @@ export default function Onboarding({ businessId, initialStep }: Props) {
             </div>
           )}
 
-          {/* Step 4: Network Search */}
-          {step === 4 && (
+          {/* Step 5: Network Search */}
+          {step === 5 && (
             <div>
               <h2 className="mb-2 text-xl font-bold text-charcoal">
                 See if a customer is in the network
@@ -407,7 +493,7 @@ export default function Onboarding({ businessId, initialStep }: Props) {
               )}
 
               <button
-                onClick={hasSearched ? () => setStep(5) : handleNetworkSearch}
+                onClick={hasSearched ? () => setStep(6) : handleNetworkSearch}
                 disabled={loading}
                 className="w-full rounded-xl bg-copper px-6 py-3 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
               >
@@ -419,7 +505,7 @@ export default function Onboarding({ businessId, initialStep }: Props) {
               </button>
 
               <button
-                onClick={() => skipToStep(5)}
+                onClick={() => skipToStep(6)}
                 className="mt-3 w-full text-sm text-text-muted hover:text-text-secondary"
               >
                 Skip for now
@@ -427,8 +513,8 @@ export default function Onboarding({ businessId, initialStep }: Props) {
             </div>
           )}
 
-          {/* Step 5: All Done */}
-          {step === 5 && (
+          {/* Step 6: All Done */}
+          {step === 6 && (
             <div className="text-center">
               <div className="mb-4 text-4xl">🚀</div>
               <h2 className="mb-2 text-2xl font-bold text-charcoal">

@@ -5,17 +5,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-import { INDUSTRIES, INDUSTRY_CATEGORIES, type BusinessIndustry } from "@/lib/industry-types";
+import { INDUSTRIES, getIndustryLabel, getIndustryIcon } from "@/lib/industry-types";
 
 export default function IndustrySettingsPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [businessId, setBusinessId] = useState<string | null>(null);
-  const [primaryIndustry, setPrimaryIndustry] = useState<BusinessIndustry>("other");
-  const [secondaryIndustries, setSecondaryIndustries] = useState<BusinessIndustry[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const [currentIndustry, setCurrentIndustry] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadBusiness() {
@@ -34,75 +29,24 @@ export default function IndustrySettingsPage() {
         .single();
 
       if (!profile?.business_id) {
-        setError("No business found");
         setLoading(false);
         return;
       }
 
-      setBusinessId(profile.business_id);
-
       const { data: business } = await supabase
         .from("businesses")
-        .select("industry, secondary_industries")
+        .select("industry")
         .eq("id", profile.business_id)
         .single();
 
       if (business) {
-        setPrimaryIndustry((business.industry as BusinessIndustry) || "other");
-        setSecondaryIndustries((business.secondary_industries as BusinessIndustry[]) || []);
+        setCurrentIndustry(business.industry);
       }
 
       setLoading(false);
     }
     loadBusiness();
   }, [router]);
-
-  const handleSave = async () => {
-    if (!businessId) return;
-
-    setSaving(true);
-    setError(null);
-    setSuccess(false);
-
-    try {
-      const supabase = createSupabaseBrowserClient();
-
-      const { error: updateError } = await supabase
-        .from("businesses")
-        .update({
-          industry: primaryIndustry,
-          secondary_industries: secondaryIndustries,
-        })
-        .eq("id", businessId);
-
-      if (updateError) {
-        setError(updateError.message);
-        return;
-      }
-
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const toggleSecondary = (industry: BusinessIndustry) => {
-    if (industry === primaryIndustry) return;
-
-    setSecondaryIndustries((prev) =>
-      prev.includes(industry)
-        ? prev.filter((i) => i !== industry)
-        : [...prev, industry]
-    );
-  };
-
-  const groupedIndustries = INDUSTRIES.reduce((acc, industry) => {
-    const category = industry.category;
-    if (!acc[category]) acc[category] = [];
-    acc[category].push(industry);
-    return acc;
-  }, {} as Record<string, typeof INDUSTRIES[number][]>);
 
   if (loading) {
     return (
@@ -122,121 +66,68 @@ export default function IndustrySettingsPage() {
 
       <h1 className="mb-2 text-3xl font-bold text-charcoal">Industry Settings</h1>
       <p className="mb-8 text-text-muted">
-        Select your industry to see relevant tools and leads on your dashboard.
+        Your industry determines which tools and leads appear on your dashboard.
       </p>
 
-      {error && (
-        <div className="mb-6 rounded-lg border border-critical/30 bg-critical/10 px-4 py-3 text-sm text-critical">
-          {error}
-        </div>
-      )}
-
-      {success && (
-        <div className="mb-6 rounded-lg border border-emerald/30 bg-emerald/10 px-4 py-3 text-sm text-emerald">
-          Settings saved successfully!
-        </div>
-      )}
-
-      <div className="max-w-3xl space-y-8">
-        {/* Primary Industry */}
-        <div>
-          <h2 className="mb-4 text-lg font-semibold text-charcoal">Primary Industry</h2>
-          <p className="mb-4 text-sm text-text-muted">
-            This determines your main dashboard tools and default alerts.
+      <div className="max-w-xl">
+        {/* Current Industry */}
+        <div className="rounded-xl border border-border bg-white p-6">
+          <p className="text-sm font-medium uppercase tracking-wider text-text-muted mb-4">
+            Your Industry
           </p>
 
-          <div className="space-y-4">
-            {Object.entries(groupedIndustries).map(([category, industries]) => (
-              <div key={category}>
-                <h3 className="mb-2 text-sm font-medium text-text-secondary">
-                  {INDUSTRY_CATEGORIES[category as keyof typeof INDUSTRY_CATEGORIES]}
-                </h3>
-                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                  {industries.map((industry) => (
-                    <button
-                      key={industry.value}
-                      onClick={() => {
-                        setPrimaryIndustry(industry.value);
-                        setSecondaryIndustries((prev) =>
-                          prev.filter((i) => i !== industry.value)
-                        );
-                      }}
-                      className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-left transition-colors ${
-                        primaryIndustry === industry.value
-                          ? "border-copper bg-copper/10 text-copper"
-                          : "border-border bg-white hover:border-copper/50"
-                      }`}
-                    >
-                      <span className="text-xl">{industry.icon}</span>
-                      <span className="text-sm font-medium">{industry.label}</span>
-                    </button>
-                  ))}
-                </div>
+          {currentIndustry && currentIndustry !== "other" ? (
+            <div className="flex items-center gap-4">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-copper/10">
+                <span className="text-3xl">{getIndustryIcon(currentIndustry)}</span>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Secondary Industries */}
-        <div>
-          <h2 className="mb-4 text-lg font-semibold text-charcoal">Additional Services</h2>
-          <p className="mb-4 text-sm text-text-muted">
-            Select any additional services you offer to unlock more tools.
-          </p>
-
-          <div className="flex flex-wrap gap-2">
-            {INDUSTRIES.filter((i) => i.value !== primaryIndustry).map((industry) => (
-              <button
-                key={industry.value}
-                onClick={() => toggleSecondary(industry.value)}
-                className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors ${
-                  secondaryIndustries.includes(industry.value)
-                    ? "border-copper bg-copper/10 text-copper"
-                    : "border-border bg-white text-text-secondary hover:border-copper/50"
-                }`}
-              >
-                <span>{industry.icon}</span>
-                <span>{industry.label}</span>
-                {secondaryIndustries.includes(industry.value) && (
-                  <span className="ml-1">✓</span>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Summary */}
-        <div className="rounded-lg bg-surface p-6">
-          <h3 className="mb-2 font-semibold text-charcoal">Your Selection</h3>
-          <p className="text-sm text-text-secondary">
-            <strong>Primary:</strong>{" "}
-            {INDUSTRIES.find((i) => i.value === primaryIndustry)?.icon}{" "}
-            {INDUSTRIES.find((i) => i.value === primaryIndustry)?.label}
-          </p>
-          {secondaryIndustries.length > 0 && (
-            <p className="mt-1 text-sm text-text-secondary">
-              <strong>Also offering:</strong>{" "}
-              {secondaryIndustries
-                .map((i) => INDUSTRIES.find((ind) => ind.value === i)?.label)
-                .join(", ")}
-            </p>
+              <div>
+                <p className="text-xl font-bold text-charcoal">
+                  {getIndustryLabel(currentIndustry)}
+                </p>
+                <p className="text-sm text-text-muted">
+                  Set during account creation
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-4">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface">
+                <span className="text-3xl">📋</span>
+              </div>
+              <div>
+                <p className="text-xl font-bold text-charcoal">Not Set</p>
+                <p className="text-sm text-text-muted">
+                  Industry was not selected during signup
+                </p>
+              </div>
+            </div>
           )}
         </div>
 
-        {/* Save Button */}
-        <div className="flex gap-3">
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="rounded-lg bg-copper px-6 py-3 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
-          >
-            {saving ? "Saving..." : "Save Industry Settings"}
-          </button>
+        {/* Locked Notice */}
+        <div className="mt-6 rounded-xl border border-amber/30 bg-amber/10 p-6">
+          <div className="flex items-start gap-4">
+            <span className="text-2xl">🔒</span>
+            <div>
+              <p className="font-semibold text-charcoal">Industry is locked</p>
+              <p className="mt-1 text-sm text-text-secondary">
+                Your industry is set during account creation and cannot be changed through settings.
+                This ensures data consistency for your leads and tools.
+              </p>
+              <p className="mt-3 text-sm text-text-muted">
+                Need to change your industry? Contact support for assistance.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6">
           <Link
-            href="/app/settings/service-area"
-            className="rounded-lg border border-border px-6 py-3 font-semibold text-charcoal hover:bg-surface"
+            href="/app/settings"
+            className="rounded-lg border border-border px-6 py-3 font-semibold text-charcoal hover:bg-surface inline-block"
           >
-            Configure Service Area →
+            Back to Settings
           </Link>
         </div>
       </div>

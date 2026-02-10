@@ -31,8 +31,8 @@ type Business = {
   state: string | null;
   contact_email: string | null;
   created_at: string;
-  service_municipalities: string[] | null;
-  service_zip_codes: string[] | null;
+  service_area_municipalities: string[] | null;
+  service_area_zips: string[] | null;
 };
 
 type Profile = {
@@ -133,8 +133,8 @@ export default function SettingsPage() {
         setBusinessType(businessData.business_type || "");
         setCity(businessData.city || "");
         setState(businessData.state || "");
-        setServiceMunicipalities(businessData.service_municipalities || []);
-        setServiceZipCodes(businessData.service_zip_codes || []);
+        setServiceMunicipalities(businessData.service_area_municipalities || []);
+        setServiceZipCodes(businessData.service_area_zips || []);
       }
 
       // Load available municipalities from property_sales
@@ -285,8 +285,8 @@ export default function SettingsPage() {
       const { error } = await supabase
         .from("businesses")
         .update({
-          service_municipalities: serviceMunicipalities,
-          service_zip_codes: serviceZipCodes,
+          service_area_municipalities: serviceMunicipalities,
+          service_area_zips: serviceZipCodes,
         })
         .eq("id", business.id);
 
@@ -297,8 +297,8 @@ export default function SettingsPage() {
 
       setBusiness({
         ...business,
-        service_municipalities: serviceMunicipalities,
-        service_zip_codes: serviceZipCodes,
+        service_area_municipalities: serviceMunicipalities,
+        service_area_zips: serviceZipCodes,
       });
       setServiceAreaMessage({ type: "success", text: "Service area saved!" });
 
@@ -372,26 +372,18 @@ export default function SettingsPage() {
 
       <div className="max-w-2xl space-y-8">
 
-        {/* Industry & Dashboard Settings */}
+        {/* Service Area Settings */}
         <section className="rounded-lg border-2 border-copper/30 bg-copper/5 p-6">
-          <h2 className="mb-2 text-lg font-semibold text-charcoal">Industry & Dashboard</h2>
+          <h2 className="mb-2 text-lg font-semibold text-charcoal">Service Area</h2>
           <p className="mb-4 text-sm text-text-muted">
-            Configure your industry to see relevant tools and leads on your dashboard.
+            Configure the areas you serve to see relevant leads on your dashboard.
           </p>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/app/settings/industry"
-              className="rounded-lg bg-copper px-4 py-2.5 font-medium text-white hover:bg-copper-dark"
-            >
-              Configure Industry
-            </Link>
-            <Link
-              href="/app/settings/service-area"
-              className="rounded-lg border border-copper bg-white px-4 py-2.5 font-medium text-copper hover:bg-copper/10"
-            >
-              Set Service Area
-            </Link>
-          </div>
+          <Link
+            href="/app/settings/service-area"
+            className="rounded-lg bg-copper px-4 py-2.5 font-medium text-white hover:bg-copper-dark"
+          >
+            Configure Service Area
+          </Link>
         </section>
 
         {/* Business Settings */}

@@ -382,19 +382,11 @@ function DashboardContent({
       {/* Industry Tools Section */}
       {industry !== "other" && (
         <div className="mb-8">
-          <div className="mb-4 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">{getIndustryIcon(industry)}</span>
-              <h2 className="text-lg font-semibold text-charcoal">
-                {getIndustryLabel(industry)} Tools
-              </h2>
-            </div>
-            <Link
-              href="/app/settings/industry"
-              className="text-sm text-copper hover:text-copper-dark"
-            >
-              Change industry →
-            </Link>
+          <div className="mb-4 flex items-center gap-2">
+            <span className="text-2xl">{getIndustryIcon(industry)}</span>
+            <h2 className="text-lg font-semibold text-charcoal">
+              {getIndustryLabel(industry)} Tools
+            </h2>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {tools.slice(0, 8).map((tool) => (
@@ -436,17 +428,11 @@ function DashboardContent({
             </div>
             <div className="flex-1">
               <h2 className="text-lg font-semibold text-charcoal">
-                Get personalized tools for your industry
+                Industry not configured
               </h2>
               <p className="mt-1 text-sm text-text-secondary">
-                Select your industry to unlock specialized lead-finding tools, property insights, and more.
+                Your industry wasn&apos;t set during signup. Contact support to configure your industry and unlock specialized tools.
               </p>
-              <Link
-                href="/app/settings/industry"
-                className="mt-4 inline-block rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white hover:bg-copper-dark"
-              >
-                Choose Your Industry
-              </Link>
             </div>
           </div>
         </div>
