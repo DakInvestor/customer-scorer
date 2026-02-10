@@ -31,6 +31,8 @@ type Business = {
   state: string | null;
   contact_email: string | null;
   created_at: string;
+  service_municipalities: string[] | null;
+  service_zip_codes: string[] | null;
 };
 
 type Profile = {
@@ -53,6 +55,14 @@ export default function SettingsPage() {
   const [businessType, setBusinessType] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
+
+  // Service area state
+  const [serviceMunicipalities, setServiceMunicipalities] = useState<string[]>([]);
+  const [serviceZipCodes, setServiceZipCodes] = useState<string[]>([]);
+  const [availableMunicipalities, setAvailableMunicipalities] = useState<string[]>([]);
+  const [newZipCode, setNewZipCode] = useState("");
+  const [savingServiceArea, setSavingServiceArea] = useState(false);
+  const [serviceAreaMessage, setServiceAreaMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   // User state
   const [user, setUser] = useState<UserData | null>(null);
@@ -123,6 +133,22 @@ export default function SettingsPage() {
         setBusinessType(businessData.business_type || "");
         setCity(businessData.city || "");
         setState(businessData.state || "");
+        setServiceMunicipalities(businessData.service_municipalities || []);
+        setServiceZipCodes(businessData.service_zip_codes || []);
+      }
+
+      // Load available municipalities from property_sales
+      const { data: municipalities } = await supabase
+        .from("property_sales")
+        .select("municipality")
+        .not("municipality", "is", null)
+        .limit(500);
+
+      if (municipalities) {
+        const unique = [...new Set(
+          municipalities.map((m) => m.municipality).filter(Boolean)
+        )].sort() as string[];
+        setAvailableMunicipalities(unique);
       }
 
       setLoading(false);
@@ -245,6 +271,63 @@ export default function SettingsPage() {
     } finally {
       setSavingPassword(false);
     }
+  };
+
+  const handleSaveServiceArea = async () => {
+    if (!business) return;
+
+    setServiceAreaMessage(null);
+    setSavingServiceArea(true);
+
+    try {
+      const supabase = createSupabaseBrowserClient();
+
+      const { error } = await supabase
+        .from("businesses")
+        .update({
+          service_municipalities: serviceMunicipalities,
+          service_zip_codes: serviceZipCodes,
+        })
+        .eq("id", business.id);
+
+      if (error) {
+        setServiceAreaMessage({ type: "error", text: error.message });
+        return;
+      }
+
+      setBusiness({
+        ...business,
+        service_municipalities: serviceMunicipalities,
+        service_zip_codes: serviceZipCodes,
+      });
+      setServiceAreaMessage({ type: "success", text: "Service area saved!" });
+
+    } catch (err) {
+      console.error(err);
+      setServiceAreaMessage({ type: "error", text: "Failed to save." });
+    } finally {
+      setSavingServiceArea(false);
+    }
+  };
+
+  const toggleMunicipality = (municipality: string) => {
+    setServiceMunicipalities((prev) =>
+      prev.includes(municipality)
+        ? prev.filter((m) => m !== municipality)
+        : [...prev, municipality]
+    );
+  };
+
+  const addZipCode = () => {
+    const zip = newZipCode.trim();
+    if (zip && /^\d{5}$/.test(zip) && !serviceZipCodes.includes(zip)) {
+      setServiceZipCodes((prev) => [...prev, zip]);
+      setNewZipCode("");
+    }
+  };
+
+  const removeZipCode = (zip: string) => {
+    setServiceZipCodes((prev) => prev.filter((z) => z !== zip));
   };
 
   const handleDeleteAccount = async () => {
@@ -380,6 +463,113 @@ export default function SettingsPage() {
               {savingBusiness ? "Saving..." : "Save changes"}
             </button>
           </form>
+        </section>
+
+        {/* Service Area Settings */}
+        <section className="rounded-lg bg-surface p-6">
+          <h2 className="mb-2 text-lg font-semibold text-charcoal">Service Area</h2>
+          <p className="mb-4 text-sm text-text-muted">
+            Define your service area to filter new homeowner leads and get relevant property alerts.
+          </p>
+
+          <div className="space-y-6">
+            {/* Municipalities */}
+            <div>
+              <label className="mb-2 block text-sm font-medium text-text-secondary">
+                Municipalities / Townships
+              </label>
+              {availableMunicipalities.length > 0 ? (
+                <div className="max-h-48 overflow-y-auto rounded-lg border border-border bg-white p-3">
+                  <div className="flex flex-wrap gap-2">
+                    {availableMunicipalities.map((municipality) => (
+                      <button
+                        key={municipality}
+                        type="button"
+                        onClick={() => toggleMunicipality(municipality)}
+                        className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                          serviceMunicipalities.includes(municipality)
+                            ? "bg-copper text-white"
+                            : "bg-cream text-text-muted hover:bg-surface hover:text-charcoal"
+                        }`}
+                      >
+                        {municipality}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-sm text-text-muted italic">
+                  No municipalities available yet. They will appear once property data is loaded.
+                </p>
+              )}
+              {serviceMunicipalities.length > 0 && (
+                <p className="mt-2 text-xs text-text-muted">
+                  {serviceMunicipalities.length} selected
+                </p>
+              )}
+            </div>
+
+            {/* ZIP Codes */}
+            <div>
+              <label className="mb-2 block text-sm font-medium text-text-secondary">
+                ZIP Codes
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newZipCode}
+                  onChange={(e) => setNewZipCode(e.target.value.replace(/\D/g, "").slice(0, 5))}
+                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addZipCode(); } }}
+                  placeholder="Enter ZIP code"
+                  className="w-32 rounded-md border border-border bg-white px-3 py-2 text-charcoal outline-none focus:ring-2 focus:ring-copper"
+                />
+                <button
+                  type="button"
+                  onClick={addZipCode}
+                  disabled={!newZipCode || newZipCode.length !== 5}
+                  className="rounded-md bg-cream px-3 py-2 text-sm font-medium text-charcoal hover:bg-surface disabled:opacity-50"
+                >
+                  Add
+                </button>
+              </div>
+              {serviceZipCodes.length > 0 && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {serviceZipCodes.map((zip) => (
+                    <span
+                      key={zip}
+                      className="flex items-center gap-1 rounded-full bg-copper/10 px-3 py-1 text-xs font-medium text-copper"
+                    >
+                      {zip}
+                      <button
+                        type="button"
+                        onClick={() => removeZipCode(zip)}
+                        className="ml-1 hover:text-copper-dark"
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {serviceAreaMessage && (
+              <div className={`rounded-md px-4 py-2 text-sm ${
+                serviceAreaMessage.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+              }`}>
+                {serviceAreaMessage.text}
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={handleSaveServiceArea}
+              disabled={savingServiceArea}
+              className="rounded-md bg-copper px-4 py-2 font-semibold text-white hover:bg-copper-dark disabled:opacity-50"
+            >
+              {savingServiceArea ? "Saving..." : "Save service area"}
+            </button>
+          </div>
         </section>
 
         {/* Account Settings */}
