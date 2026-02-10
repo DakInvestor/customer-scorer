@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { searchNetwork } from "./actions";
+import { searchNetwork, addCustomerFromNetworkAction } from "./actions";
 
 interface NetworkProfile {
   id: string;
@@ -28,18 +28,36 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
   const [searchType, setSearchType] = useState<"phone" | "email">("phone");
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
+  const [addingCustomer, setAddingCustomer] = useState(false);
   const [searched, setSearched] = useState(false);
   const [profile, setProfile] = useState<NetworkProfile | null>(null);
   const [error, setError] = useState("");
 
-  function handleAddCustomer() {
-    const params = new URLSearchParams();
-    if (searchType === "phone") {
-      params.set("phone", searchValue);
-    } else {
-      params.set("email", searchValue);
+  async function handleAddCustomer() {
+    setAddingCustomer(true);
+    try {
+      const phone = searchType === "phone" ? searchValue : null;
+      const email = searchType === "email" ? searchValue : null;
+
+      const result = await addCustomerFromNetworkAction(phone, email);
+
+      if (result.error) {
+        setError(result.error);
+        return;
+      }
+
+      // Go directly to the new customer's page
+      if (result.customerId) {
+        router.push(`/app/customers/${result.customerId}`);
+      } else {
+        router.push("/app/customers");
+      }
+    } catch (err) {
+      console.error("Error adding customer:", err);
+      setError("Failed to add customer. Please try again.");
+    } finally {
+      setAddingCustomer(false);
     }
-    router.push(`/app/add-customer?${params.toString()}`);
   }
 
   function formatPhone(value: string): string {
@@ -375,9 +393,10 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
               <div className="border-t border-border px-6 py-4">
                 <button
                   onClick={handleAddCustomer}
-                  className="w-full rounded-lg bg-copper px-4 py-3 font-medium text-white hover:bg-copper-dark sm:w-auto"
+                  disabled={addingCustomer}
+                  className="w-full rounded-lg bg-copper px-4 py-3 font-medium text-white hover:bg-copper-dark disabled:opacity-50 sm:w-auto"
                 >
-                  + Add to My Customers
+                  {addingCustomer ? "Adding..." : "+ Add to My Customers"}
                 </button>
               </div>
             </div>
@@ -395,9 +414,10 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
               </p>
               <button
                 onClick={handleAddCustomer}
-                className="mt-6 rounded-lg bg-copper px-6 py-3 font-medium text-white hover:bg-copper-dark"
+                disabled={addingCustomer}
+                className="mt-6 rounded-lg bg-copper px-6 py-3 font-medium text-white hover:bg-copper-dark disabled:opacity-50"
               >
-                + Add to My Customers
+                {addingCustomer ? "Adding..." : "+ Add to My Customers"}
               </button>
             </div>
           )}

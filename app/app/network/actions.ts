@@ -203,6 +203,51 @@ export async function syncCustomerToNetworkAction(
   return { id: newRecord?.id || null };
 }
 
+export async function addCustomerFromNetworkAction(
+  phone: string | null,
+  email: string | null
+): Promise<{ success: boolean; customerId?: string; error?: string }> {
+  const user = await getCurrentUser();
+  if (!user) {
+    return { success: false, error: "Not authenticated" };
+  }
+
+  const supabase = await createSupabaseServerClient();
+
+  // Get user's business_id
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("business_id")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile?.business_id) {
+    return { success: false, error: "No business found" };
+  }
+
+  // Create minimal customer with just phone or email
+  const { data: newCustomer, error } = await supabase
+    .from("customers")
+    .insert({
+      full_name: "Unknown", // Placeholder - user will fill in later
+      phone: phone || null,
+      email: email || null,
+      business_id: profile.business_id,
+    })
+    .select("id")
+    .single();
+
+  if (error) {
+    console.error("Error creating customer:", error);
+    return { success: false, error: error.message };
+  }
+
+  // Also sync to network
+  await syncCustomerToNetworkAction(phone, email);
+
+  return { success: true, customerId: newCustomer?.id };
+}
+
 export async function updateNetworkFromNoteAction(
   phone: string | null,
   email: string | null,

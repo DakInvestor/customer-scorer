@@ -80,6 +80,21 @@ export default async function AppLayout({
           </div>
 
           <div className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
+            Property Intel
+          </div>
+          <div className="space-y-1">
+            <NavItem href="/app/leads">
+              <span className="flex items-center gap-2">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                New Homeowners
+                <span className="rounded bg-emerald/20 px-1.5 py-0.5 text-[10px] font-medium text-emerald">New</span>
+              </span>
+            </NavItem>
+          </div>
+
+          <div className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
             Customers
           </div>
           <div className="space-y-1">
