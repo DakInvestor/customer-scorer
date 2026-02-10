@@ -5,6 +5,7 @@ import { calculateCustomerScore } from "@/lib/scoring";
 import type { NoteForScoring } from "@/lib/scoring";
 import Onboarding from "@/components/Onboarding";
 import DashboardChecklist from "@/components/DashboardChecklist";
+import { syncBusinessCustomers } from "./network/sync-business";
 
 type Business = {
   id: string;
@@ -14,6 +15,7 @@ type Business = {
   has_searched_network: boolean | null;
   has_imported: boolean | null;
   checklist_dismissed: boolean | null;
+  network_synced: boolean | null;
 };
 
 type Customer = {
@@ -53,11 +55,16 @@ export default async function Dashboard() {
 
   const { data: business } = await supabase
     .from("businesses")
-    .select("id, name, onboarding_completed, onboarding_step, has_searched_network, has_imported, checklist_dismissed")
+    .select("id, name, onboarding_completed, onboarding_step, has_searched_network, has_imported, checklist_dismissed, network_synced")
     .eq("id", businessId)
     .single();
 
   const typedBusiness = business as Business | null;
+
+  // Auto-sync customers to network if not done yet (runs in background)
+  if (typedBusiness && !typedBusiness.network_synced) {
+    syncBusinessCustomers(businessId).catch(console.error);
+  }
 
   // Check if onboarding is needed
   const needsOnboarding = !typedBusiness?.onboarding_completed;
