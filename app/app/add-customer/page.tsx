@@ -4,7 +4,7 @@
 import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-import { syncCustomerToNetwork } from "@/lib/network-sync";
+import { syncCustomerToNetworkAction } from "@/app/app/network/actions";
 
 const US_STATES = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
@@ -93,8 +93,7 @@ export default function AddCustomerPage() {
       }
 
       // Sync to network (anonymized - only hashes and last 4 digits)
-      await syncCustomerToNetwork(
-        supabase,
+      await syncCustomerToNetworkAction(
         phone.trim() || null,
         email.trim() || null
       );

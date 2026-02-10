@@ -4,7 +4,7 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-import { updateNetworkFromNote } from "@/lib/network-sync";
+import { updateNetworkFromNoteAction } from "@/app/app/network/actions";
 
 type AddNoteFormProps = {
   customerId: string;
@@ -66,7 +66,7 @@ export default function AddNoteForm({ customerId, businessId, customerPhone, cus
       }
 
       // Update network with this event (anonymized)
-      await updateNetworkFromNote(supabase, customerPhone, customerEmail, severity);
+      await updateNetworkFromNoteAction(customerPhone, customerEmail, severity);
 
       // Reset form
       setEventCode("");

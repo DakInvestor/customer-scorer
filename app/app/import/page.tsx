@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-import { syncCustomerToNetwork } from "@/lib/network-sync";
+import { syncCustomerToNetworkAction } from "@/app/app/network/actions";
 
 type ParsedCustomer = {
   full_name: string;
@@ -188,8 +188,7 @@ export default function ImportPage() {
       } else {
         success++;
         // Sync to network (anonymized)
-        await syncCustomerToNetwork(
-          supabase,
+        await syncCustomerToNetworkAction(
           customer.phone || null,
           customer.email || null
         );

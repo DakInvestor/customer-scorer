@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { searchNetwork } from "./actions";
 
 interface NetworkProfile {
   id: string;
@@ -18,13 +18,6 @@ interface NetworkProfile {
   incident_breakdown: Record<string, number>;
 }
 
-interface EventCategory {
-  id: string;
-  name: string;
-  severity: string;
-  is_positive: boolean;
-}
-
 interface NetworkSearchClientProps {
   businessId: string | null;
 }
@@ -35,7 +28,6 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [profile, setProfile] = useState<NetworkProfile | null>(null);
-  const [categories, setCategories] = useState<EventCategory[]>([]);
   const [error, setError] = useState("");
 
   function formatPhone(value: string): string {
@@ -43,22 +35,6 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
     if (digits.length <= 3) return digits;
     if (digits.length <= 6) return "(" + digits.slice(0, 3) + ") " + digits.slice(3);
     return "(" + digits.slice(0, 3) + ") " + digits.slice(3, 6) + "-" + digits.slice(6);
-  }
-
-  function normalizePhone(phone: string): string {
-    return phone.replace(/\D/g, "");
-  }
-
-  function normalizeEmail(email: string): string {
-    return email.toLowerCase().trim();
-  }
-
-  async function hashValue(value: string): Promise<string> {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(value);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(function(b) { return b.toString(16).padStart(2, "0"); }).join("");
   }
 
   async function handleSearch() {
@@ -88,68 +64,14 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
     setProfile(null);
 
     try {
-      const supabase = createSupabaseBrowserClient();
+      const result = await searchNetwork(searchType, searchValue);
 
-      // Load categories first if not loaded
-      if (categories.length === 0) {
-        const { data: cats } = await supabase
-          .from("network_event_categories")
-          .select("id, name, severity, is_positive");
-        if (cats) {
-          setCategories(cats);
-        }
+      if (result.error) {
+        setError(result.error);
+        return;
       }
 
-      // Create hash of the search value
-      let hash: string;
-      if (searchType === "phone") {
-        hash = await hashValue(normalizePhone(searchValue));
-      } else {
-        hash = await hashValue(normalizeEmail(searchValue));
-      }
-
-      // Search for matching customer identifier
-      const column = searchType === "phone" ? "phone_hash" : "email_hash";
-      const { data, error: searchError } = await supabase
-        .from("customer_identifiers")
-        .select("*")
-        .eq(column, hash)
-        .single();
-
-      if (searchError && searchError.code !== "PGRST116") {
-        throw searchError;
-      }
-
-      if (data) {
-        // Get incident breakdown
-        const { data: incidents } = await supabase
-          .from("network_incident_counts")
-          .select("event_category_id, active_count")
-          .eq("customer_identifier_id", data.id)
-          .gt("active_count", 0);
-
-        const breakdown: Record<string, number> = {};
-        if (incidents) {
-          incidents.forEach(function(inc) {
-            breakdown[inc.event_category_id] = inc.active_count;
-          });
-        }
-
-        setProfile({
-          ...data,
-          incident_breakdown: breakdown,
-        });
-      } else {
-        setProfile(null);
-      }
-
-      // Mark that user has searched the network (for checklist)
-      if (businessId) {
-        await supabase
-          .from("businesses")
-          .update({ has_searched_network: true })
-          .eq("id", businessId);
-      }
+      setProfile(result.profile || null);
     } catch (err) {
       console.error("Search error:", err);
       setError("Search failed. Please try again.");
@@ -159,8 +81,8 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
   }
 
   function getCategoryName(categoryId: string): string {
-    const cat = categories.find(function(c) { return c.id === categoryId; });
-    return cat ? cat.name : categoryId;
+    // Category names are stored in the incident breakdown from server
+    return categoryId;
   }
 
   function getRiskColor(tier: string): string {
@@ -349,18 +271,13 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                 {Object.keys(profile.incident_breakdown).length > 0 ? (
                   <div className="grid gap-3 sm:grid-cols-2">
                     {Object.entries(profile.incident_breakdown).map(function([categoryId, count]) {
-                      const isPositive = categories.find(function(c) { return c.id === categoryId; })?.is_positive;
                       return (
                         <div
                           key={categoryId}
                           className="flex items-center justify-between rounded-lg border border-border bg-cream px-4 py-3"
                         >
                           <span className="text-sm text-text-secondary">{getCategoryName(categoryId)}</span>
-                          <span className={
-                            isPositive
-                              ? "rounded-full bg-emerald/20 px-3 py-1 text-sm font-medium text-emerald"
-                              : "rounded-full bg-critical/20 px-3 py-1 text-sm font-medium text-critical"
-                          }>
+                          <span className="rounded-full bg-critical/20 px-3 py-1 text-sm font-medium text-critical">
                             Reported
                           </span>
                         </div>
