@@ -718,7 +718,7 @@ export default function SettingsPage() {
             Download your customer and event data as CSV files.
           </p>
           <Link
-            href="/export"
+            href="/app/export"
             className="inline-block rounded-md bg-cream px-4 py-2 text-sm font-medium text-charcoal hover:bg-surface"
           >
             Export Data
@@ -735,7 +735,7 @@ export default function SettingsPage() {
             <Link href="/privacy" className="text-sm text-text-muted hover:text-charcoal underline">
               Privacy Policy
             </Link>
-            <Link href="/reliability-info" className="text-sm text-text-muted hover:text-charcoal underline">
+            <Link href="/app/reliability-info" className="text-sm text-text-muted hover:text-charcoal underline">
               How It Works
             </Link>
           </div>

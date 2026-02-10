@@ -145,7 +145,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
     <div className="p-4 sm:p-8">
       {/* Back link */}
       <div className="mb-4">
-        <Link href="/customers" className="text-sm text-text-muted hover:text-charcoal">
+        <Link href="/app/customers" className="text-sm text-text-muted hover:text-charcoal">
           ← Back to customers
         </Link>
       </div>

@@ -169,7 +169,7 @@ export default function ExportPage() {
   return (
     <div className="p-4 sm:p-8">
       <div className="mb-6">
-        <Link href="/settings" className="text-sm text-text-muted hover:text-charcoal">
+        <Link href="/app/settings" className="text-sm text-text-muted hover:text-charcoal">
           ← Back to settings
         </Link>
       </div>

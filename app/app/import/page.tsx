@@ -214,7 +214,7 @@ export default function ImportPage() {
     <div className="p-8">
       <div className="mb-6">
         <Link
-          href="/customers"
+          href="/app/customers"
           className="text-sm text-text-muted hover:text-charcoal"
         >
           ← Back to customers
@@ -236,7 +236,7 @@ export default function ImportPage() {
           </p>
           <div className="mt-4 flex gap-3">
             <Link
-              href="/customers"
+              href="/app/customers"
               className="rounded-md bg-copper px-4 py-2 text-sm font-semibold text-white hover:bg-copper-dark"
             >
               View customers
