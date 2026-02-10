@@ -288,10 +288,9 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                 Found {propertyRecords.length} propert{propertyRecords.length !== 1 ? "ies" : "y"} matching your search
               </p>
               {propertyRecords.map((property) => (
-                <Link
+                <div
                   key={property.id}
-                  href={`/app/search?tab=properties&id=${property.id}`}
-                  className="block rounded-xl border border-border bg-white p-5 hover:border-copper transition-colors"
+                  className="rounded-xl border border-border bg-white p-5"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -330,7 +329,46 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                       )}
                     </div>
                   </div>
-                </Link>
+                  <div className="mt-4 flex gap-3">
+                    <button
+                      onClick={async () => {
+                        setAddingCustomer(true);
+                        try {
+                          const result = await addCustomerFromNetworkAction(
+                            null,
+                            null,
+                            property.address_full,
+                            formatNameForDisplay(property.owner_name),
+                            property.address_city,
+                            property.address_state
+                          );
+                          if (result.error) {
+                            setError(result.error);
+                            return;
+                          }
+                          if (result.customerId) {
+                            router.push(`/app/customers/${result.customerId}`);
+                          }
+                        } catch (err) {
+                          console.error("Error adding customer:", err);
+                          setError("Failed to add customer.");
+                        } finally {
+                          setAddingCustomer(false);
+                        }
+                      }}
+                      disabled={addingCustomer}
+                      className="rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white hover:bg-copper-dark disabled:opacity-50"
+                    >
+                      {addingCustomer ? "Adding..." : "+ Add as Customer"}
+                    </button>
+                    <Link
+                      href={`/app/search?tab=properties&id=${property.id}`}
+                      className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-secondary hover:border-copper hover:text-copper"
+                    >
+                      View Details
+                    </Link>
+                  </div>
+                </div>
               ))}
             </div>
           )}

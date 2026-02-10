@@ -303,7 +303,10 @@ export async function syncCustomerToNetworkAction(
 export async function addCustomerFromNetworkAction(
   phone: string | null,
   email: string | null,
-  address: string | null = null
+  address: string | null = null,
+  fullName: string | null = null,
+  city: string | null = null,
+  state: string | null = null
 ): Promise<{ success: boolean; customerId?: string; error?: string }> {
   const user = await getCurrentUser();
   if (!user) {
@@ -323,14 +326,16 @@ export async function addCustomerFromNetworkAction(
     return { success: false, error: "No business found" };
   }
 
-  // Create minimal customer with phone, email, or address
+  // Create customer with all available info
   const { data: newCustomer, error } = await supabase
     .from("customers")
     .insert({
-      full_name: "Unknown", // Placeholder - user will fill in later
+      full_name: fullName || "Unknown",
       phone: phone || null,
       email: email || null,
       address: address || null,
+      city: city || null,
+      state: state || null,
       business_id: profile.business_id,
     })
     .select("id")
