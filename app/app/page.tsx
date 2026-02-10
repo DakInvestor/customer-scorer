@@ -60,9 +60,8 @@ export default async function Dashboard() {
   const typedBusiness = business as Business | null;
 
   // Check if onboarding is needed
-  // TEMPORARILY DISABLED FOR DEBUGGING
-  const needsOnboarding = false; // !typedBusiness?.onboarding_completed;
-  const showChecklist = false; // typedBusiness?.onboarding_completed && !typedBusiness?.checklist_dismissed;
+  const needsOnboarding = !typedBusiness?.onboarding_completed;
+  const showChecklist = typedBusiness?.onboarding_completed && !typedBusiness?.checklist_dismissed;
 
   const { data: customers } = await supabase
     .from("customers")

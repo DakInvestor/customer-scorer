@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { approveVerification, rejectVerification } from "@/app/app/admin/actions";
 
 interface VerificationDocument {
   id: string;
@@ -52,19 +52,9 @@ export default function AdminVerificationList({ businesses }: AdminVerificationL
 
   async function handleApprove(profileId: string) {
     setLoading(profileId);
-    const supabase = createSupabaseBrowserClient();
-
-    const { error } = await supabase
-      .from("profiles")
-      .update({
-        verification_status: "verified",
-        verification_reviewed_at: new Date().toISOString(),
-        verification_notes: notes[profileId] || null,
-      })
-      .eq("id", profileId);
-
-    if (error) {
-      alert("Failed to approve");
+    const result = await approveVerification(profileId, notes[profileId]);
+    if (result.error) {
+      alert(result.error);
     } else {
       router.refresh();
     }
@@ -73,19 +63,9 @@ export default function AdminVerificationList({ businesses }: AdminVerificationL
 
   async function handleReject(profileId: string) {
     setLoading(profileId);
-    const supabase = createSupabaseBrowserClient();
-
-    const { error } = await supabase
-      .from("profiles")
-      .update({
-        verification_status: "rejected",
-        verification_reviewed_at: new Date().toISOString(),
-        verification_notes: notes[profileId] || null,
-      })
-      .eq("id", profileId);
-
-    if (error) {
-      alert("Failed to reject");
+    const result = await rejectVerification(profileId, notes[profileId]);
+    if (result.error) {
+      alert(result.error);
     } else {
       router.refresh();
     }
