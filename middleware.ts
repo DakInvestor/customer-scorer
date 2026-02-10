@@ -35,14 +35,8 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
-
-  // If not logged in, redirect to login
-  if (!user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
-  }
+  // Just refresh the session - let the page handle auth checks
+  await supabase.auth.getUser();
 
   return supabaseResponse;
 }
