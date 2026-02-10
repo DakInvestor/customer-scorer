@@ -118,6 +118,7 @@ export default async function AppLayout({
               </div>
               <div className="space-y-1">
                 <NavItem href="/app/admin">Review Verifications</NavItem>
+                <NavItem href="/app/admin/property-sync">Property Sync</NavItem>
               </div>
             </>
           )}

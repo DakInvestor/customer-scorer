@@ -107,6 +107,7 @@ export default function MobileNav({ email, verificationStatus = "unverified", is
                 <>
                   <p className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-text-muted">Admin</p>
                   <MobileNavItem href="/app/admin" onClick={closeMenu}>Review Verifications</MobileNavItem>
+                  <MobileNavItem href="/app/admin/property-sync" onClick={closeMenu}>Property Sync</MobileNavItem>
                 </>
               )}
 
