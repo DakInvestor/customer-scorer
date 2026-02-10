@@ -372,6 +372,28 @@ export default function SettingsPage() {
 
       <div className="max-w-2xl space-y-8">
 
+        {/* Industry & Dashboard Settings */}
+        <section className="rounded-lg border-2 border-copper/30 bg-copper/5 p-6">
+          <h2 className="mb-2 text-lg font-semibold text-charcoal">Industry & Dashboard</h2>
+          <p className="mb-4 text-sm text-text-muted">
+            Configure your industry to see relevant tools and leads on your dashboard.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/app/settings/industry"
+              className="rounded-lg bg-copper px-4 py-2.5 font-medium text-white hover:bg-copper-dark"
+            >
+              Configure Industry
+            </Link>
+            <Link
+              href="/app/settings/service-area"
+              className="rounded-lg border border-copper bg-white px-4 py-2.5 font-medium text-copper hover:bg-copper/10"
+            >
+              Set Service Area
+            </Link>
+          </div>
+        </section>
+
         {/* Business Settings */}
         <section className="rounded-lg bg-surface p-6">
           <h2 className="mb-4 text-lg font-semibold text-charcoal">Business Information</h2>
@@ -709,20 +731,6 @@ export default function SettingsPage() {
               {savingNotifications ? "Saving..." : "Save preferences"}
             </button>
           </div>
-        </section>
-
-        {/* Data Export */}
-        <section className="rounded-lg bg-surface p-6">
-          <h2 className="mb-2 text-lg font-semibold text-charcoal">Data Export</h2>
-          <p className="mb-4 text-sm text-text-muted">
-            Download your customer and event data as CSV files.
-          </p>
-          <Link
-            href="/app/export"
-            className="inline-block rounded-md bg-cream px-4 py-2 text-sm font-medium text-charcoal hover:bg-surface"
-          >
-            Export Data
-          </Link>
         </section>
 
         {/* Legal */}

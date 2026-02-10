@@ -1,8 +1,8 @@
 // app/search/page.tsx
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, FormEvent, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { calculateCustomerScore, getScoreLabel } from "@/lib/scoring";
@@ -38,8 +38,9 @@ function getScoreBadgeClasses(score: number) {
   return "bg-critical text-white";
 }
 
-export default function SearchPage() {
+function SearchPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [query, setQuery] = useState("");
   const [businessId, setBusinessId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<SearchTab>("customers");
@@ -56,6 +57,30 @@ export default function SearchPage() {
   const [selectedProperty, setSelectedProperty] = useState<PropertyProfile | null>(null);
   const [propertyProfileLoading, setPropertyProfileLoading] = useState(false);
   const [addingCustomer, setAddingCustomer] = useState(false);
+
+  // Handle URL params for direct property access
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    const propertyId = searchParams.get("id");
+
+    if (tab === "properties") {
+      setActiveTab("properties");
+
+      if (propertyId) {
+        // Load the property profile directly
+        setPropertyProfileLoading(true);
+        getPropertyProfile(propertyId)
+          .then((result) => {
+            if (result.profile) {
+              setSelectedProperty(result.profile);
+            }
+          })
+          .finally(() => {
+            setPropertyProfileLoading(false);
+          });
+      }
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     async function getBusinessId() {
@@ -340,7 +365,13 @@ export default function SearchPage() {
           {selectedProperty && (
             <div className="mb-6">
               <button
-                onClick={() => setSelectedProperty(null)}
+                onClick={() => {
+                  setSelectedProperty(null);
+                  // Clear URL params if they were set
+                  if (searchParams.get("id")) {
+                    router.replace("/app/search?tab=properties");
+                  }
+                }}
                 className="mb-4 text-sm text-copper hover:text-copper-dark"
               >
                 ← Back to results
@@ -462,5 +493,18 @@ export default function SearchPage() {
         </>
       )}
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="p-4 sm:p-8">
+        <h1 className="mb-2 text-3xl font-bold text-charcoal">Search</h1>
+        <p className="text-text-muted">Loading...</p>
+      </div>
+    }>
+      <SearchPageContent />
+    </Suspense>
   );
 }

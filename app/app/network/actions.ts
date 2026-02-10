@@ -57,7 +57,7 @@ async function hashValue(value: string): Promise<string> {
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-export async function searchNetwork(searchType: "phone" | "email" | "address", searchValue: string) {
+export async function searchNetwork(searchType: "phone" | "email" | "address" | "name", searchValue: string) {
   const user = await getCurrentUser();
   if (!user) {
     return { error: "Not authenticated" };
@@ -78,25 +78,48 @@ export async function searchNetwork(searchType: "phone" | "email" | "address", s
   // Use admin client to bypass RLS
   const adminClient = createSupabaseAdminClient();
 
-  // For address searches, search property_records directly
+  // For address searches, search property_records directly with flexible matching
   if (searchType === "address") {
-    const normalized = normalizeAddressUtil(searchValue);
-    const searchPattern = `%${normalized.street || searchValue.toUpperCase()}%`;
+    const searchTerm = searchValue.trim().toUpperCase();
 
-    // Search property records
-    const { data: properties, error: propError } = await adminClient
+    // Split search into parts for flexible matching
+    const parts = searchTerm.split(/[\s,]+/).filter(p => p.length > 0);
+
+    // Build search patterns - try multiple approaches
+    let properties: PropertyRecord[] = [];
+
+    // First try: exact-ish match with ILIKE
+    const { data: exactMatch, error: exactError } = await adminClient
       .from("property_records")
       .select("*")
-      .ilike("address_full", searchPattern)
-      .limit(10);
+      .ilike("address_full", `%${searchTerm}%`)
+      .limit(20);
 
-    if (propError) {
-      console.error("Property search error:", propError);
-      return { error: "Search failed" };
-    }
+    if (!exactError && exactMatch && exactMatch.length > 0) {
+      properties = exactMatch as PropertyRecord[];
+    } else if (parts.length >= 2) {
+      // Second try: match by street number + street name
+      const streetNum = parts[0];
+      const streetName = parts.slice(1).join(" ");
 
-    if (!properties || properties.length === 0) {
-      return { profile: null, propertyRecords: [] };
+      const { data: partialMatch } = await adminClient
+        .from("property_records")
+        .select("*")
+        .ilike("address_full", `%${streetNum}%${streetName}%`)
+        .limit(20);
+
+      if (partialMatch && partialMatch.length > 0) {
+        properties = partialMatch as PropertyRecord[];
+      } else {
+        // Third try: just street name
+        const { data: streetMatch } = await adminClient
+          .from("property_records")
+          .select("*")
+          .ilike("address_street", `%${streetName}%`)
+          .limit(20);
+
+        properties = (streetMatch || []) as PropertyRecord[];
+      }
     }
 
     // Mark that user has searched the network (for checklist)
@@ -109,7 +132,62 @@ export async function searchNetwork(searchType: "phone" | "email" | "address", s
 
     return {
       profile: null,
-      propertyRecords: properties as PropertyRecord[],
+      propertyRecords: properties,
+    };
+  }
+
+  // For name searches, search property_records by owner name
+  if (searchType === "name") {
+    const searchTerm = searchValue.trim().toUpperCase();
+    const parts = searchTerm.split(/\s+/).filter(p => p.length > 0);
+
+    let properties: PropertyRecord[] = [];
+
+    // Try exact match first
+    const { data: exactMatch } = await adminClient
+      .from("property_records")
+      .select("*")
+      .ilike("owner_name", `%${searchTerm}%`)
+      .limit(30);
+
+    if (exactMatch && exactMatch.length > 0) {
+      properties = exactMatch as PropertyRecord[];
+    } else if (parts.length >= 1) {
+      // Try matching just the last name (common format is "LASTNAME, FIRSTNAME")
+      const lastName = parts[parts.length > 1 ? parts.length - 1 : 0];
+
+      const { data: lastNameMatch } = await adminClient
+        .from("property_records")
+        .select("*")
+        .ilike("owner_name", `${lastName}%`)
+        .limit(30);
+
+      if (lastNameMatch && lastNameMatch.length > 0) {
+        properties = lastNameMatch as PropertyRecord[];
+      } else if (parts.length > 1) {
+        // Try first name search
+        const firstName = parts[0];
+        const { data: firstNameMatch } = await adminClient
+          .from("property_records")
+          .select("*")
+          .ilike("owner_name", `%${firstName}%`)
+          .limit(30);
+
+        properties = (firstNameMatch || []) as PropertyRecord[];
+      }
+    }
+
+    // Mark that user has searched the network (for checklist)
+    if (profile?.business_id) {
+      await supabase
+        .from("businesses")
+        .update({ has_searched_network: true })
+        .eq("id", profile.business_id);
+    }
+
+    return {
+      profile: null,
+      propertyRecords: properties,
     };
   }
 

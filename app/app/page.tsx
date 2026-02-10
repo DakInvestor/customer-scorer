@@ -6,6 +6,14 @@ import type { NoteForScoring } from "@/lib/scoring";
 import Onboarding from "@/components/Onboarding";
 import DashboardChecklist from "@/components/DashboardChecklist";
 import { syncBusinessCustomers } from "./network/sync-business";
+import {
+  INDUSTRY_TOOLS,
+  UNIVERSAL_TOOLS,
+  TOOL_METADATA,
+  getIndustryLabel,
+  getIndustryIcon,
+  type BusinessIndustry
+} from "@/lib/industry-types";
 
 type Business = {
   id: string;
@@ -16,6 +24,8 @@ type Business = {
   has_imported: boolean | null;
   checklist_dismissed: boolean | null;
   network_synced: boolean | null;
+  industry: string | null;
+  secondary_industries: string[] | null;
 };
 
 type Customer = {
@@ -55,7 +65,7 @@ export default async function Dashboard() {
 
   const { data: business } = await supabase
     .from("businesses")
-    .select("id, name, onboarding_completed, onboarding_step, has_searched_network, has_imported, checklist_dismissed, network_synced")
+    .select("id, name, onboarding_completed, onboarding_step, has_searched_network, has_imported, checklist_dismissed, network_synced, industry, secondary_industries")
     .eq("id", businessId)
     .single();
 
@@ -155,6 +165,8 @@ export default async function Dashboard() {
         <div className="p-6 md:p-8 opacity-50 pointer-events-none">
           <DashboardContent
             businessName={typedBusiness?.name}
+            industry={typedBusiness?.industry || "other"}
+            secondaryIndustries={typedBusiness?.secondary_industries || []}
             totalCustomers={totalCustomers}
             customersThisWeek={customersThisWeek}
             avgScore={avgScore}
@@ -184,6 +196,8 @@ export default async function Dashboard() {
 
       <DashboardContent
         businessName={typedBusiness?.name}
+        industry={typedBusiness?.industry || "other"}
+        secondaryIndustries={typedBusiness?.secondary_industries || []}
         totalCustomers={totalCustomers}
         customersThisWeek={customersThisWeek}
         avgScore={avgScore}
@@ -197,8 +211,132 @@ export default async function Dashboard() {
   );
 }
 
+// Map tool IDs to their routes
+function getToolRoute(toolId: string): string {
+  const routes: Record<string, string> = {
+    // Universal
+    enhanced_search: '/app/search',
+    property_profile: '/app/search?tab=properties',
+    new_homeowner_feed: '/app/leads',
+    competitor_intelligence: '/app/leads?filter=permits',
+
+    // Sales/Leads feeds
+    live_sales_feed: '/app/leads',
+    sales_feed_pipeline: '/app/leads',
+
+    // HVAC/Plumbing/Electrical
+    aging_systems_finder: '/app/leads?filter=aging',
+    warranty_expiration_leads: '/app/leads?filter=aging',
+    water_heater_leads: '/app/leads?filter=aging',
+    panel_upgrade_prospects: '/app/leads?filter=aging',
+    multi_zone_home_finder: '/app/leads?filter=large-homes',
+    seasonal_prep_lists: '/app/leads',
+    neighborhood_blitz_planner: '/app/leads?filter=permits',
+    flip_alert: '/app/leads?filter=flips',
+    sewer_line_prospects: '/app/leads?filter=aging',
+    solar_prewire_leads: '/app/leads?filter=permits',
+
+    // Roofing
+    reroof_calculator: '/app/leads?filter=aging',
+    storm_damage_prospecting: '/app/leads',
+    insurance_claim_helper: '/app/search?tab=properties',
+    post_storm_priority: '/app/leads',
+
+    // Contractor/Remodeler
+    renovation_candidates: '/app/leads?filter=renovation',
+    permit_cost_benchmarking: '/app/leads?filter=permits',
+    flip_tracker: '/app/leads?filter=flips',
+    pre_bid_property_brief: '/app/search?tab=properties',
+
+    // Realtor
+    comparable_sales: '/app/leads?filter=sales',
+    pre_listing_report: '/app/search?tab=properties',
+    off_market_finder: '/app/leads?filter=off-market',
+    rental_property_identifier: '/app/leads?filter=rentals',
+    new_construction_tracker: '/app/leads?filter=permits',
+    neighborhood_report_card: '/app/leads',
+    divorce_estate_detector: '/app/leads?filter=distressed',
+
+    // Home Inspector
+    pre_inspection_brief: '/app/search?tab=properties',
+    reinspection_opportunities: '/app/leads',
+    repeat_investor_tracker: '/app/leads?filter=flips',
+    inspection_red_flag_brief: '/app/search?tab=properties',
+
+    // Insurance
+    risk_profiling: '/app/search?tab=properties',
+    policy_review_triggers: '/app/leads',
+    property_value_monitor: '/app/leads',
+
+    // Property Manager
+    portfolio_dashboard: '/app/leads',
+    maintenance_scheduling: '/app/leads?filter=aging',
+    tenant_screening_supplement: '/app/search?tab=properties',
+    tax_appeal_alerts: '/app/leads',
+    contractor_performance_tracker: '/app/leads?filter=permits',
+
+    // Landscaper
+    lot_size_leads: '/app/leads?filter=large-lots',
+    new_homeowner_targeting: '/app/leads',
+    high_value_property_finder: '/app/leads?filter=high-value',
+    seasonal_push_lists: '/app/leads',
+
+    // Pest Control
+    property_age_targeting: '/app/leads?filter=aging',
+    new_homeowner_alerts: '/app/leads',
+    multi_unit_property_finder: '/app/leads?filter=multi-unit',
+
+    // Solar
+    ideal_candidate_scoring: '/app/leads?filter=solar',
+    panel_upgrade_crosssell: '/app/leads?filter=permits',
+    new_construction_solar: '/app/leads?filter=permits',
+
+    // Painter
+    exterior_paint_leads: '/app/leads?filter=aging',
+    new_homeowner_make_it_mine: '/app/leads',
+    renovation_companion_leads: '/app/leads?filter=permits',
+
+    // Cleaning
+    sq_footage_leads: '/app/leads?filter=large-homes',
+    new_homeowner_move_in: '/app/leads',
+    high_value_home_finder: '/app/leads?filter=high-value',
+
+    // Pool
+    pool_property_identifier: '/app/leads?filter=pools',
+    pool_age_estimator: '/app/leads?filter=aging',
+    seasonal_opening_closing: '/app/leads',
+
+    // Garage/Fencing
+    age_based_targeting: '/app/leads?filter=aging',
+    new_construction_missing: '/app/leads?filter=permits',
+    neighborhood_matching: '/app/leads',
+
+    // Window/Door
+    energy_efficiency_prospects: '/app/leads?filter=aging',
+    renovation_companion: '/app/leads?filter=permits',
+
+    // Moving
+    move_size_estimator: '/app/leads',
+
+    // Attorney
+    lien_judgment_monitor: '/app/leads?filter=court',
+    property_ownership_history: '/app/search?tab=properties',
+    permit_violation_finder: '/app/leads?filter=permits',
+    contractor_dispute_tracker: '/app/leads?filter=court',
+
+    // Financial
+    equity_estimator: '/app/search?tab=properties',
+    refinance_candidates: '/app/leads',
+    new_homeowner_followup: '/app/leads',
+    investment_property_identifier: '/app/leads?filter=rentals',
+  };
+  return routes[toolId] || '/app/leads';
+}
+
 function DashboardContent({
   businessName,
+  industry,
+  secondaryIndustries,
   totalCustomers,
   customersThisWeek,
   avgScore,
@@ -209,6 +347,8 @@ function DashboardContent({
   highRiskCustomers,
 }: {
   businessName: string | null | undefined;
+  industry: string;
+  secondaryIndustries: string[];
   totalCustomers: number;
   customersThisWeek: number;
   avgScore: number;
@@ -218,6 +358,16 @@ function DashboardContent({
   recentActivity: Array<{ id: string; customer_name: string; note_type: string | null; severity: number; created_at: string }>;
   highRiskCustomers: CustomerWithScore[];
 }) {
+  // Get tools for this industry
+  const industryTools = INDUSTRY_TOOLS[industry as BusinessIndustry] || [];
+
+  // Combine with universal tools and dedupe
+  const allToolIds = [...new Set([...UNIVERSAL_TOOLS, ...industryTools])];
+
+  // Get tool metadata
+  const tools = allToolIds
+    .map(id => ({ id, ...TOOL_METADATA[id] }))
+    .filter(t => t.label); // Only include tools with metadata
   return (
     <>
       <div className="mb-8">
@@ -228,6 +378,79 @@ function DashboardContent({
           Track customer reliability and protect your business.
         </p>
       </div>
+
+      {/* Industry Tools Section */}
+      {industry !== "other" && (
+        <div className="mb-8">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">{getIndustryIcon(industry)}</span>
+              <h2 className="text-lg font-semibold text-charcoal">
+                {getIndustryLabel(industry)} Tools
+              </h2>
+            </div>
+            <Link
+              href="/app/settings/industry"
+              className="text-sm text-copper hover:text-copper-dark"
+            >
+              Change industry →
+            </Link>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {tools.slice(0, 8).map((tool) => (
+              <Link
+                key={tool.id}
+                href={getToolRoute(tool.id)}
+                className="group rounded-xl border border-border bg-white p-4 transition-all hover:border-copper hover:shadow-md"
+              >
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">{tool.icon}</span>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium text-charcoal group-hover:text-copper truncate">
+                      {tool.label}
+                    </h3>
+                    <p className="mt-1 text-xs text-text-muted line-clamp-2">
+                      {tool.description}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          {tools.length > 8 && (
+            <div className="mt-3 text-center">
+              <button className="text-sm text-copper hover:text-copper-dark">
+                Show {tools.length - 8} more tools
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* No Industry Selected Banner */}
+      {industry === "other" && (
+        <div className="mb-8 rounded-xl border-2 border-dashed border-copper/30 bg-copper/5 p-6">
+          <div className="flex items-start gap-4">
+            <div className="rounded-full bg-copper/20 p-3">
+              <span className="text-2xl">🎯</span>
+            </div>
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold text-charcoal">
+                Get personalized tools for your industry
+              </h2>
+              <p className="mt-1 text-sm text-text-secondary">
+                Select your industry to unlock specialized lead-finding tools, property insights, and more.
+              </p>
+              <Link
+                href="/app/settings/industry"
+                className="mt-4 inline-block rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white hover:bg-copper-dark"
+              >
+                Choose Your Industry
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Top Stats */}
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

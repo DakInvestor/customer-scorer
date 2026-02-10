@@ -1,10 +1,15 @@
 import { createSupabaseServerClient, getCurrentBusinessId } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import NewHomeownerFeed from "./NewHomeownerFeed";
+import LeadsClient from "./LeadsClient";
+import { INDUSTRY_TOOLS, UNIVERSAL_TOOLS, TOOL_METADATA, type BusinessIndustry } from "@/lib/industry-types";
 
-export default async function LeadsPage() {
+export default async function LeadsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ filter?: string }>;
+}) {
   const businessId = await getCurrentBusinessId();
+  const params = await searchParams;
 
   if (!businessId) {
     redirect("/login");
@@ -12,14 +17,31 @@ export default async function LeadsPage() {
 
   const supabase = await createSupabaseServerClient();
 
-  // Get business service area settings (if exists)
+  // Get business settings including industry
   const { data: business } = await supabase
     .from("businesses")
-    .select("service_municipalities, service_zip_codes")
+    .select("service_area_municipalities, service_area_zips, industry, secondary_industries")
     .eq("id", businessId)
     .single();
 
-  // Get list of available municipalities from property_sales
+  const industry = (business?.industry as BusinessIndustry) || "other";
+  const serviceMunicipalities = (business?.service_area_municipalities as string[]) || [];
+  const serviceZips = (business?.service_area_zips as string[]) || [];
+
+  // Get available tools for this industry
+  const industryTools = INDUSTRY_TOOLS[industry] || [];
+  const allToolIds = [...new Set([...UNIVERSAL_TOOLS, ...industryTools])];
+
+  // Filter to only lead-generation tools (ones that make sense on this page)
+  const leadTools = allToolIds
+    .filter(id => {
+      const tool = TOOL_METADATA[id];
+      // Exclude search/profile tools - they belong on search page
+      return tool && !['enhanced_search', 'property_profile'].includes(id);
+    })
+    .map(id => ({ id, ...TOOL_METADATA[id] }));
+
+  // Get list of available municipalities
   const { data: municipalities } = await supabase
     .from("property_sales")
     .select("municipality")
@@ -30,46 +52,20 @@ export default async function LeadsPage() {
     (municipalities || [])
       .map((m) => m.municipality)
       .filter(Boolean)
-  )].sort();
+  )].sort() as string[];
 
-  const hasServiceArea = (business?.service_municipalities as string[] || []).length > 0 ||
-    (business?.service_zip_codes as string[] || []).length > 0;
+  const hasServiceArea = serviceMunicipalities.length > 0 || serviceZips.length > 0;
 
   return (
-    <div className="p-6 md:p-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-charcoal md:text-3xl">New Homeowner Leads</h1>
-        <p className="mt-1 text-text-secondary">
-          Recent home sales in your service area — prime opportunities for inspections and maintenance contracts.
-        </p>
-      </div>
-
-      {!hasServiceArea && (
-        <div className="mb-6 rounded-lg border border-amber/30 bg-amber/10 px-4 py-3">
-          <div className="flex items-start gap-3">
-            <span className="text-lg">💡</span>
-            <div>
-              <p className="text-sm font-medium text-charcoal">Set up your service area</p>
-              <p className="text-sm text-text-secondary">
-                Define your service municipalities and ZIP codes to automatically filter leads to your area.
-              </p>
-              <Link
-                href="/app/settings"
-                className="mt-2 inline-block text-sm font-medium text-copper hover:text-copper-dark"
-              >
-                Go to Settings →
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <NewHomeownerFeed
-        businessId={businessId}
-        savedMunicipalities={(business?.service_municipalities as string[]) || []}
-        savedZipCodes={(business?.service_zip_codes as string[]) || []}
-        availableMunicipalities={uniqueMunicipalities as string[]}
-      />
-    </div>
+    <LeadsClient
+      businessId={businessId}
+      industry={industry}
+      serviceMunicipalities={serviceMunicipalities}
+      serviceZips={serviceZips}
+      availableMunicipalities={uniqueMunicipalities}
+      hasServiceArea={hasServiceArea}
+      availableTools={leadTools}
+      initialFilter={params.filter || "new_homeowner_feed"}
+    />
   );
 }
