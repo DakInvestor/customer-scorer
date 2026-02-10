@@ -8,6 +8,7 @@ interface NetworkProfile {
   id: string;
   phone_last_four: string | null;
   email_domain: string | null;
+  address_partial: string | null;
   risk_tier: string;
   weighted_score: number;
   total_incidents: number;
@@ -25,7 +26,7 @@ interface NetworkSearchClientProps {
 
 export default function NetworkSearchClient({ businessId }: NetworkSearchClientProps) {
   const router = useRouter();
-  const [searchType, setSearchType] = useState<"phone" | "email">("phone");
+  const [searchType, setSearchType] = useState<"phone" | "email" | "address">("phone");
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [addingCustomer, setAddingCustomer] = useState(false);
@@ -38,8 +39,9 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
     try {
       const phone = searchType === "phone" ? searchValue : null;
       const email = searchType === "email" ? searchValue : null;
+      const address = searchType === "address" ? searchValue : null;
 
-      const result = await addCustomerFromNetworkAction(phone, email);
+      const result = await addCustomerFromNetworkAction(phone, email, address);
 
       if (result.error) {
         setError(result.error);
@@ -84,6 +86,13 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
     if (searchType === "email") {
       if (!searchValue.includes("@")) {
         setError("Please enter a valid email address.");
+        return;
+      }
+    }
+
+    if (searchType === "address") {
+      if (searchValue.trim().length < 5) {
+        setError("Please enter a complete address.");
         return;
       }
     }
@@ -187,6 +196,16 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
           >
             Email Address
           </button>
+          <button
+            onClick={function() { setSearchType("address"); setSearchValue(""); }}
+            className={
+              searchType === "address"
+                ? "rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white"
+                : "rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-muted hover:text-charcoal"
+            }
+          >
+            Address
+          </button>
         </div>
 
         <div className="flex gap-3">
@@ -200,13 +219,22 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                 placeholder="(555) 123-4567"
                 className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal placeholder-text-muted outline-none focus:border-copper"
               />
-            ) : (
+            ) : searchType === "email" ? (
               <input
                 type="email"
                 value={searchValue}
                 onChange={function(e) { setSearchValue(e.target.value); }}
                 onKeyDown={function(e) { if (e.key === "Enter") handleSearch(); }}
                 placeholder="customer@example.com"
+                className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal placeholder-text-muted outline-none focus:border-copper"
+              />
+            ) : (
+              <input
+                type="text"
+                value={searchValue}
+                onChange={function(e) { setSearchValue(e.target.value); }}
+                onKeyDown={function(e) { if (e.key === "Enter") handleSearch(); }}
+                placeholder="123 Main St, Philadelphia PA"
                 className="w-full rounded-lg border border-border bg-cream px-4 py-3 text-charcoal placeholder-text-muted outline-none focus:border-copper"
               />
             )}
@@ -239,6 +267,8 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
                       {profile.phone_last_four && "Phone: ***-***-" + profile.phone_last_four}
                       {profile.phone_last_four && profile.email_domain && " • "}
                       {profile.email_domain && "Email: ***@" + profile.email_domain}
+                      {(profile.phone_last_four || profile.email_domain) && profile.address_partial && " • "}
+                      {profile.address_partial && "Address: " + profile.address_partial}
                     </p>
                   </div>
                   <div className="text-right text-sm text-text-muted">
@@ -407,7 +437,7 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
               </div>
               <h3 className="text-lg font-semibold text-charcoal">No Network Profile Found</h3>
               <p className="mt-2 text-text-secondary">
-                This {searchType === "phone" ? "phone number" : "email"} hasn't been reported to the network yet.
+                This {searchType === "phone" ? "phone number" : searchType === "email" ? "email" : "address"} hasn't been reported to the network yet.
               </p>
               <p className="mt-4 text-sm text-text-muted">
                 This could mean they're a new customer or have a clean record with no reports.
@@ -432,7 +462,7 @@ export default function NetworkSearchClient({ businessId }: NetworkSearchClientP
           </div>
           <h3 className="text-lg font-semibold text-charcoal">Check Before You Book</h3>
           <p className="mt-2 text-text-secondary">
-            Search a customer's phone or email to see their reliability history across the network.
+            Search a customer's phone, email, or address to see their reliability history across the network.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-text-muted">
             <div className="flex items-center gap-2">

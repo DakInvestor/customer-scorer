@@ -370,6 +370,7 @@ export default async function CustomerDetailPage({ params }: PageProps) {
           businessId={businessId}
           customerPhone={customer.phone}
           customerEmail={customer.email}
+          customerAddress={customer.address}
         />
       </div>
     </div>

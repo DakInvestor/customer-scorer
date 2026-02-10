@@ -10,6 +10,43 @@ function normalizeEmail(email: string): string {
   return email.toLowerCase().trim();
 }
 
+function normalizeAddress(address: string): string {
+  // Normalize address for consistent hashing:
+  // lowercase, remove extra spaces, standardize common abbreviations
+  return address
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, " ")
+    .replace(/\bstreet\b/g, "st")
+    .replace(/\bavenue\b/g, "ave")
+    .replace(/\bboulevard\b/g, "blvd")
+    .replace(/\bdrive\b/g, "dr")
+    .replace(/\broad\b/g, "rd")
+    .replace(/\blane\b/g, "ln")
+    .replace(/\bcourt\b/g, "ct")
+    .replace(/\bplace\b/g, "pl")
+    .replace(/\bapartment\b/g, "apt")
+    .replace(/\bsuite\b/g, "ste")
+    .replace(/[.,#]/g, "");
+}
+
+function extractPartialAddress(address: string): string {
+  // Extract street name and city for display (hide house number for privacy)
+  const parts = address.split(",").map(p => p.trim());
+  if (parts.length >= 2) {
+    // Try to extract street name without number
+    const streetPart = parts[0];
+    const streetWords = streetPart.split(" ");
+    // Skip first word if it's a number
+    const streetName = /^\d+$/.test(streetWords[0])
+      ? streetWords.slice(1).join(" ")
+      : streetPart;
+    return streetName + ", " + parts.slice(1).join(", ");
+  }
+  // Fallback: just return as-is if we can't parse
+  return address;
+}
+
 async function hashValue(value: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(value);
@@ -18,7 +55,7 @@ async function hashValue(value: string): Promise<string> {
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-export async function searchNetwork(searchType: "phone" | "email", searchValue: string) {
+export async function searchNetwork(searchType: "phone" | "email" | "address", searchValue: string) {
   const user = await getCurrentUser();
   if (!user) {
     return { error: "Not authenticated" };
@@ -47,16 +84,22 @@ export async function searchNetwork(searchType: "phone" | "email", searchValue: 
       return { error: "Invalid phone number" };
     }
     hash = await hashValue(normalized);
-  } else {
+  } else if (searchType === "email") {
     const normalized = normalizeEmail(searchValue);
     if (!normalized.includes("@")) {
       return { error: "Invalid email" };
     }
     hash = await hashValue(normalized);
+  } else {
+    const normalized = normalizeAddress(searchValue);
+    if (normalized.length < 5) {
+      return { error: "Invalid address" };
+    }
+    hash = await hashValue(normalized);
   }
 
   // Search for matching customer identifier
-  const column = searchType === "phone" ? "phone_hash" : "email_hash";
+  const column = searchType === "phone" ? "phone_hash" : searchType === "email" ? "email_hash" : "address_hash";
   const { data, error: searchError } = await adminClient
     .from("customer_identifiers")
     .select("*")
@@ -104,14 +147,15 @@ export async function searchNetwork(searchType: "phone" | "email", searchValue: 
 
 export async function syncCustomerToNetworkAction(
   phone: string | null,
-  email: string | null
+  email: string | null,
+  address: string | null = null
 ): Promise<{ id: string | null; error?: string }> {
   const user = await getCurrentUser();
   if (!user) {
     return { id: null, error: "Not authenticated" };
   }
 
-  if (!phone && !email) {
+  if (!phone && !email && !address) {
     return { id: null };
   }
 
@@ -119,8 +163,10 @@ export async function syncCustomerToNetworkAction(
 
   let phoneHash: string | null = null;
   let emailHash: string | null = null;
+  let addressHash: string | null = null;
   let phoneLast4: string | null = null;
   let emailDomain: string | null = null;
+  let addressPartial: string | null = null;
 
   if (phone) {
     const normalized = normalizePhone(phone);
@@ -138,7 +184,15 @@ export async function syncCustomerToNetworkAction(
     }
   }
 
-  if (!phoneHash && !emailHash) {
+  if (address) {
+    const normalized = normalizeAddress(address);
+    if (normalized.length >= 5) {
+      addressHash = await hashValue(normalized);
+      addressPartial = extractPartialAddress(address);
+    }
+  }
+
+  if (!phoneHash && !emailHash && !addressHash) {
     return { id: null };
   }
 
@@ -163,6 +217,15 @@ export async function syncCustomerToNetworkAction(
     if (data) existingId = data.id;
   }
 
+  if (!existingId && addressHash) {
+    const { data } = await adminClient
+      .from("customer_identifiers")
+      .select("id")
+      .eq("address_hash", addressHash)
+      .single();
+    if (data) existingId = data.id;
+  }
+
   if (existingId) {
     await adminClient
       .from("customer_identifiers")
@@ -170,6 +233,7 @@ export async function syncCustomerToNetworkAction(
         last_seen_at: new Date().toISOString(),
         ...(phoneHash && { phone_hash: phoneHash, phone_last_four: phoneLast4 }),
         ...(emailHash && { email_hash: emailHash, email_domain: emailDomain }),
+        ...(addressHash && { address_hash: addressHash, address_partial: addressPartial }),
       })
       .eq("id", existingId);
     return { id: existingId };
@@ -181,8 +245,10 @@ export async function syncCustomerToNetworkAction(
     .insert({
       phone_hash: phoneHash,
       email_hash: emailHash,
+      address_hash: addressHash,
       phone_last_four: phoneLast4,
       email_domain: emailDomain,
+      address_partial: addressPartial,
       risk_tier: "unknown",
       weighted_score: 0,
       total_incidents: 0,
@@ -205,7 +271,8 @@ export async function syncCustomerToNetworkAction(
 
 export async function addCustomerFromNetworkAction(
   phone: string | null,
-  email: string | null
+  email: string | null,
+  address: string | null = null
 ): Promise<{ success: boolean; customerId?: string; error?: string }> {
   const user = await getCurrentUser();
   if (!user) {
@@ -225,13 +292,14 @@ export async function addCustomerFromNetworkAction(
     return { success: false, error: "No business found" };
   }
 
-  // Create minimal customer with just phone or email
+  // Create minimal customer with phone, email, or address
   const { data: newCustomer, error } = await supabase
     .from("customers")
     .insert({
       full_name: "Unknown", // Placeholder - user will fill in later
       phone: phone || null,
       email: email || null,
+      address: address || null,
       business_id: profile.business_id,
     })
     .select("id")
@@ -243,7 +311,7 @@ export async function addCustomerFromNetworkAction(
   }
 
   // Also sync to network
-  await syncCustomerToNetworkAction(phone, email);
+  await syncCustomerToNetworkAction(phone, email, address);
 
   return { success: true, customerId: newCustomer?.id };
 }
@@ -251,9 +319,10 @@ export async function addCustomerFromNetworkAction(
 export async function updateNetworkFromNoteAction(
   phone: string | null,
   email: string | null,
-  severity: number
+  severity: number,
+  address: string | null = null
 ): Promise<void> {
-  const result = await syncCustomerToNetworkAction(phone, email);
+  const result = await syncCustomerToNetworkAction(phone, email, address);
   if (!result.id) return;
 
   const adminClient = createSupabaseAdminClient();

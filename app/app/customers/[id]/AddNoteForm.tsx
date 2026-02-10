@@ -11,6 +11,7 @@ type AddNoteFormProps = {
   businessId: string;
   customerPhone: string | null;
   customerEmail: string | null;
+  customerAddress: string | null;
 };
 
 // Predefined event types grouped by category
@@ -49,7 +50,7 @@ const EVENT_OPTIONS = [
   { value: "LEGAL_ACTION", label: "Legal action required", severity: 5, category: "severe" },
 ];
 
-export default function AddNoteForm({ customerId, businessId, customerPhone, customerEmail }: AddNoteFormProps) {
+export default function AddNoteForm({ customerId, businessId, customerPhone, customerEmail, customerAddress }: AddNoteFormProps) {
   const router = useRouter();
 
   const [eventCode, setEventCode] = useState("");
@@ -94,7 +95,7 @@ export default function AddNoteForm({ customerId, businessId, customerPhone, cus
       }
 
       // Update network with this event (anonymized)
-      await updateNetworkFromNoteAction(customerPhone, customerEmail, severity);
+      await updateNetworkFromNoteAction(customerPhone, customerEmail, severity, customerAddress);
 
       // Reset form
       setEventCode("");

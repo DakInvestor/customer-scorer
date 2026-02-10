@@ -17,6 +17,7 @@ type Customer = {
   full_name: string | null;
   email: string | null;
   phone: string | null;
+  address: string | null;
   city: string | null;
   state: string | null;
   created_at: string;
@@ -93,7 +94,7 @@ export default function SearchPage() {
         .from("customers")
         .select("*")
         .eq("business_id", businessId)
-        .or(`full_name.ilike.%${searchTerm}%,email.ilike.%${searchTerm}%,phone.ilike.%${searchTerm}%`)
+        .or(`full_name.ilike.%${searchTerm}%,email.ilike.%${searchTerm}%,phone.ilike.%${searchTerm}%,address.ilike.%${searchTerm}%`)
         .order("full_name", { ascending: true })
         .limit(20);
 
@@ -259,7 +260,7 @@ export default function SearchPage() {
           onChange={(e) => setQuery(e.target.value)}
           placeholder={
             activeTab === "customers"
-              ? "Enter name, phone, or email..."
+              ? "Enter name, phone, email, or address..."
               : "Enter address or owner name..."
           }
           className="flex-1 rounded-md border border-border bg-white px-4 py-2.5 text-charcoal placeholder-text-muted outline-none focus:ring-2 focus:ring-copper"
@@ -314,7 +315,7 @@ export default function SearchPage() {
                   <div>
                     <h3 className="font-medium text-charcoal">{customer.full_name || "Unnamed"}</h3>
                     <p className="text-sm text-text-muted">
-                      {[customer.phone, customer.email, customer.city && customer.state ? `${customer.city}, ${customer.state}` : null]
+                      {[customer.phone, customer.email, customer.address, customer.city && customer.state ? `${customer.city}, ${customer.state}` : null]
                         .filter(Boolean)
                         .join(" • ") || "No contact info"}
                     </p>
