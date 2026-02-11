@@ -101,7 +101,6 @@ export default async function AppLayout({
             <NavItem href="/app/customers">Customer List</NavItem>
             <NavItem href="/app/add-customer">Add Customer</NavItem>
             <NavItem href="/app/search">Search</NavItem>
-            <NavItem href="/app/import">Import CSV</NavItem>
           </div>
 
           <div className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-text-muted">

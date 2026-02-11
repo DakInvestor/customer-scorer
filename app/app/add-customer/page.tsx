@@ -73,7 +73,7 @@ export default function AddCustomerPage() {
     checkAuth();
   }, [router]);
 
-  const handleSubmit = async (e: FormEvent, skipDuplicateCheck: boolean = false) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
     setDuplicateWarning(null);
@@ -91,24 +91,22 @@ export default function AddCustomerPage() {
     try {
       setLoading(true);
 
-      // Check for duplicates first (unless skipping)
-      if (!skipDuplicateCheck) {
-        const duplicateCheck = await checkForDuplicateCustomer(
-          phone.trim() || null,
-          email.trim() || null,
-          address.trim() || null,
-          fullName.trim()
-        );
+      // Check for duplicates first
+      const duplicateCheck = await checkForDuplicateCustomer(
+        phone.trim() || null,
+        email.trim() || null,
+        address.trim() || null,
+        fullName.trim()
+      );
 
-        if (duplicateCheck.isDuplicate && duplicateCheck.existingCustomerId) {
-          setDuplicateWarning({
-            existingCustomerId: duplicateCheck.existingCustomerId,
-            matchedOn: duplicateCheck.matchedOn || "unknown",
-            existingCustomerName: duplicateCheck.existingCustomerName || "Unknown",
-          });
-          setLoading(false);
-          return;
-        }
+      if (duplicateCheck.isDuplicate && duplicateCheck.existingCustomerId) {
+        setDuplicateWarning({
+          existingCustomerId: duplicateCheck.existingCustomerId,
+          matchedOn: duplicateCheck.matchedOn || "unknown",
+          existingCustomerName: duplicateCheck.existingCustomerName || "Unknown",
+        });
+        setLoading(false);
+        return;
       }
 
       // Add the customer
@@ -119,8 +117,7 @@ export default function AddCustomerPage() {
         address.trim() || null,
         city.trim() || null,
         state || null,
-        county.trim() || null,
-        skipDuplicateCheck
+        county.trim() || null
       );
 
       if (!result.success) {
@@ -151,13 +148,13 @@ export default function AddCustomerPage() {
 
       {/* Duplicate Warning */}
       {duplicateWarning && (
-        <div className="mb-6 rounded-xl border border-amber/30 bg-amber/10 p-5">
+        <div className="mb-6 rounded-xl border border-critical/30 bg-critical/10 p-5">
           <div className="flex items-start gap-4">
-            <span className="text-2xl">⚠️</span>
+            <span className="text-2xl">🚫</span>
             <div className="flex-1">
-              <p className="font-semibold text-charcoal">Possible duplicate customer</p>
+              <p className="font-semibold text-charcoal">Customer already exists</p>
               <p className="mt-1 text-sm text-text-secondary">
-                A customer with the same <strong>{duplicateWarning.matchedOn}</strong> already exists:
+                A customer with this <strong>{duplicateWarning.matchedOn}</strong> is already in your system:
               </p>
               <p className="mt-2 font-medium text-charcoal">
                 {duplicateWarning.existingCustomerName}
@@ -170,17 +167,10 @@ export default function AddCustomerPage() {
                   View Existing Customer
                 </Link>
                 <button
-                  onClick={(e) => handleSubmit(e, true)}
-                  disabled={loading}
-                  className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-secondary hover:bg-surface disabled:opacity-50"
-                >
-                  {loading ? "Adding..." : "Add Anyway"}
-                </button>
-                <button
                   onClick={() => setDuplicateWarning(null)}
-                  className="rounded-lg px-4 py-2 text-sm text-text-muted hover:text-charcoal"
+                  className="rounded-lg border border-border px-4 py-2 text-sm text-text-muted hover:text-charcoal"
                 >
-                  Cancel
+                  Go Back
                 </button>
               </div>
             </div>
@@ -188,7 +178,7 @@ export default function AddCustomerPage() {
         </div>
       )}
 
-      <form onSubmit={(e) => handleSubmit(e, false)} className="max-w-lg space-y-4">
+      <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
         <div>
           <label className="mb-1 block text-sm font-medium text-charcoal">
             Full name <span className="text-red-400">*</span>

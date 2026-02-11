@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-import { INDUSTRIES, getIndustryLabel, getIndustryIcon } from "@/lib/industry-types";
+import { getIndustryLabel, getIndustryIcon } from "@/lib/industry-types";
 
 export default function IndustrySettingsPage() {
   const router = useRouter();

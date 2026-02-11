@@ -10,7 +10,6 @@ type Props = {
   customerCount: number;
   eventCount: number;
   hasSearchedNetwork: boolean;
-  hasImported: boolean;
 };
 
 type ChecklistItem = {
@@ -26,7 +25,6 @@ export default function DashboardChecklist({
   customerCount,
   eventCount,
   hasSearchedNetwork,
-  hasImported,
 }: Props) {
   const router = useRouter();
   const [dismissed, setDismissed] = useState(false);
@@ -61,12 +59,6 @@ export default function DashboardChecklist({
       label: "Try a network search",
       completed: hasSearchedNetwork,
       href: "/app/network",
-    },
-    {
-      id: "import",
-      label: "Import your customer list",
-      completed: hasImported,
-      href: "/app/import",
     },
   ];
 

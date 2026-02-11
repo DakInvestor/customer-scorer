@@ -190,7 +190,6 @@ export default async function Dashboard() {
           customerCount={totalCustomers}
           eventCount={typedNotes.length}
           hasSearchedNetwork={typedBusiness?.has_searched_network || false}
-          hasImported={typedBusiness?.has_imported || false}
         />
       )}
 

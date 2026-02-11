@@ -526,21 +526,6 @@ export default function Onboarding({ businessId, initialStep }: Props) {
 
               <div className="mb-6 space-y-3">
                 <Link
-                  href="/app/import"
-                  className="flex items-center gap-3 rounded-xl border border-border bg-white p-4 text-left hover:border-copper hover:bg-cream"
-                >
-                  <span className="text-xl">📥</span>
-                  <div>
-                    <p className="font-medium text-charcoal">
-                      Import your customer list
-                    </p>
-                    <p className="text-xs text-text-muted">
-                      Upload a CSV of existing customers
-                    </p>
-                  </div>
-                </Link>
-
-                <Link
                   href="/app/add-customer"
                   className="flex items-center gap-3 rounded-xl border border-border bg-white p-4 text-left hover:border-copper hover:bg-cream"
                 >

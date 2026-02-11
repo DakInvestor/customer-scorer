@@ -98,7 +98,6 @@ export default function MobileNav({ email, verificationStatus = "unverified", is
               <MobileNavItem href="/app/customers" onClick={closeMenu}>Customer List</MobileNavItem>
               <MobileNavItem href="/app/add-customer" onClick={closeMenu}>Add Customer</MobileNavItem>
               <MobileNavItem href="/app/search" onClick={closeMenu}>Search</MobileNavItem>
-              <MobileNavItem href="/app/import" onClick={closeMenu}>Import CSV</MobileNavItem>
 
               <p className="mb-2 mt-6 px-3 text-xs font-semibold uppercase tracking-wider text-text-muted">Resources</p>
               <MobileNavItem href="/app/reliability-info" onClick={closeMenu}>How It Works</MobileNavItem>
