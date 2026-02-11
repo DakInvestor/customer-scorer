@@ -8,345 +8,390 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-copper/5 to-transparent" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-copper">
+              Property Intelligence + Customer Reliability
+            </p>
             <h1 className="text-4xl font-bold tracking-tight text-charcoal sm:text-6xl">
-              Stop losing money on{" "}
-              <span className="text-copper">unreliable customers</span>
+              Find better leads.{" "}
+              <span className="text-copper">Avoid bad customers.</span>
             </h1>
             <p className="mt-6 text-lg text-text-secondary">
-              ForSure tracks reliability so you can avoid no-shows,
-              late payers, and time-wasters. Know who you're working with before you show up.
+              ForSure combines property data, permit records, and a verified contractor network
+              to help you find new homeowners, identify high-value leads, and check customer
+              reliability before you book.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 href="/signup"
                 className="w-full rounded-lg bg-copper px-8 py-4 text-center font-semibold text-white hover:bg-copper-dark sm:w-auto"
               >
-                Start Free Trial
+                Get Started Free
               </Link>
               <Link
-                href="#demo"
+                href="/features"
                 className="w-full rounded-lg border border-border bg-white px-8 py-4 text-center font-semibold text-charcoal hover:bg-surface sm:w-auto"
               >
-                Watch 2-Minute Demo
+                See All Features
               </Link>
             </div>
             <p className="mt-4 text-sm text-text-secondary">
-              Free 14-day trial • No credit card required
-            </p>
-            <p className="mt-3 text-sm text-text-muted">
-              ForSure is an internal reliability tool — not a credit bureau or consumer credit score.
+              No credit card required
             </p>
           </div>
         </div>
       </section>
 
-      {/* Problem Section */}
+      {/* Three Pillars */}
       <section className="border-t border-border py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-bold text-charcoal">
-              The hidden cost of bad customers
+              Everything you need to grow smarter
             </h2>
             <p className="mt-4 text-text-secondary">
-              Every service business has dealt with them — customers who no-show,
-              refuse to pay, or waste your time. These problems add up fast.
+              Three powerful tools working together to help you find, vet, and win better customers.
             </p>
           </div>
 
           <div className="mt-16 grid gap-8 md:grid-cols-3">
-            <div className="rounded-xl border border-border bg-white p-6 text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-critical-light">
-                <span className="text-2xl">💸</span>
+            {/* Property Intel */}
+            <div className="rounded-xl border border-border bg-white p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald/10">
+                <span className="text-2xl">🏠</span>
               </div>
-              <h3 className="text-xl font-semibold text-charcoal">Lost Revenue</h3>
+              <h3 className="text-xl font-semibold text-charcoal">Property Intelligence</h3>
               <p className="mt-2 text-text-secondary">
-                No-shows and last-minute cancellations cost service businesses an average of $15,000/year.
+                Access property records, recent sales, permit history, and ownership data
+                for your entire service area.
               </p>
+              <ul className="mt-4 space-y-2 text-sm text-text-secondary">
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> New homeowner alerts
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> Permit activity feed
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> Property age & value data
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> Sale history & trends
+                </li>
+              </ul>
             </div>
 
-            <div className="rounded-xl border border-border bg-white p-6 text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-light">
-                <span className="text-2xl">⏰</span>
+            {/* Network Search */}
+            <div className="rounded-xl border-2 border-copper bg-white p-6">
+              <div className="mb-2 inline-block rounded-full bg-copper/10 px-2 py-0.5 text-xs font-medium text-copper">
+                Most Popular
               </div>
-              <h3 className="text-xl font-semibold text-charcoal">Wasted Time</h3>
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper/10">
+                <span className="text-2xl">🔍</span>
+              </div>
+              <h3 className="text-xl font-semibold text-charcoal">Network Search</h3>
               <p className="mt-2 text-text-secondary">
-                Chasing down payments and dealing with difficult customers eats into productive hours.
+                Search our verified contractor network to see if a customer has reliability
+                issues reported by other businesses.
               </p>
+              <ul className="mt-4 space-y-2 text-sm text-text-secondary">
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> Search by phone or address
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> Anonymized reports
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> See event patterns
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> Verified businesses only
+                </li>
+              </ul>
             </div>
 
-            <div className="rounded-xl border border-border bg-white p-6 text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-critical-light">
-                <span className="text-2xl">😤</span>
+            {/* Reliability Tracking */}
+            <div className="rounded-xl border border-border bg-white p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber/10">
+                <span className="text-2xl">📊</span>
               </div>
-              <h3 className="text-xl font-semibold text-charcoal">Stress & Burnout</h3>
+              <h3 className="text-xl font-semibold text-charcoal">Reliability Tracking</h3>
               <p className="mt-2 text-text-secondary">
-                Bad customer experiences drain your energy and make you dread picking up the phone.
+                Track your own customers' reliability over time. Log events, see trends,
+                and identify who's worth prioritizing.
               </p>
+              <ul className="mt-4 space-y-2 text-sm text-text-secondary">
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> Reliability indicators
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> Event history logging
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> Trend analysis
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald">✓</span> Risk alerts
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Product Screenshot Section */}
-      <section id="demo" className="border-t border-border bg-surface py-20">
+      {/* New Homeowner Leads */}
+      <section className="border-t border-border bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-bold text-charcoal">
-              See exactly what you get
-            </h2>
-            <p className="mt-4 text-text-secondary">
-              A clean dashboard that shows you everything at a glance. No clutter, no learning curve.
-            </p>
-          </div>
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wider text-copper">
+                Property Intelligence
+              </p>
+              <h2 className="mt-2 text-3xl font-bold text-charcoal">
+                New homeowners need your services
+              </h2>
+              <p className="mt-4 text-lg text-text-secondary">
+                Get notified when homes sell in your service area. New homeowners often need
+                HVAC inspections, plumbing checks, electrical updates, and more within their
+                first 90 days.
+              </p>
+              <ul className="mt-6 space-y-3">
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald text-xs text-white">✓</span>
+                  <span className="text-text-secondary">Daily feed of recent home sales in your counties</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald text-xs text-white">✓</span>
+                  <span className="text-text-secondary">Property details: age, size, features, sale price</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald text-xs text-white">✓</span>
+                  <span className="text-text-secondary">Filter by property type, price range, and more</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald text-xs text-white">✓</span>
+                  <span className="text-text-secondary">Permit history shows what work has been done</span>
+                </li>
+              </ul>
+            </div>
 
-          {/* Main Dashboard Screenshot */}
-          <div className="relative mt-12">
-            {/* Screenshot container */}
-            <div className="relative overflow-hidden rounded-xl border border-border bg-white shadow-2xl">
-              {/* Fake browser chrome */}
-              <div className="flex items-center gap-2 border-b border-border bg-surface px-4 py-3">
-                <div className="flex gap-1.5">
-                  <div className="h-3 w-3 rounded-full bg-red-500"></div>
-                  <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
-                  <div className="h-3 w-3 rounded-full bg-green-500"></div>
-                </div>
-                <div className="ml-4 flex-1 rounded bg-cream px-3 py-1 text-xs text-text-muted">
-                  app.myforsure.com/dashboard
-                </div>
+            {/* Mockup */}
+            <div className="rounded-xl border border-border bg-white p-4 shadow-lg">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="font-semibold text-charcoal">New Homeowners This Week</h3>
+                <span className="rounded-full bg-emerald/10 px-2 py-0.5 text-xs font-medium text-emerald">
+                  12 new leads
+                </span>
               </div>
-
-              {/* Dashboard mockup */}
-              <div className="p-4 sm:p-6">
-                <div className="mb-6">
-                  <h3 className="text-lg font-bold text-charcoal sm:text-xl">Your Business</h3>
-                  <p className="text-xs text-text-secondary sm:text-sm">Track customer reliability and protect your business.</p>
-                </div>
-
-                {/* Stats row */}
-                <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-                  <div className="rounded-lg border border-border bg-cream p-3 sm:p-4">
-                    <p className="text-[10px] text-text-secondary sm:text-xs">TOTAL CUSTOMERS</p>
-                    <p className="mt-1 text-xl font-bold text-charcoal sm:text-2xl">127</p>
-                  </div>
-                  <div className="rounded-lg border border-border bg-cream p-3 sm:p-4">
-                    <p className="text-[10px] text-text-secondary sm:text-xs">AVG. RELIABILITY</p>
-                    <div className="mt-1 flex items-center gap-2">
-                      <span className="rounded-full bg-emerald px-2 py-0.5 text-base font-bold text-white sm:text-lg">Good</span>
+              <div className="space-y-3">
+                {[
+                  { address: "1234 Oak Street", city: "Phoenix", price: "$425,000", age: "1985", days: "2 days ago" },
+                  { address: "567 Maple Ave", city: "Scottsdale", price: "$680,000", age: "2001", days: "3 days ago" },
+                  { address: "890 Pine Road", city: "Mesa", price: "$340,000", age: "1978", days: "5 days ago" },
+                ].map((lead, i) => (
+                  <div key={i} className="flex items-center justify-between rounded-lg bg-cream p-3">
+                    <div>
+                      <p className="font-medium text-charcoal">{lead.address}</p>
+                      <p className="text-xs text-text-muted">{lead.city} • Built {lead.age}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium text-charcoal">{lead.price}</p>
+                      <p className="text-xs text-text-muted">{lead.days}</p>
                     </div>
                   </div>
-                  <div className="rounded-lg border border-border bg-cream p-3 sm:p-4">
-                    <p className="text-[10px] text-text-secondary sm:text-xs">EVENTS THIS WEEK</p>
-                    <p className="mt-1 text-xl font-bold text-charcoal sm:text-2xl">12</p>
-                  </div>
-                  <div className="rounded-lg border border-border bg-cream p-3 sm:p-4">
-                    <p className="text-[10px] text-text-secondary sm:text-xs">HIGH-RISK</p>
-                    <p className="mt-1 text-xl font-bold text-charcoal sm:text-2xl">3</p>
-                  </div>
-                </div>
-
-                {/* Two columns */}
-                <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                  <div className="rounded-lg border border-border bg-cream p-3 sm:p-4">
-                    <h4 className="text-sm font-semibold text-charcoal sm:text-base">Customer Overview</h4>
-                    <div className="mt-3 space-y-2 sm:mt-4">
-                      <div className="flex justify-between text-xs sm:text-sm">
-                        <span className="flex items-center gap-2 text-text-secondary"><span className="h-2 w-2 rounded-full bg-emerald"></span> Excellent</span>
-                        <span className="text-charcoal">89</span>
-                      </div>
-                      <div className="flex justify-between text-xs sm:text-sm">
-                        <span className="flex items-center gap-2 text-text-secondary"><span className="h-2 w-2 rounded-full bg-emerald/70"></span> Good</span>
-                        <span className="text-charcoal">24</span>
-                      </div>
-                      <div className="flex justify-between text-xs sm:text-sm">
-                        <span className="flex items-center gap-2 text-text-secondary"><span className="h-2 w-2 rounded-full bg-amber"></span> Monitor</span>
-                        <span className="text-charcoal">11</span>
-                      </div>
-                      <div className="flex justify-between text-xs sm:text-sm">
-                        <span className="flex items-center gap-2 text-text-secondary"><span className="h-2 w-2 rounded-full bg-critical"></span> At Risk</span>
-                        <span className="text-charcoal">3</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="rounded-lg border border-border bg-cream p-3 sm:p-4">
-                    <h4 className="text-sm font-semibold text-charcoal sm:text-base">Recent Activity</h4>
-                    <div className="mt-3 space-y-2 sm:mt-4 sm:space-y-3">
-                      <div className="flex items-center justify-between text-xs sm:text-sm">
-                        <span className="text-text-secondary">John Smith</span>
-                        <span className="rounded bg-critical-light px-1.5 py-0.5 text-[10px] text-critical sm:px-2 sm:text-xs">No-show</span>
-                      </div>
-                      <div className="flex items-center justify-between text-xs sm:text-sm">
-                        <span className="text-text-secondary">Sarah Johnson</span>
-                        <span className="rounded bg-emerald-light px-1.5 py-0.5 text-[10px] text-emerald sm:px-2 sm:text-xs">Paid on time</span>
-                      </div>
-                      <div className="flex items-center justify-between text-xs sm:text-sm">
-                        <span className="text-text-secondary">Mike Davis</span>
-                        <span className="rounded bg-amber-light px-1.5 py-0.5 text-[10px] text-amber sm:px-2 sm:text-xs">Late payment</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
-            </div>
-
-            {/* Callout labels - hidden on mobile, shown on large screens */}
-            <div className="absolute -right-4 top-32 hidden rounded-lg border border-copper bg-copper px-4 py-2 text-sm font-medium text-white shadow-lg xl:block">
-              See high-risk customers at a glance →
-            </div>
-            <div className="absolute -left-4 top-56 hidden rounded-lg border border-copper bg-copper px-4 py-2 text-sm font-medium text-white shadow-lg xl:block">
-              ← Reliability overview of your customer base
-            </div>
-            <div className="absolute -right-4 bottom-24 hidden rounded-lg border border-copper bg-copper px-4 py-2 text-sm font-medium text-white shadow-lg xl:block">
-              Recent problem events in one place →
-            </div>
-          </div>
-
-          {/* Mobile callouts - shown below image on smaller screens */}
-          <div className="mt-6 grid gap-3 sm:grid-cols-3 xl:hidden">
-            <div className="rounded-lg border border-copper/30 bg-copper-muted px-4 py-3 text-center text-sm text-copper">
-              See high-risk customers at a glance
-            </div>
-            <div className="rounded-lg border border-copper/30 bg-copper-muted px-4 py-3 text-center text-sm text-copper">
-              Reliability overview of your customer base
-            </div>
-            <div className="rounded-lg border border-copper/30 bg-copper-muted px-4 py-3 text-center text-sm text-copper">
-              Recent events in one place
             </div>
           </div>
         </div>
       </section>
 
-      {/* Use Cases Section */}
+      {/* Network Search */}
       <section className="border-t border-border py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-bold text-charcoal">
-              Use ForSure when…
-            </h2>
-            <p className="mt-4 text-text-secondary">
-              Integrate it into the moments that matter most.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            <div className="rounded-xl border border-border bg-white p-6">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper-muted text-2xl">
-                📞
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            {/* Mockup */}
+            <div className="order-2 lg:order-1">
+              <div className="rounded-xl border border-border bg-white p-4 shadow-lg">
+                <div className="mb-4">
+                  <p className="text-sm text-text-muted">Network Search</p>
+                  <div className="mt-2 flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="(555) 123-4567"
+                      className="flex-1 rounded-lg border border-border bg-cream px-3 py-2 text-sm"
+                      disabled
+                    />
+                    <button className="rounded-lg bg-copper px-4 py-2 text-sm font-medium text-white">
+                      Search
+                    </button>
+                  </div>
+                </div>
+                <div className="rounded-lg border border-amber/30 bg-amber/5 p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="text-xl">⚠️</span>
+                    <div>
+                      <p className="font-medium text-charcoal">2 reports found</p>
+                      <p className="mt-1 text-sm text-text-secondary">
+                        This phone number has been reported by 2 verified businesses
+                        in the network.
+                      </p>
+                      <div className="mt-3 space-y-2">
+                        <div className="flex items-center gap-2 text-sm">
+                          <span className="rounded bg-critical/10 px-1.5 py-0.5 text-xs text-critical">Payment Issue</span>
+                          <span className="text-text-muted">• 3 months ago</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm">
+                          <span className="rounded bg-amber/10 px-1.5 py-0.5 text-xs text-amber">No-show</span>
+                          <span className="text-text-muted">• 8 months ago</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-lg font-semibold text-charcoal">Before booking a job</h3>
-              <p className="mt-2 text-text-secondary">
-                Look up new callers before you promise a slot. Know if they've caused problems before.
-              </p>
             </div>
 
-            <div className="rounded-xl border border-border bg-white p-6">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper-muted text-2xl">
-                📋
-              </div>
-              <h3 className="text-lg font-semibold text-charcoal">Before scheduling big jobs</h3>
-              <p className="mt-2 text-text-secondary">
-                Check if past behavior was clean or messy. Don't commit resources to risky customers.
+            <div className="order-1 lg:order-2">
+              <p className="text-sm font-semibold uppercase tracking-wider text-copper">
+                Network Search
               </p>
-            </div>
-
-            <div className="rounded-xl border border-border bg-white p-6">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper-muted text-2xl">
-                📊
-              </div>
-              <h3 className="text-lg font-semibold text-charcoal">Reviewing your customer base</h3>
-              <p className="mt-2 text-text-secondary">
-                Find who's draining profit and who deserves priority. Clean up your book of business.
+              <h2 className="mt-2 text-3xl font-bold text-charcoal">
+                Check before you book
+              </h2>
+              <p className="mt-4 text-lg text-text-secondary">
+                Search our network of verified contractors to see if a customer has
+                reliability issues. Anonymized reports from real businesses help you
+                avoid no-shows, payment problems, and headaches.
               </p>
+              <ul className="mt-6 space-y-3">
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald text-xs text-white">✓</span>
+                  <span className="text-text-secondary">Search by phone number or property address</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald text-xs text-white">✓</span>
+                  <span className="text-text-secondary">See report types and timeframes</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald text-xs text-white">✓</span>
+                  <span className="text-text-secondary">All data is anonymized — privacy protected</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald text-xs text-white">✓</span>
+                  <span className="text-text-secondary">Only verified businesses can report</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Industry Tools */}
       <section className="border-t border-border bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-bold text-charcoal">
-              Know your customers before they cost you
+              Tools built for your industry
             </h2>
             <p className="mt-4 text-text-secondary">
-              ForSure gives you the insights you need to make smart decisions
-              about who you work with.
+              Select your industry during signup and get specialized tools designed
+              for how you find and manage customers.
             </p>
           </div>
 
-          <div className="mt-16 grid gap-8 lg:grid-cols-2">
-            <div className="flex gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-copper">
-                <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { icon: "❄️", name: "HVAC", tools: ["Aging system finder", "Warranty expiration leads", "Seasonal prep lists"] },
+              { icon: "🔧", name: "Plumbing", tools: ["Water heater age alerts", "Sewer line prospects", "New construction leads"] },
+              { icon: "⚡", name: "Electrical", tools: ["Panel upgrade prospects", "Solar pre-wire leads", "Permit activity feed"] },
+              { icon: "🏠", name: "Roofing", tools: ["Roof age calculator", "Storm damage prospecting", "Insurance claim helper"] },
+              { icon: "🏗️", name: "General Contractor", tools: ["Renovation candidates", "Flip tracker", "Permit benchmarking"] },
+              { icon: "🔑", name: "Realtor", tools: ["Comparable sales", "Off-market finder", "Neighborhood reports"] },
+              { icon: "🔍", name: "Home Inspector", tools: ["Pre-inspection briefs", "Repeat investor tracker", "Red flag alerts"] },
+              { icon: "🌿", name: "Landscaping", tools: ["Lot size leads", "High-value properties", "Seasonal push lists"] },
+            ].map((industry) => (
+              <div key={industry.name} className="rounded-xl border border-border bg-white p-4">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="text-xl">{industry.icon}</span>
+                  <h3 className="font-semibold text-charcoal">{industry.name}</h3>
+                </div>
+                <ul className="space-y-1 text-sm text-text-secondary">
+                  {industry.tools.map((tool, i) => (
+                    <li key={i} className="flex items-center gap-1">
+                      <span className="text-copper">•</span> {tool}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-charcoal">Reliability Indicators</h3>
-                <p className="mt-1 text-text-secondary">
-                  See reliability status at a glance — Excellent, Good, Fair, or At Risk.
-                  Know who's trustworthy before you book.
-                </p>
+            ))}
+          </div>
+
+          <p className="mt-8 text-center text-sm text-text-muted">
+            + 15 more industries supported including pest control, cleaning, solar, pool service, and more
+          </p>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="border-t border-border py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-3xl font-bold text-charcoal">Get started in minutes</h2>
+            <p className="mt-4 text-text-secondary">
+              No complicated setup. Just sign up and start using ForSure right away.
+            </p>
+          </div>
+
+          <div className="mt-16 grid gap-8 md:grid-cols-4">
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper text-xl font-bold text-white">
+                1
               </div>
+              <h3 className="text-lg font-semibold text-charcoal">Create account</h3>
+              <p className="mt-2 text-sm text-text-secondary">
+                Sign up and select your industry to unlock specialized tools.
+              </p>
             </div>
 
-            <div className="flex gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-copper">
-                <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper text-xl font-bold text-white">
+                2
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-charcoal">Event History</h3>
-                <p className="mt-1 text-text-secondary">
-                  Log no-shows, late payments, disputes, and positive experiences.
-                  Build a complete picture over time.
-                </p>
-              </div>
+              <h3 className="text-lg font-semibold text-charcoal">Set service area</h3>
+              <p className="mt-2 text-sm text-text-secondary">
+                Choose your counties to see property data and leads for your area.
+              </p>
             </div>
 
-            <div className="flex gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-copper">
-                <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper text-xl font-bold text-white">
+                3
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-charcoal">Quick Lookup</h3>
-                <p className="mt-1 text-text-secondary">
-                  Search by name, phone, or email before accepting a job.
-                  Get instant insights when they call.
-                </p>
-              </div>
+              <h3 className="text-lg font-semibold text-charcoal">Get verified</h3>
+              <p className="mt-2 text-sm text-text-secondary">
+                Verify your business to unlock network search and reporting.
+              </p>
             </div>
 
-            <div className="flex gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-copper">
-                <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper text-xl font-bold text-white">
+                4
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-charcoal">Private & Secure</h3>
-                <p className="mt-1 text-text-secondary">
-                  Your data is yours. We never share customer information between
-                  businesses without consent.
-                </p>
-              </div>
+              <h3 className="text-lg font-semibold text-charcoal">Start growing</h3>
+              <p className="mt-2 text-sm text-text-secondary">
+                Find new leads, check customers, and protect your business.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="border-t border-border py-20">
+      {/* Testimonials */}
+      <section className="border-t border-border bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-wider text-copper">
-              Built for HVAC and Home-Service Owners
-            </p>
-            <h2 className="mt-2 text-3xl font-bold text-charcoal">
-              What contractors are saying
+            <h2 className="text-3xl font-bold text-charcoal">
+              Trusted by contractors
             </h2>
           </div>
 
@@ -358,8 +403,8 @@ export default function LandingPage() {
                 ))}
               </div>
               <p className="text-text-secondary">
-                "We stopped working with 3 chronic non-payers and freed up a ton of time.
-                Should have had this years ago."
+                "The new homeowner feed alone pays for itself. Got 3 HVAC inspections
+                last month from people who just moved in."
               </p>
               <div className="mt-4 flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-surface text-sm font-bold text-charcoal">
@@ -379,8 +424,8 @@ export default function LandingPage() {
                 ))}
               </div>
               <p className="text-text-secondary">
-                "Now I check every new caller before booking. Takes 5 seconds and has
-                saved me from at least 4 no-shows this month."
+                "Checked a customer on the network search — found 2 payment issues from
+                other contractors. Saved me from a $4,000 headache."
               </p>
               <div className="mt-4 flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-surface text-sm font-bold text-charcoal">
@@ -400,8 +445,8 @@ export default function LandingPage() {
                 ))}
               </div>
               <p className="text-text-secondary">
-                "Simple and does exactly what it says. My dispatcher uses it for every
-                call now. Worth every penny."
+                "Love having property data right there. I can see permit history before
+                I even show up. Makes me look prepared."
               </p>
               <div className="mt-4 flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-surface text-sm font-bold text-charcoal">
@@ -417,60 +462,16 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="border-t border-border bg-surface py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-bold text-charcoal">How it works</h2>
-            <p className="mt-4 text-text-secondary">
-              Get started in minutes. No complicated setup required.
-            </p>
-          </div>
-
-          <div className="mt-16 grid gap-8 md:grid-cols-3">
-            <div className="text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper text-xl font-bold text-white">
-                1
-              </div>
-              <h3 className="text-lg font-semibold text-charcoal">Add your customers</h3>
-              <p className="mt-2 text-text-secondary">
-                Import your existing customer list or add them one by one as they come in.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper text-xl font-bold text-white">
-                2
-              </div>
-              <h3 className="text-lg font-semibold text-charcoal">Log events</h3>
-              <p className="mt-2 text-text-secondary">
-                Record interactions — good or bad. Build a history that shows their true reliability.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper text-xl font-bold text-white">
-                3
-              </div>
-              <h3 className="text-lg font-semibold text-charcoal">Make informed decisions</h3>
-              <p className="mt-2 text-text-secondary">
-                Check reliability before accepting jobs. Protect your time and your bottom line.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Data & Privacy Section */}
+      {/* Data & Privacy */}
       <section className="border-t border-border py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-charcoal">
-                Your data stays yours
+                Privacy & data you can trust
               </h2>
               <p className="mt-4 text-text-secondary">
-                We take privacy seriously. Here's what you should know.
+                ForSure is designed with privacy at its core.
               </p>
             </div>
 
@@ -478,32 +479,32 @@ export default function LandingPage() {
               <div className="rounded-xl border border-border bg-white p-6">
                 <h3 className="font-semibold text-charcoal">Is this a credit score?</h3>
                 <p className="mt-2 text-text-secondary">
-                  No. ForSure is an internal reliability tool for your business only.
-                  It does not pull credit reports or report to any bureaus.
+                  No. ForSure tracks business reliability, not consumer credit.
+                  We don't pull credit reports or report to credit bureaus.
                 </p>
               </div>
 
               <div className="rounded-xl border border-border bg-white p-6">
-                <h3 className="font-semibold text-charcoal">Do you share my customer data?</h3>
+                <h3 className="font-semibold text-charcoal">How is network data anonymized?</h3>
                 <p className="mt-2 text-text-secondary">
-                  No. Your data is private to your account. We do not share customers
-                  between businesses. Ever.
+                  Reports show event types and dates only. No names, business details,
+                  or identifying information is shared between businesses.
                 </p>
               </div>
 
               <div className="rounded-xl border border-border bg-white p-6">
-                <h3 className="font-semibold text-charcoal">Can I export my data?</h3>
+                <h3 className="font-semibold text-charcoal">Where does property data come from?</h3>
                 <p className="mt-2 text-text-secondary">
-                  Yes. You can export all your customer data as a CSV anytime.
-                  Your data is never locked in.
+                  We aggregate public records including county assessor data,
+                  recorded sales, and building permits — all publicly available.
                 </p>
               </div>
 
               <div className="rounded-xl border border-border bg-white p-6">
-                <h3 className="font-semibold text-charcoal">Is my data secure?</h3>
+                <h3 className="font-semibold text-charcoal">Who can report to the network?</h3>
                 <p className="mt-2 text-text-secondary">
-                  Yes. We use industry-standard encryption and security practices.
-                  Your data is protected at rest and in transit.
+                  Only verified businesses. We check each business to ensure
+                  reports come from legitimate service companies.
                 </p>
               </div>
             </div>
@@ -523,8 +524,10 @@ export default function LandingPage() {
 
           <div className="mt-12 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             {[
-              "HVAC", "Plumbing", "Electrical", "Roofing", "Landscaping",
-              "Cleaning", "Auto Repair", "Handyman", "Pest Control", "Moving"
+              "HVAC", "Plumbing", "Electrical", "Roofing", "General Contractor",
+              "Realtor", "Home Inspector", "Landscaping", "Pest Control", "Solar",
+              "Painting", "Cleaning", "Pool Service", "Garage Door", "Fencing",
+              "Window & Door", "Moving", "Property Manager", "Insurance Agent"
             ].map((industry) => (
               <span
                 key={industry}
@@ -537,40 +540,23 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Founder Note */}
-      <section className="border-t border-border py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl rounded-xl border border-border bg-white p-8 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-copper text-2xl font-bold text-white">
-              FS
-            </div>
-            <p className="text-lg text-text-secondary">
-              "Built for service businesses, not software companies. I've seen how much money
-              bad customers waste. ForSure exists so contractors can quickly see who's
-              worth it and who isn't."
-            </p>
-            <p className="mt-4 font-semibold text-charcoal">— Chase, Founder of ForSure</p>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="border-t border-border py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-2xl bg-charcoal p-8 text-center sm:p-12">
             <h2 className="text-3xl font-bold text-white">
-              Ready to protect your business?
+              Ready to find better customers?
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-gray-300">
-              Join hundreds of service businesses who use ForSure to avoid
-              problem customers and grow with confidence.
+              Join contractors who use ForSure to find new homeowner leads,
+              check customer reliability, and grow their business smarter.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 href="/signup"
                 className="w-full rounded-lg bg-copper px-8 py-4 font-semibold text-white hover:bg-copper-dark sm:w-auto"
               >
-                Start Free Trial
+                Get Started Free
               </Link>
               <Link
                 href="/pricing"
@@ -580,9 +566,20 @@ export default function LandingPage() {
               </Link>
             </div>
             <p className="mt-4 text-sm text-gray-400">
-              Free 14-day trial • No credit card required
+              No credit card required
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Disclaimer */}
+      <section className="border-t border-border py-8">
+        <div className="mx-auto max-w-3xl px-4 text-center">
+          <p className="text-xs text-text-muted">
+            ForSure is a business intelligence tool for service companies. It is not a consumer
+            credit reporting agency and does not provide consumer credit scores. Reliability
+            tracking is based on business-reported events only.
+          </p>
         </div>
       </section>
     </>

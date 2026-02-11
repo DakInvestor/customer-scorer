@@ -12,11 +12,278 @@ interface BlogPost {
 }
 
 const posts: Record<string, BlogPost> = {
+  "new-homeowner-leads-guide": {
+    slug: "new-homeowner-leads-guide",
+    title: "The Complete Guide to New Homeowner Leads for Contractors",
+    excerpt: "New homeowners need services within 90 days of moving in. Here's how to find them, reach them, and win their business before competitors.",
+    date: "February 8, 2025",
+    readTime: "7 min read",
+    category: "Lead Generation",
+    content: `
+New homeowners are the holy grail of leads for service contractors. They've just invested in a property, they're motivated to protect that investment, and they don't have existing relationships with local contractors yet.
+
+## Why New Homeowners Are Your Best Prospects
+
+### They Need Services Immediately
+
+Within the first 90 days of moving in, most homeowners need:
+
+- HVAC inspection or service
+- Plumbing checks
+- Electrical panel review
+- Pest inspection
+- Landscaping setup
+- Security system installation
+
+### They Don't Have a "Guy" Yet
+
+The previous owner's contractors don't automatically transfer. New homeowners are actively looking for reliable service providers.
+
+### They're Spending Money Anyway
+
+Moving is expensive, but people budget for it. They've already mentally committed to spending on their new home.
+
+## How to Find New Homeowner Leads
+
+### 1. Property Sales Data
+
+Every home sale is recorded in county records. With the right tools, you can see:
+
+- Sale date and price
+- Property address
+- Property details (age, size, features)
+
+ForSure aggregates this data for your service area, giving you a daily feed of recent sales.
+
+### 2. Timing Is Everything
+
+The best time to reach new homeowners is:
+
+- **Week 1-2:** They're settling in, making lists
+- **Week 3-4:** They're ready to schedule services
+- **Month 2-3:** Still motivated, less overwhelmed
+
+### 3. Personalize Your Outreach
+
+Generic mailers get thrown away. Personalized outreach works:
+
+"Welcome to 123 Oak Street! As a local HVAC company, we'd love to offer you a free system inspection for your 1985-built home."
+
+## Converting New Homeowner Leads
+
+### Offer a Welcome Special
+
+First-time customer discounts work. "New Homeowner Special: 20% off your first service"
+
+### Provide Value First
+
+Free inspections, educational content, or neighborhood tips build trust before asking for the sale.
+
+### Make Booking Easy
+
+New homeowners are busy. Online booking, quick response times, and flexible scheduling win.
+
+## The Bottom Line
+
+New homeowners are actively looking for contractors like you. With the right data and approach, you can be the first call they make — and earn a customer for life.
+    `,
+  },
+  "network-search-check-customers": {
+    slug: "network-search-check-customers",
+    title: "How to Check Customers Before Booking: A Network Search Guide",
+    excerpt: "Learn how verified contractor networks help you avoid no-shows, payment issues, and problem customers before you commit to a job.",
+    date: "February 5, 2025",
+    readTime: "5 min read",
+    category: "Network",
+    content: `
+What if you could check a customer's reliability history before booking them — like a credit check, but for no-shows and payment issues?
+
+That's exactly what contractor networks enable.
+
+## What Is a Contractor Network?
+
+A contractor network is a group of verified service businesses sharing anonymized customer reliability data. When a customer no-shows, pays late, or causes problems, the contractor logs it. That information becomes visible to other verified businesses in the network.
+
+## How Network Search Works
+
+### 1. Customer Calls to Book
+
+You get a call from a potential customer wanting to schedule service.
+
+### 2. You Search the Network
+
+Before committing, you search by phone number or address. The network checks if any other contractors have reported issues with this customer.
+
+### 3. You See Anonymized Reports
+
+If reports exist, you see:
+- Event type (no-show, payment issue, dispute, etc.)
+- When it happened (3 months ago, 1 year ago, etc.)
+- How many businesses reported
+
+You don't see who reported it or specific details — just enough to make an informed decision.
+
+### 4. You Decide How to Proceed
+
+- **No reports:** Book with confidence
+- **Minor issues:** Maybe require a deposit
+- **Major red flags:** Decline or require payment upfront
+
+## Why Anonymization Matters
+
+Network data is powerful, but privacy matters. That's why reports are anonymized:
+
+- Customers can't identify which business reported them
+- Businesses can't see competitors' specific experiences
+- Only verified businesses can access the network
+
+## Building the Network
+
+The network gets more valuable as more contractors join. Each business that reports events helps protect every other business in the network.
+
+## The Bottom Line
+
+You wouldn't hire an employee without checking references. Why would you book a customer without checking their history?
+
+Network search gives you the information to make smarter booking decisions — before you waste time on problem customers.
+    `,
+  },
+  "property-data-lead-generation": {
+    slug: "property-data-lead-generation",
+    title: "Using Property Data to Find High-Value Leads",
+    excerpt: "Property records, permit history, and sales data can reveal your best prospects. Here's how contractors are using property intelligence.",
+    date: "February 1, 2025",
+    readTime: "6 min read",
+    category: "Lead Generation",
+    content: `
+Property data isn't just for real estate agents. Smart contractors are using property intelligence to find better leads, prioritize their outreach, and close more jobs.
+
+## What Property Data Can Tell You
+
+### Age of the Home
+
+Older homes need more work. A 1970s home likely has:
+- Original HVAC approaching end of life
+- Outdated electrical panels
+- Aging plumbing
+- Roofing that's been replaced (or needs to be)
+
+### Recent Sales
+
+When a home sells, the new owner often:
+- Gets an inspection
+- Discovers issues
+- Needs contractors to fix them
+
+### Permit History
+
+Permits reveal what work has been done — and what hasn't:
+- No HVAC permit in 20 years? System might need replacement
+- Bathroom permit but no plumbing? They might have done it themselves
+- Recent electrical permit? Maybe they're planning more renovations
+
+### Property Value
+
+Higher-value homes often mean:
+- Bigger budgets
+- More willingness to pay for quality
+- Less price shopping
+
+## Strategies by Industry
+
+### HVAC
+
+Look for homes built 15-25 years ago with no recent HVAC permits. The original system is likely approaching end of life.
+
+### Plumbing
+
+Target homes with original plumbing (pre-1980s). Look for remodeling permits without corresponding plumbing work.
+
+### Electrical
+
+Homes built before 1990 often have 100-amp panels. Homeowners adding EVs, hot tubs, or solar need upgrades.
+
+### Roofing
+
+Track home age and cross-reference with permit history. No roofing permit in 20+ years? Time for replacement.
+
+## Putting It Into Practice
+
+1. **Define your ideal property profile:** Age, value range, location
+2. **Set up alerts:** Get notified when matching properties sell
+3. **Review permit history:** Identify specific opportunities
+4. **Personalize outreach:** Reference property-specific details
+
+## The Bottom Line
+
+Generic marketing reaches everyone. Property-targeted marketing reaches the right people with the right message at the right time. That's how you win more jobs.
+    `,
+  },
+  "hvac-permit-prospecting": {
+    slug: "hvac-permit-prospecting",
+    title: "HVAC Permit Prospecting: Find Aging Systems Before They Fail",
+    excerpt: "Building permits tell a story. Learn how to use permit data to find homes with aging HVAC systems ready for replacement.",
+    date: "January 28, 2025",
+    readTime: "5 min read",
+    category: "HVAC",
+    content: `
+The average HVAC system lasts 15-20 years. Building permits can tell you exactly when a system was installed — and when it's approaching end of life.
+
+## How Permit Prospecting Works
+
+### 1. Find Original Install Dates
+
+Building permits are public record. When a home was built or when major work was done, permits were pulled. HVAC permits show when systems were installed.
+
+### 2. Calculate System Age
+
+If a home was built in 2005 with the original HVAC, that system is now 20 years old. Prime replacement territory.
+
+### 3. Identify Opportunities
+
+Homes with 15-20 year old systems are your best prospects:
+- Old enough that failure is imminent
+- New enough that homeowners are still there
+- Valuable enough that replacement makes sense
+
+## What to Look For
+
+### Original Construction Permits
+
+The HVAC installed when the home was built is often still there. No subsequent HVAC permits? It's the original system.
+
+### Replacement Permits
+
+If there's an HVAC permit from 2005, add 15-20 years. That replacement is now approaching end of life.
+
+### Addition Permits
+
+Home additions often include HVAC work. Check if the addition's system matches the main home or is separate.
+
+## Outreach Strategies
+
+### Maintenance Offer
+
+"Your HVAC system is approaching 18 years old. We'd love to offer a complimentary inspection to ensure it's running efficiently."
+
+### Replacement Planning
+
+"Systems typically last 15-20 years. Planning ahead can help you avoid emergency replacements during peak season."
+
+### Energy Efficiency
+
+"Modern systems are 30-50% more efficient than those installed 15+ years ago. Want to see what you could save?"
+
+## The Bottom Line
+
+Permit data takes the guesswork out of prospecting. Instead of hoping someone needs your services, you can find homeowners who definitely will — soon.
+    `,
+  },
   "how-to-handle-no-show-customers": {
     slug: "how-to-handle-no-show-customers",
     title: "How to Handle No-Show Customers (Without Losing Your Mind)",
     excerpt: "No-shows cost service businesses thousands every year. Here's a practical guide to reducing them and protecting your revenue.",
-    date: "December 5, 2024",
+    date: "January 25, 2025",
     readTime: "5 min read",
     category: "Best Practices",
     content: `
@@ -47,37 +314,77 @@ New customers are statistically more likely to no-show. A small deposit (even $2
 
 ### 3. Track Repeat Offenders
 
-This is where ForSure shines. If a customer no-shows once, note it. If they do it again, their reliability score drops. Before scheduling their next appointment, you can see their history and decide whether to require a deposit.
+This is where tracking reliability pays off. If a customer no-shows once, note it. If they do it again, their score drops. Before scheduling their next appointment, you can see their history and decide whether to require a deposit.
 
 ### 4. Implement a Cancellation Policy
 
 Make it clear: cancellations with less than 24 hours notice may incur a fee. Put it on your website, in your booking confirmation, and in your reminder texts.
 
-### 5. Overbook Strategically
-
-Airlines do this. If you know 10% of appointments no-show, consider booking 10% more than you can handle. Risky, but effective if you have the data to back it up.
-
-## What to Do When It Happens
-
-When a customer no-shows:
-
-1. **Call them immediately.** Sometimes they're running late or forgot. Give them 15 minutes.
-2. **Document it.** Log the no-show in their customer record.
-3. **Send a follow-up.** "We missed you today. Would you like to reschedule?"
-4. **Adjust their status.** In ForSure, log a no-show event. Their reliability score will adjust accordingly.
-
 ## The Bottom Line
 
 No-shows will never be zero, but they can be dramatically reduced with the right systems. Track your customers, remind them of appointments, and require deposits from those who've burned you before.
+    `,
+  },
+  "building-contractor-network": {
+    slug: "building-contractor-network",
+    title: "Why Contractors Are Joining Reliability Networks",
+    excerpt: "A growing number of service businesses are sharing customer reliability data. Here's why it matters and how it works.",
+    date: "January 20, 2025",
+    readTime: "4 min read",
+    category: "Network",
+    content: `
+You know that customer who no-showed on you last month? There's a good chance they did the same thing to another contractor. And another. And another.
 
-Your time is valuable. Protect it.
+Problem customers don't just target one business. They're serial offenders. That's why contractors are coming together to share reliability data.
+
+## The Problem: Information Silos
+
+Every contractor has their own customer list. Their own notes. Their own mental list of people to avoid. But that information stays locked in their head or their filing cabinet.
+
+When a problem customer moves on to a new contractor, they start fresh. No history. No warnings. Just another unsuspecting business about to get burned.
+
+## The Solution: Shared Networks
+
+Contractor networks change this. When multiple businesses share (anonymized) customer reliability data, everyone benefits:
+
+- See if a customer has problems before booking them
+- Avoid repeat offenders who bounce between contractors
+- Protect your time and revenue
+
+## How It Works
+
+### Verification First
+
+Only verified businesses can join. This prevents fake reports and ensures data quality.
+
+### Report Events
+
+When something happens — no-show, late payment, dispute — you log it. Takes 30 seconds.
+
+### Search Before Booking
+
+When a new customer calls, search by phone or address. See if anyone else has reported issues.
+
+### Anonymized Data
+
+You don't see who reported what. You just see that 2 businesses reported payment issues in the past year. That's enough to make an informed decision.
+
+## Why It's Growing
+
+Contractors talk. Word spreads about problem customers. Networks just make that process more efficient and comprehensive.
+
+The more contractors who join, the more valuable the network becomes. It's a classic network effect.
+
+## The Bottom Line
+
+You don't have to go it alone. By joining a contractor network, you benefit from the collective experience of hundreds of businesses — and protect yourself from customers who've burned others before you.
     `,
   },
   "when-to-require-deposits": {
     slug: "when-to-require-deposits",
-    title: "When Should You Require a Deposit? A Guide for Service Businesses",
-    excerpt: "Deposits can protect your business, but asking at the wrong time can scare customers away. Learn when and how to require them.",
-    date: "December 1, 2024",
+    title: "When Should You Require a Deposit? A Data-Driven Guide",
+    excerpt: "Deposits can protect your business, but asking at the wrong time can scare customers away. Here's what the data says.",
+    date: "January 15, 2025",
     readTime: "4 min read",
     category: "Best Practices",
     content: `
@@ -128,62 +435,72 @@ This frames the deposit as a normal part of the booking process, not a sign of d
 Deposits are a tool. Use them strategically based on the customer's history, the size of the job, and your risk tolerance.
     `,
   },
-  "tracking-customer-reliability-spreadsheet-vs-software": {
-    slug: "tracking-customer-reliability-spreadsheet-vs-software",
-    title: "Tracking Customer Reliability: Spreadsheet vs. Software",
-    excerpt: "Many contractors start with spreadsheets. Here's when it makes sense to upgrade to dedicated software.",
-    date: "November 28, 2024",
-    readTime: "3 min read",
-    category: "Guides",
+  "plumber-lead-generation-property-data": {
+    slug: "plumber-lead-generation-property-data",
+    title: "Plumber's Guide to Property-Based Lead Generation",
+    excerpt: "From water heater age to sewer line prospects, here's how plumbers are using property data to find qualified leads.",
+    date: "January 10, 2025",
+    readTime: "6 min read",
+    category: "Plumbing",
     content: `
-When you're just starting out, a spreadsheet works fine. You've got 20 customers, you remember most of them, and a simple notes column does the job.
+Plumbing problems don't happen randomly. They're predictable based on property age, construction type, and maintenance history. Smart plumbers use this data to find leads before the emergency happens.
 
-But as you grow, cracks start to show.
+## High-Value Plumbing Prospects
 
-## The Spreadsheet Approach
+### Water Heater Replacement
 
-**Pros:**
-- Free
-- Familiar
-- Flexible
+Water heaters last 10-12 years. Properties with homes built or remodeled 10+ years ago are prime candidates for replacement. Proactive outreach beats emergency calls.
 
-**Cons:**
-- No automatic scoring
-- Hard to search quickly
-- Easy to forget to update
-- Difficult to share with team members
-- No mobile access (unless you're wrestling with Google Sheets on your phone)
+### Sewer Line Issues
 
-## When to Upgrade
+Homes built before 1970 often have clay or cast iron sewer lines. These are prone to root intrusion and deterioration. Target older neighborhoods with mature trees.
 
-Consider dedicated software when:
+### Repiping Candidates
 
-1. **You have more than 50 customers.** Scrolling through a spreadsheet becomes impractical.
+Galvanized pipes were common until the 1960s. Homes with original plumbing are ticking time bombs. Low water pressure complaints are your signal.
 
-2. **You have employees.** They need access too, and sharing spreadsheets gets messy.
+### New Construction & Remodels
 
-3. **You're losing money to no-shows.** If you can't quickly check a customer's history before booking, you're flying blind.
+Building permits for additions, basement finishes, or bathroom remodels all need plumbing. Get to them before they choose a competitor.
 
-4. **You want data-driven decisions.** A spreadsheet can store data, but it can't automatically calculate reliability scores or surface patterns.
+## Using Property Data
 
-## What Good Software Does
+### Age Analysis
 
-- Automatically calculates reliability scores based on customer history
-- Lets you search customers instantly by name, phone, or address
-- Works on your phone when you're in the field
-- Logs events with timestamps for a complete history
-- Alerts you to high-risk customers before you book them
+Filter properties by year built. 1950s homes have different needs than 2000s homes. Tailor your outreach accordingly.
+
+### Permit History
+
+No plumbing permits in 30 years? Either nothing's broken (unlikely) or they're using handymen. Time for professional service.
+
+### Recent Sales
+
+New homeowners get inspections. Inspections reveal plumbing issues. New owners need plumbers.
+
+## Outreach Examples
+
+### Water Heater Proactive
+
+"Hi! We noticed your home was built in 2012. Most water heaters need replacement around the 12-year mark. Want us to check yours before it fails?"
+
+### Sewer Line Awareness
+
+"Homes in your neighborhood were built with clay sewer lines. We're offering camera inspections at 50% off to help homeowners identify issues before they become emergencies."
+
+### New Homeowner Welcome
+
+"Congratulations on your new home! As a local plumber, we'd love to offer you a free plumbing inspection to help you understand your system."
 
 ## The Bottom Line
 
-Spreadsheets are great for getting started. But if you're serious about protecting your business from unreliable customers, purpose-built software pays for itself quickly.
+Plumbing problems are predictable. Property data helps you find customers who need you — before they're standing in a flooded basement calling every plumber in the phone book.
     `,
   },
   "5-red-flags-unreliable-customers": {
     slug: "5-red-flags-unreliable-customers",
     title: "5 Red Flags That Signal an Unreliable Customer",
-    excerpt: "After talking to hundreds of contractors, we've identified the most common warning signs of problem customers.",
-    date: "November 22, 2024",
+    excerpt: "After analyzing thousands of customer interactions, we've identified the most common warning signs of problem customers.",
+    date: "January 5, 2025",
     readTime: "4 min read",
     category: "Tips",
     content: `
@@ -219,129 +536,6 @@ You don't have to turn away every customer who shows one red flag. But when you 
 - Log the interaction in their customer record
 
 Trust your gut. You've earned that instinct.
-    `,
-  },
-  "hvac-busy-season-customer-management": {
-    slug: "hvac-busy-season-customer-management",
-    title: "HVAC Busy Season: How to Prioritize Your Best Customers",
-    excerpt: "When summer hits and everyone's AC breaks, you can't serve everyone. Here's how to prioritize without burning bridges.",
-    date: "November 15, 2024",
-    readTime: "5 min read",
-    category: "Industry",
-    content: `
-It's July. It's 95 degrees. Your phone won't stop ringing. You're booked solid for two weeks and people are begging for same-day service.
-
-Who do you help first?
-
-## The Wrong Approach
-
-Treating everyone equally sounds fair, but it's not good business. First-come, first-served means your best customers — the ones who've been with you for years, who always pay on time, who refer their neighbors — wait in line behind someone you've never met.
-
-## The Right Approach
-
-### 1. Tier Your Customers
-
-Not all customers are equal. Create tiers:
-
-- **VIP:** Long-term customers, always pay on time, maintenance contract holders
-- **Standard:** Good history, no problems
-- **New:** Unknown quantity
-- **Caution:** History of late payment, no-shows, or disputes
-
-### 2. Prioritize Accordingly
-
-When you're overbooked:
-
-- VIPs get priority scheduling
-- Maintenance contract holders get same-day or next-day service
-- New customers wait or pay a premium for rush service
-- Caution customers... consider whether you want them at all
-
-### 3. Communicate Clearly
-
-Tell customers upfront: "We're experiencing high demand. As a maintenance contract member, you're priority and we can get there tomorrow. For new customers, the earliest availability is next week."
-
-This creates urgency to become a VIP customer.
-
-## Using ForSure
-
-This is exactly what reliability scoring is for. Before scheduling, check their score:
-
-- High score (70+)? Get them in quickly.
-- Low score (below 40)? They can wait, or require a deposit for rush service.
-
-## The Bottom Line
-
-Busy season is when customer management matters most. Reward your best customers with priority service. They'll remember it when things slow down.
-    `,
-  },
-  "customer-scoring-101": {
-    slug: "customer-scoring-101",
-    title: "Customer Scoring 101: What It Is and Why It Matters",
-    excerpt: "An introduction to customer reliability scoring and how it can transform your service business.",
-    date: "November 10, 2024",
-    readTime: "6 min read",
-    category: "Guides",
-    content: `
-Every service business has great customers and terrible customers. Great customers pay on time, show up for appointments, and refer their friends. Terrible customers no-show, dispute charges, and leave angry reviews.
-
-Customer scoring helps you tell the difference before it costs you money.
-
-## What Is Customer Scoring?
-
-Customer scoring is a system for rating customers based on their history with your business. Each customer gets a score (typically 0-100) that reflects their reliability.
-
-## How It Works
-
-Every interaction affects the score:
-
-**Positive events (increase score):**
-- On-time payments
-- Keeping appointments
-- Referrals
-- Tips
-
-**Negative events (decrease score):**
-- Late payments
-- No-shows
-- Cancellations
-- Disputes
-
-The score updates automatically as you log events.
-
-## Why It Matters
-
-### Make Better Decisions
-
-Before booking a customer, you can check their score. High score? Schedule them with confidence. Low score? Require a deposit or decline the job.
-
-### Prioritize Your Best Customers
-
-When you're busy, serve your high-scoring customers first. They've earned it.
-
-### Identify Problem Patterns
-
-A customer might seem fine until you see they've no-showed 3 times in the past year. The score surfaces patterns you might miss.
-
-### Protect Your Revenue
-
-Every no-show, late payment, and dispute costs you money. Scoring helps you avoid repeat offenders.
-
-## Getting Started
-
-1. **Add your existing customers.** Import them from your current system or add them manually.
-
-2. **Log events as they happen.** Got paid on time? Log it. Customer no-showed? Log it.
-
-3. **Check scores before booking.** Make it part of your workflow.
-
-4. **Adjust your policies accordingly.** Require deposits from low-scoring customers.
-
-## The Bottom Line
-
-You wouldn't extend credit to someone without checking their credit score. Why would you extend your time and services without checking their reliability score?
-
-Customer scoring gives you the information you need to make smarter decisions. Start tracking today.
     `,
   },
 };
@@ -403,7 +597,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       <section className="px-4 pb-20">
         <div className="mx-auto max-w-3xl">
           <div className="prose max-w-none">
-            {paragraphs.map(function(para, index) {
+            {paragraphs.map((para, index) => {
               const trimmed = para.trim();
 
               if (trimmed.startsWith("## ")) {
@@ -434,9 +628,9 @@ export default async function BlogPostPage({ params }: PageProps) {
                 const items = trimmed.split("\n");
                 return (
                   <ul key={index} className="mb-4 list-disc pl-6 text-text-secondary">
-                    {items.map(function(item, i) {
-                      return <li key={i} className="mb-1">{item.replace("- ", "")}</li>;
-                    })}
+                    {items.map((item, i) => (
+                      <li key={i} className="mb-1">{item.replace("- ", "")}</li>
+                    ))}
                   </ul>
                 );
               }
@@ -445,9 +639,9 @@ export default async function BlogPostPage({ params }: PageProps) {
                 const items = trimmed.split("\n");
                 return (
                   <ol key={index} className="mb-4 list-decimal pl-6 text-text-secondary">
-                    {items.map(function(item, i) {
-                      return <li key={i} className="mb-1">{item.replace(/^\d+\. /, "")}</li>;
-                    })}
+                    {items.map((item, i) => (
+                      <li key={i} className="mb-1">{item.replace(/^\d+\. /, "")}</li>
+                    ))}
                   </ol>
                 );
               }
@@ -469,9 +663,9 @@ export default async function BlogPostPage({ params }: PageProps) {
       {/* CTA */}
       <section className="border-t border-border px-4 py-16">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl font-bold text-charcoal">Ready to start tracking customer reliability?</h2>
+          <h2 className="text-2xl font-bold text-charcoal">Ready to find leads and protect your business?</h2>
           <p className="mt-4 text-text-secondary">
-            Join hundreds of service businesses protecting their revenue with ForSure.
+            Join contractors using ForSure to find new homeowner leads and check customer reliability.
           </p>
           <Link
             href="/signup"

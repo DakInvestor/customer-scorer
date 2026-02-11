@@ -10,14 +10,18 @@ export default function HowItWorksPage() {
             How ForSure Works
           </h1>
           <p className="mt-4 text-lg text-text-secondary">
-            Start protecting your business in under 5 minutes. No complicated setup, no learning curve.
+            Get started in minutes. Find leads, check customers, and protect your business.
           </p>
         </div>
       </section>
 
-      {/* Steps */}
+      {/* Getting Started Steps */}
       <section className="px-4 pb-20">
         <div className="mx-auto max-w-5xl">
+          <h2 className="mb-12 text-center text-2xl font-bold text-charcoal">
+            Getting Started
+          </h2>
+
           <div className="space-y-16">
             {/* Step 1 */}
             <div className="flex flex-col items-center gap-8 md:flex-row">
@@ -26,37 +30,38 @@ export default function HowItWorksPage() {
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-copper/20">
                     <span className="text-2xl font-bold text-copper">1</span>
                   </div>
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-emerald"></div>
-                    <div className="h-3 w-3 rounded-full bg-amber"></div>
-                    <div className="h-3 w-3 rounded-full bg-critical"></div>
+                  <div className="flex items-center justify-center gap-3">
+                    <span className="text-3xl">❄️</span>
+                    <span className="text-3xl">🔧</span>
+                    <span className="text-3xl">⚡</span>
                   </div>
                 </div>
               </div>
               <div className="md:w-1/2">
-                <h3 className="text-2xl font-bold text-charcoal">Add Your Customers</h3>
+                <h3 className="text-2xl font-bold text-charcoal">Select Your Industry</h3>
                 <p className="mt-3 text-text-secondary">
-                  Import your existing customer list via CSV or add them one by one.
-                  We automatically create a profile for each customer and start tracking their history.
+                  Sign up and choose your industry — HVAC, plumbing, electrical, roofing, or
+                  20+ other trades. This unlocks specialized tools designed for how you find
+                  and manage customers.
                 </p>
                 <ul className="mt-4 space-y-2 text-sm text-text-secondary">
                   <li className="flex items-center gap-2">
                     <svg className="h-4 w-4 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Bulk import from CSV
+                    Industry-specific lead tools
                   </li>
                   <li className="flex items-center gap-2">
                     <svg className="h-4 w-4 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Add customers manually
+                    Relevant property filters
                   </li>
                   <li className="flex items-center gap-2">
                     <svg className="h-4 w-4 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Search existing customers before adding
+                    Tailored dashboard
                   </li>
                 </ul>
               </div>
@@ -69,37 +74,34 @@ export default function HowItWorksPage() {
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-copper/20">
                     <span className="text-2xl font-bold text-copper">2</span>
                   </div>
-                  <div className="space-y-1">
-                    <div className="mx-auto h-2 w-32 rounded bg-border"></div>
-                    <div className="mx-auto h-2 w-24 rounded bg-emerald/50"></div>
-                    <div className="mx-auto h-2 w-28 rounded bg-amber/50"></div>
-                  </div>
+                  <div className="text-2xl">🗺️</div>
+                  <p className="mt-2 text-sm text-text-muted">Maricopa, Pima, Pinal...</p>
                 </div>
               </div>
               <div className="md:w-1/2">
-                <h3 className="text-2xl font-bold text-charcoal">Log Events &amp; Interactions</h3>
+                <h3 className="text-2xl font-bold text-charcoal">Set Your Service Area</h3>
                 <p className="mt-3 text-text-secondary">
-                  Record what happens with each customer — late payments, no-shows, disputes,
-                  or positive events like referrals and on-time payments. Each event affects their score.
+                  Select the counties where you work. This configures your property intelligence
+                  feed to show new homeowners, permits, and sales in your area only.
                 </p>
                 <ul className="mt-4 space-y-2 text-sm text-text-secondary">
                   <li className="flex items-center gap-2">
                     <svg className="h-4 w-4 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Track payment history
+                    Local property data
                   </li>
                   <li className="flex items-center gap-2">
                     <svg className="h-4 w-4 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Log no-shows and cancellations
+                    New homeowner alerts
                   </li>
                   <li className="flex items-center gap-2">
                     <svg className="h-4 w-4 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Record positive behaviors too
+                    Permit activity feed
                   </li>
                 </ul>
               </div>
@@ -112,76 +114,37 @@ export default function HowItWorksPage() {
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-copper/20">
                     <span className="text-2xl font-bold text-copper">3</span>
                   </div>
-                  <div className="flex items-center justify-center gap-4">
-                    <div className="rounded-lg bg-emerald/20 px-3 py-1 text-sm font-medium text-emerald">85</div>
-                    <div className="rounded-lg bg-amber/20 px-3 py-1 text-sm font-medium text-amber">62</div>
-                    <div className="rounded-lg bg-critical/20 px-3 py-1 text-sm font-medium text-critical">34</div>
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="rounded-full bg-emerald/20 px-3 py-1 text-sm font-medium text-emerald">
+                      ✓ Verified
+                    </span>
                   </div>
                 </div>
               </div>
               <div className="md:w-1/2">
-                <h3 className="text-2xl font-bold text-charcoal">See Reliability Scores</h3>
+                <h3 className="text-2xl font-bold text-charcoal">Get Verified</h3>
                 <p className="mt-3 text-text-secondary">
-                  Our algorithm calculates a reliability score from 0-100 based on their history.
-                  Green means reliable, yellow means caution, red means high risk.
+                  Verify your business to unlock network search and reporting. We check that
+                  you're a real contractor to keep the network trustworthy and spam-free.
                 </p>
                 <ul className="mt-4 space-y-2 text-sm text-text-secondary">
                   <li className="flex items-center gap-2">
                     <svg className="h-4 w-4 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    70-100: Reliable customer
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <svg className="h-4 w-4 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    40-69: Proceed with caution
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <svg className="h-4 w-4 text-critical" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    0-39: High risk — require deposit
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Step 4 */}
-            <div className="flex flex-col items-center gap-8 md:flex-row-reverse">
-              <div className="flex h-48 w-full items-center justify-center rounded-2xl border border-border bg-white md:w-1/2">
-                <div className="text-center">
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-copper/20">
-                    <span className="text-2xl font-bold text-copper">4</span>
-                  </div>
-                  <div className="text-2xl font-bold text-emerald">$$$</div>
-                </div>
-              </div>
-              <div className="md:w-1/2">
-                <h3 className="text-2xl font-bold text-charcoal">Make Smarter Decisions</h3>
-                <p className="mt-3 text-text-secondary">
-                  Before accepting a job, check their score. Require deposits from risky customers,
-                  prioritize your best clients, and stop losing money on no-shows.
-                </p>
-                <ul className="mt-4 space-y-2 text-sm text-text-secondary">
-                  <li className="flex items-center gap-2">
-                    <svg className="h-4 w-4 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Require deposits from high-risk customers
+                    Quick verification process
                   </li>
                   <li className="flex items-center gap-2">
                     <svg className="h-4 w-4 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Prioritize reliable customers
+                    Unlock network search
                   </li>
                   <li className="flex items-center gap-2">
                     <svg className="h-4 w-4 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Reduce no-shows and late payments
+                    Report events to help others
                   </li>
                 </ul>
               </div>
@@ -190,12 +153,135 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
+      {/* Using ForSure */}
+      <section className="border-t border-border bg-white px-4 py-20">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="mb-12 text-center text-2xl font-bold text-charcoal">
+            Using ForSure Daily
+          </h2>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {/* Find Leads */}
+            <div className="rounded-2xl border border-border bg-cream p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald/20">
+                <span className="text-xl">🏠</span>
+              </div>
+              <h3 className="text-xl font-bold text-charcoal">Find New Leads</h3>
+              <p className="mt-3 text-text-secondary">
+                Check your New Homeowners feed daily. See who just bought a home in your
+                service area — they often need services within 90 days.
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-text-secondary">
+                <li>• View recent sales</li>
+                <li>• See property details</li>
+                <li>• Filter by property type</li>
+                <li>• Check permit history</li>
+              </ul>
+            </div>
+
+            {/* Check Customers */}
+            <div className="rounded-2xl border border-border bg-cream p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-copper/20">
+                <span className="text-xl">🔍</span>
+              </div>
+              <h3 className="text-xl font-bold text-charcoal">Check Customers</h3>
+              <p className="mt-3 text-text-secondary">
+                Before booking a job, search the network. See if the customer has reliability
+                issues reported by other verified contractors.
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-text-secondary">
+                <li>• Search by phone</li>
+                <li>• Search by address</li>
+                <li>• See report history</li>
+                <li>• Make informed decisions</li>
+              </ul>
+            </div>
+
+            {/* Track & Report */}
+            <div className="rounded-2xl border border-border bg-cream p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber/20">
+                <span className="text-xl">📊</span>
+              </div>
+              <h3 className="text-xl font-bold text-charcoal">Track & Report</h3>
+              <p className="mt-3 text-text-secondary">
+                Log events as they happen. Track your own customers' reliability and report
+                to the network to help other contractors.
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-text-secondary">
+                <li>• Log no-shows</li>
+                <li>• Track payments</li>
+                <li>• Report to network</li>
+                <li>• See reliability trends</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Reliability Scoring */}
+      <section className="border-t border-border px-4 py-20">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="mb-4 text-center text-2xl font-bold text-charcoal">
+            Understanding Reliability
+          </h2>
+          <p className="mx-auto mb-12 max-w-2xl text-center text-text-secondary">
+            Every customer gets a reliability indicator based on their history with your business.
+          </p>
+
+          <div className="grid gap-6 md:grid-cols-4">
+            <div className="rounded-xl border border-border bg-white p-6 text-center">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald text-xl text-white">
+                ✓
+              </div>
+              <h3 className="font-semibold text-charcoal">Excellent</h3>
+              <p className="mt-1 text-sm text-text-secondary">90-100</p>
+              <p className="mt-2 text-sm text-text-muted">
+                No issues. Prioritize these customers.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border bg-white p-6 text-center">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald/70 text-xl text-white">
+                ✓
+              </div>
+              <h3 className="font-semibold text-charcoal">Good</h3>
+              <p className="mt-1 text-sm text-text-secondary">75-89</p>
+              <p className="mt-2 text-sm text-text-muted">
+                Minor issues only. Generally reliable.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border bg-white p-6 text-center">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-amber text-xl text-white">
+                !
+              </div>
+              <h3 className="font-semibold text-charcoal">Fair</h3>
+              <p className="mt-1 text-sm text-text-secondary">60-74</p>
+              <p className="mt-2 text-sm text-text-muted">
+                Some concerns. Consider requiring deposit.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border bg-white p-6 text-center">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-critical text-xl text-white">
+                ✕
+              </div>
+              <h3 className="font-semibold text-charcoal">At Risk</h3>
+              <p className="mt-1 text-sm text-text-secondary">Below 60</p>
+              <p className="mt-2 text-sm text-text-muted">
+                Multiple issues. Require deposit or decline.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="border-t border-border px-4 py-20">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl font-bold text-charcoal">Ready to protect your business?</h2>
+          <h2 className="text-3xl font-bold text-charcoal">Ready to get started?</h2>
           <p className="mt-4 text-text-secondary">
-            Start for free. No credit card required.
+            Sign up free and start finding leads and checking customers today.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link

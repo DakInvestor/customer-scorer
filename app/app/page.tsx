@@ -21,7 +21,6 @@ type Business = {
   onboarding_completed: boolean | null;
   onboarding_step: number | null;
   has_searched_network: boolean | null;
-  has_imported: boolean | null;
   checklist_dismissed: boolean | null;
   network_synced: boolean | null;
   industry: string | null;
@@ -65,7 +64,7 @@ export default async function Dashboard() {
 
   const { data: business } = await supabase
     .from("businesses")
-    .select("id, name, onboarding_completed, onboarding_step, has_searched_network, has_imported, checklist_dismissed, network_synced, industry, secondary_industries")
+    .select("id, name, onboarding_completed, onboarding_step, has_searched_network, checklist_dismissed, network_synced, industry, secondary_industries")
     .eq("id", businessId)
     .single();
 
@@ -388,7 +387,7 @@ function DashboardContent({
             </h2>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {tools.slice(0, 8).map((tool) => (
+            {tools.map((tool) => (
               <Link
                 key={tool.id}
                 href={getToolRoute(tool.id)}
@@ -408,13 +407,6 @@ function DashboardContent({
               </Link>
             ))}
           </div>
-          {tools.length > 8 && (
-            <div className="mt-3 text-center">
-              <button className="text-sm text-copper hover:text-copper-dark">
-                Show {tools.length - 8} more tools
-              </button>
-            </div>
-          )}
         </div>
       )}
 
