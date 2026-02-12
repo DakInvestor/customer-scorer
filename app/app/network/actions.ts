@@ -124,10 +124,15 @@ export async function searchNetwork(searchType: "phone" | "email" | "address" | 
 
     // Mark that user has searched the network (for checklist)
     if (profile?.business_id) {
-      await supabase
+      const { error: updateError } = await supabase
         .from("businesses")
         .update({ has_searched_network: true })
         .eq("id", profile.business_id);
+
+      if (updateError) {
+        console.error("Error updating has_searched_network:", updateError);
+        // Non-critical, continue without failing
+      }
     }
 
     return {
@@ -179,10 +184,15 @@ export async function searchNetwork(searchType: "phone" | "email" | "address" | 
 
     // Mark that user has searched the network (for checklist)
     if (profile?.business_id) {
-      await supabase
+      const { error: updateError } = await supabase
         .from("businesses")
         .update({ has_searched_network: true })
         .eq("id", profile.business_id);
+
+      if (updateError) {
+        console.error("Error updating has_searched_network:", updateError);
+        // Non-critical, continue without failing
+      }
     }
 
     return {
@@ -240,10 +250,15 @@ export async function searchNetwork(searchType: "phone" | "email" | "address" | 
 
   // Mark that user has searched the network (for checklist)
   if (profile?.business_id) {
-    await supabase
+    const { error: updateError } = await supabase
       .from("businesses")
       .update({ has_searched_network: true })
       .eq("id", profile.business_id);
+
+    if (updateError) {
+      console.error("Error updating has_searched_network:", updateError);
+      // Non-critical, continue without failing
+    }
   }
 
   return {
@@ -336,7 +351,7 @@ export async function syncCustomerToNetworkAction(
   }
 
   if (existingId) {
-    await adminClient
+    const { error: updateError } = await adminClient
       .from("customer_identifiers")
       .update({
         last_seen_at: new Date().toISOString(),
@@ -345,6 +360,11 @@ export async function syncCustomerToNetworkAction(
         ...(addressHash && { address_hash: addressHash, address_partial: addressPartial }),
       })
       .eq("id", existingId);
+
+    if (updateError) {
+      console.error("Error updating customer identifier:", updateError);
+      // Don't fail - the identifier exists, just couldn't update it
+    }
     return { id: existingId };
   }
 
@@ -435,44 +455,65 @@ export async function updateNetworkFromNoteAction(
   email: string | null,
   severity: number,
   address: string | null = null
-): Promise<void> {
-  const result = await syncCustomerToNetworkAction(phone, email, address);
-  if (!result.id) return;
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const result = await syncCustomerToNetworkAction(phone, email, address);
+    if (!result.id) {
+      return { success: true }; // No identifier to update, but not an error
+    }
 
-  const adminClient = createSupabaseAdminClient();
+    const adminClient = createSupabaseAdminClient();
 
-  const { data: current } = await adminClient
-    .from("customer_identifiers")
-    .select("total_incidents, total_positive_events, weighted_score")
-    .eq("id", result.id)
-    .single();
+    const { data: current, error: fetchError } = await adminClient
+      .from("customer_identifiers")
+      .select("total_incidents, total_positive_events, weighted_score")
+      .eq("id", result.id)
+      .single();
 
-  if (!current) return;
+    if (fetchError) {
+      console.error("Error fetching customer identifier:", fetchError);
+      return { success: false, error: "Failed to fetch customer data" };
+    }
 
-  const isNegative = severity >= 3;
-  const weight = severity >= 4 ? severity * 6 : severity >= 3 ? severity * 4 : severity;
+    if (!current) {
+      return { success: true }; // No data to update
+    }
 
-  const newTotalIncidents = isNegative ? current.total_incidents + 1 : current.total_incidents;
-  const newPositiveEvents = !isNegative ? current.total_positive_events + 1 : current.total_positive_events;
-  const newWeightedScore = isNegative
-    ? current.weighted_score + weight
-    : Math.max(0, current.weighted_score - 1);
+    const isNegative = severity >= 3;
+    const weight = severity >= 4 ? severity * 6 : severity >= 3 ? severity * 4 : severity;
 
-  let riskTier = "low";
-  if (newWeightedScore >= 50) riskTier = "critical";
-  else if (newWeightedScore >= 30) riskTier = "high";
-  else if (newWeightedScore >= 15) riskTier = "medium";
-  else if (newWeightedScore > 0) riskTier = "low";
-  else riskTier = "unknown";
+    const newTotalIncidents = isNegative ? current.total_incidents + 1 : current.total_incidents;
+    const newPositiveEvents = !isNegative ? current.total_positive_events + 1 : current.total_positive_events;
+    const newWeightedScore = isNegative
+      ? current.weighted_score + weight
+      : Math.max(0, current.weighted_score - 1);
 
-  await adminClient
-    .from("customer_identifiers")
-    .update({
-      total_incidents: newTotalIncidents,
-      total_positive_events: newPositiveEvents,
-      weighted_score: newWeightedScore,
-      risk_tier: riskTier,
-      ...(isNegative && { last_incident_at: new Date().toISOString(), clean_streak_months: 0 }),
-    })
-    .eq("id", result.id);
+    let riskTier = "low";
+    if (newWeightedScore >= 50) riskTier = "critical";
+    else if (newWeightedScore >= 30) riskTier = "high";
+    else if (newWeightedScore >= 15) riskTier = "medium";
+    else if (newWeightedScore > 0) riskTier = "low";
+    else riskTier = "unknown";
+
+    const { error: updateError } = await adminClient
+      .from("customer_identifiers")
+      .update({
+        total_incidents: newTotalIncidents,
+        total_positive_events: newPositiveEvents,
+        weighted_score: newWeightedScore,
+        risk_tier: riskTier,
+        ...(isNegative && { last_incident_at: new Date().toISOString(), clean_streak_months: 0 }),
+      })
+      .eq("id", result.id);
+
+    if (updateError) {
+      console.error("Error updating customer identifier:", updateError);
+      return { success: false, error: "Failed to update customer data" };
+    }
+
+    return { success: true };
+  } catch (err) {
+    console.error("updateNetworkFromNoteAction error:", err);
+    return { success: false, error: "An unexpected error occurred" };
+  }
 }

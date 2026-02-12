@@ -52,7 +52,7 @@ export function getTierInfo(tier: string) {
           "Advanced reliability scores",
           "Analytics dashboard",
           "Network search & reporting",
-          "CSV import/export",
+          "Data export",
           "Up to 5 team members",
           "Priority email support",
         ],
@@ -81,7 +81,7 @@ export function getTierInfo(tier: string) {
           "Up to 50 customers",
           "Basic reliability scores",
           "Event logging",
-          "CSV export",
+          "Data export",
         ],
       };
   }

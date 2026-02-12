@@ -209,7 +209,7 @@ export default function UpgradePage() {
                   ✓ Analytics dashboard
                 </span>
                 <span className="rounded-full bg-copper/20 px-3 py-1 text-sm text-copper">
-                  ✓ CSV import/export
+                  ✓ Data export
                 </span>
                 <span className="rounded-full bg-copper/20 px-3 py-1 text-sm text-copper">
                   ✓ Priority support

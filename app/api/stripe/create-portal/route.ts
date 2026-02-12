@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     }
 
     const stripe = getStripe();
-    const origin = request.headers.get("origin") || "http://localhost:3000";
+    const origin = request.headers.get("origin") || process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
     // Create billing portal session
     const session = await stripe.billingPortal.sessions.create({
